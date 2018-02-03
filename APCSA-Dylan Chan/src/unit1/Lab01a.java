@@ -16,7 +16,7 @@ public class Lab01a
 	{
 		int counter = 0;
 		Lab01a starsAndStripes = new Lab01a();
-		while (counter <= 13)
+		while (counter <= 12)
 		{
 			if (1 == counter % 2)
 			{
