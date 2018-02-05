@@ -1,21 +1,22 @@
 package unit1;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
 
-public class Unit1_ReviewExercises extends JFrame
+public class Unit1_ReviewExercises extends JPanel
 {
-JFrame window;
+
 	
 	public Unit1_ReviewExercises()
 	{
-		
-		setSize(640, 480);
-		setVisible(true);
-		setBackground(Color.WHITE);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JFrame window = new JFrame();
+		window.add(this);
+		window.setSize(640, 480);
+		window.setVisible(true);
+		window.setBackground(Color.WHITE);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 	

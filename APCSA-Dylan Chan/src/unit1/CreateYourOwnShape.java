@@ -4,13 +4,15 @@ import java.awt.Graphics;
 import java.awt.Color;
 import javax.swing.*;
 
-public class CreateYourOwnShape extends JFrame
+public class CreateYourOwnShape extends JPanel
 {
 	public CreateYourOwnShape()
 	{
-		setSize(640, 480);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JFrame window = new JFrame();
+		window.add(this);
+		window.setSize(640, 480);
+		window.setVisible(true);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 	

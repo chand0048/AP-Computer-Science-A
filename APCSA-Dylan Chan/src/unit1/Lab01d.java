@@ -5,11 +5,10 @@ import javax.swing.*;
 
 public class Lab01d extends JPanel
 {
-	JFrame window;
 	
 	public Lab01d()
 	{
-		window = new JFrame();
+		JFrame window = new JFrame();
 		
 		window.add(this);
 		window.setVisible(true);

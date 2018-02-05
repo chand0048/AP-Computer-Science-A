@@ -3,15 +3,17 @@ package unit1;
 import javax.swing.*;
 import java.awt.*;
 
-public class Lab01b extends JFrame
+public class Lab01b extends JPanel
 {
 
 	public Lab01b()
 	{
-		setSize(640, 480);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null);
+		JFrame window = new JFrame();
+		window.add(this);
+		window.setSize(640, 480);
+		window.setVisible(true);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setLocationRelativeTo(null);
 	}
 	
 	public void paint(Graphics window)
