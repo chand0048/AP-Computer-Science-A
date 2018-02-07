@@ -1,6 +1,6 @@
 package unit0;
 
-public class Lab03a {
+public class Lab0a {
 	public static void main(String[] args) 
 	{
 		System.out.println("Dylan Chan\tPeriod 4\t1/31/2018");
