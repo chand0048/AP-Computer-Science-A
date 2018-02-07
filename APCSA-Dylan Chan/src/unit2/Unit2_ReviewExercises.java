@@ -6,16 +6,7 @@ public class Unit2_ReviewExercises
 {
 	double velocity, acceleration;
 	
-	double balance, interestRate;
-	
-	public Unit2_ReviewExercises()
-	{
-		
-	}
-	public void addInterest()
-	{
-		
-	}
+
 	
 	public void promptUser()
 	{
