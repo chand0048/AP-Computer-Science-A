@@ -18,9 +18,10 @@ public class SavingsAccount
      *
      * @param initialBalance the initial balance
      */
-    public SavingsAccount(double initialBalance)
+    public SavingsAccount(double initialBalance, double interest)
     {
         balance = initialBalance;
+        this.interest = interest;
     }
 
     /**
@@ -51,5 +52,18 @@ public class SavingsAccount
     public double getBalance()
     {
         return balance;
+    }
+    
+    public double getInterest()
+    {
+    	return interest;
+    }
+    
+    /**
+     * Adds interest to account
+     */
+    public void addInterest()
+    {
+    	balance = balance * (interest * 0.01 + 1);
     }
 }
