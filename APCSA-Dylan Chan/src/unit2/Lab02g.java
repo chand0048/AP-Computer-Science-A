@@ -2,43 +2,23 @@ package unit2;
 
 public class Lab02g
 {
-	private double fahrenheit;
 
-	public void setFahrenheit(double fahren)
-	{
-		fahrenheit = fahren;
-		
-	}
-
-	public double getCelsius()
-	{
-		double celsius;
-		celsius = (fahrenheit - 32) * (5/9.0);
-		return celsius;
-	}
-
-	public void print()
-	{
-		System.out.printf("%.2f degress Fahrenheit == %.2f degrees Celsius\n\n", fahrenheit, getCelsius());
-	}
-	
 	public static void main(String[] args)
 	{
-		Lab02g temp = new Lab02g();
+		Fahrenheit temp1 = new Fahrenheit(98.6);
+		temp1.print();
 		
-		temp.setFahrenheit(98.6);
-		temp.print();
+		Fahrenheit temp2 = new Fahrenheit(52.3);
+		temp2.print();
 		
-		temp.setFahrenheit(52.3);
-		temp.print();
+		Fahrenheit temp3 = new Fahrenheit(82.45);
+		temp3.print();
 		
-		temp.setFahrenheit(82.45);
-		temp.print();
+		Fahrenheit temp4 = new Fahrenheit(75);
+		temp4.print();
 		
-		temp.setFahrenheit(75);
-		temp.print();
+		Fahrenheit temp5 = new Fahrenheit(212);
+		temp5.print();
 		
-		temp.setFahrenheit(212);
-		temp.print();
 	}
 }

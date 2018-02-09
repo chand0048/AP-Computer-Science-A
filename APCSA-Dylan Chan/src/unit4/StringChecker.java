@@ -20,7 +20,7 @@ public class StringChecker
 
    public void setString(String s)
    {
-   		word=s;
+   		word = s;
    }
 
 	public boolean findLetter(char c)
@@ -37,28 +37,24 @@ public class StringChecker
 	public boolean findSubString(String s)
 	{
 		int previousIndex;
-		boolean there = false;
 		
-		if (word.indexOf(s.substring(0, 1)) % 1 == 0 )
+		if (word.indexOf(s.substring(0, 1)) >= 0)
 		{
-			previousIndex = word.indexOf(s.substring(0, 1));
+			previousIndex = word.indexOf(s.substring(0, 1)); 
 			
-			for (int counter = 1; s.length() <= counter-1 ; counter++)
-			{
-				if (word.indexOf(s.substring(counter, counter + 1)) == previousIndex + 1)
+			for (int counter = 1; s.length() - 1  > counter ; counter++)
+			{	
+				if (new String(word.substring(previousIndex + 1, previousIndex + 2)).equals(s.substring(counter, counter + 1)) == true)
 				{
-					there = true;
+					previousIndex += 1;
 				}
 				else
 				{
-					there = false;
+					return false;
 				}
 			}
-			
-			return false;
+			return true;
 		}
-		
-
 		return false;
 	}
 
