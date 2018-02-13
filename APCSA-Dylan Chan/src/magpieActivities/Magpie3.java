@@ -22,13 +22,17 @@ public class Magpie3
 	public String getResponse(String statement)
 	{
 		String response = "";
-		if (statement.length() == 0)
-		{
-			response = "Say something, please.";
-		}
-		else if (findKeyword(statement, "no") >= 0)
+		if (statement.indexOf("no") >= 0)
 		{
 			response = "Why so negative?";
+		}
+		else if (findKeyword(statement, "yes") >= 0)
+		{
+			response = "Great!";
+		}
+		else if (findKeyword(statement, "sad") >= 0)
+		{
+			response = "I feel no sympathy, for I am a computer. I guess that sucks.";
 		}
 		else if (findKeyword(statement, "mother") >= 0
 				|| findKeyword(statement, "father") >= 0
@@ -36,6 +40,26 @@ public class Magpie3
 				|| findKeyword(statement, "brother") >= 0)
 		{
 			response = "Tell me more about your family.";
+		}
+		else if (findKeyword(statement, "born") >= 0)
+		{
+			response = "I was created on February 12, 2018";
+		}
+		else if (findKeyword(statement, "dog") >= 0 || findKeyword(statement, "cat") >= 0)
+		{
+			response = "Tell me more about your pets.";
+		}
+		else if (findKeyword(statement, "remington") >= 0 || findKeyword(statement, "corman") >= 0)
+		{
+			response = "He sounds like an awesome teacher!";
+		}
+		else if (findKeyword(statement, "villanova") >= 0 || findKeyword(statement, "baker") >= 0)
+		{
+			response = "She sounds like an awesome teacher!";
+		}
+		else if (statement.length() == 0)
+		{
+			response = "Say something, please.";
 		}
 		else
 		{
