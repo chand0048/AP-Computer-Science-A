@@ -9,6 +9,8 @@ public class Lab05d
 	{
 		Scanner keyboard = new Scanner(System.in);
 		
+		System.out.println("This program will cycle five times.\n");
+		
 		for (int counter = 1; counter <= 5; counter++)
 		{
 			out.print("Enter a letter :: ");
