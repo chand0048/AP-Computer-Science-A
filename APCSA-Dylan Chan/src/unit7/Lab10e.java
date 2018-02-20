@@ -9,18 +9,23 @@ public class Lab10e
 	public static void main(String args[])
 	{
 		Scanner keyboard = new Scanner(System.in);
-		char response;
 		
-		System.out.print("Guessing Game - How may numbers? ");
-		int max = keyboard.nextInt();
-		Random randint = new Random();
-		GuessingGame guess = new GuessingGame(max, randint.nextInt(max - 1) + 1);
+		GuessingGame game = new GuessingGame();
 		
-		while (guess.playGame() == false)
+		
+		do
 		{
+			System.out.print("\n\nGuessing Game - How may numbers? ");
 			
-		}
-
+			game.setUpper(keyboard.nextInt());
+			keyboard.nextLine();
+			game.playGame();
+			
+			System.out.print("Would you like to play again(y/n)? ");
+		} while (keyboard.nextLine().compareTo("y") == 0);
+		
+		keyboard.close();
+		System.out.print("\nThank you for playing");
 
 
 

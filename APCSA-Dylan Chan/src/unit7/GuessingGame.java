@@ -7,41 +7,43 @@ import static java.lang.System.*;
 public class GuessingGame
 {
 	private int upperBound;
-	private int randNum;
 	
-
-	public GuessingGame(int stop, int num)
+	public GuessingGame()
 	{
-		upperBound = stop;
-		
-		Random randint = new Random();
-		randNum = num;
 
 	}
 
-	public boolean playGame()
+	public void setUpper(int stop)
+	{
+		upperBound = stop;
+	}
+	
+	public void playGame()
 	{
 		Scanner keyboard = new Scanner(System.in);
+		Random randint = new Random();
 		
-		System.out.print(toString());
-		int response = keyboard.nextInt();
+		int winNum = randint.nextInt(upperBound) + 1;
+		int response;
+		int counter = 0;
+
+		do 
+		{
+			out.print(toString());
+			response = keyboard.nextInt();
+			
+			counter++;
+		} while (response != winNum);
 		
-		if (response == randNum)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-
-
-
+		out.printf("\nIt took you %s guesses to guess %s\n", counter, winNum);
+		out.printf("You guessed right %s%% of the time.\n\n", 1.0 / counter * 100);
+		
+		
 	}
 
 	public String toString()
 	{
-		String output="Enter a number between 1 and " + upperBound;
+		String output = "Enter a number between 1 and " + upperBound;
 		return output;
 	}
 }
