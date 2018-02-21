@@ -13,20 +13,37 @@ public class TriangleThree
 
 	public TriangleThree(int count, String let)
 	{
+		size = count;
+		letter = let;
 	}
 
-	public void setTriangle( String let, int sz )
+	public void setTriangle( int sz, String let )
 	{
+		size = sz;
+		letter = let;
 	}
 
 	public String getLetter()
 	{
-		return "#";
+		String triangle = "";
+		for (int counter = 1; counter <= size; counter++ )
+		{
+			for (int spaces = 1; spaces <= size - counter; spaces++)
+			{
+				triangle += " ";
+			}
+			for (int characters = 1; characters <= counter;  characters++)
+			{
+				triangle += letter;
+			}
+			triangle = toString(triangle);
+		}
+		return triangle;
 	}
 
-	public String toString()
+	public String toString(String line)
 	{
-		String output="";
+		String output=line;
 		return output+"\n";
 	}
 }
