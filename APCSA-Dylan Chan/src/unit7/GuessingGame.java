@@ -36,7 +36,7 @@ public class GuessingGame
 		} while (response != winNum);
 		
 		out.printf("\nIt took you %s guesses to guess %s\n", counter, winNum);
-		out.printf("You guessed right %s%% of the time.\n\n", 1.0 / counter * 100);
+		out.printf("You guessed wrong %.2f%% of the time.\n\n", 100 - (1.0 / counter * 100));
 		
 		
 	}
