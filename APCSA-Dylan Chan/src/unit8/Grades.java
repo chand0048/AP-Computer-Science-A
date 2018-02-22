@@ -8,44 +8,38 @@ public class Grades
 {
 	Scanner keyboard = new Scanner(System.in);
 	//instance variables
-	double[] gradeArray = new double[100];
+	double[] gradeArray;
 	int length;
 
 	//constructor
-	public Grades()
+	public Grades(int length)
 	{
-		double[] tempArray;
 		
-		System.out.print("Length: ");
-		length = keyboard.nextInt();
-		tempArray = new double[length];
+		gradeArray = new double[length];
+		this.length = length;
 		
 		System.out.printf("Grades (list all %s grades with spaces in between): \n", length);
 		for (int index = 0; index < length; index++)
 		{
-			tempArray[index] = keyboard.nextDouble();
+			gradeArray[index] = keyboard.nextDouble();
 		}
 		
-		gradeArray = tempArray;
 	}
 
 
 	//set method
-	public void setArray()
+	public void setArray(int length)
 	{
-		double[] tempArray;
 		
-		System.out.print("Length: ");
-		length = keyboard.nextInt();
-		tempArray = new double[length];
+		gradeArray = new double[length];
+		this.length = length;
 		
 		System.out.printf("Grades (list all %s grades with spaces in between): \n", length);
 		for (int index = 0; index < length; index++)
 		{
-			tempArray[index] = keyboard.nextDouble();
+			gradeArray[index] = keyboard.nextDouble();
 		}
 		
-		gradeArray = tempArray;
 	}
 
 
