@@ -1,6 +1,7 @@
 package unit8;
 
 import java.lang.System;
+import java.lang.Double;
 import java.lang.Math;
 import java.util.Scanner;
 
@@ -12,33 +13,55 @@ public class Grades
 	int length;
 
 	//constructor
-	public Grades(int length)
+	public Grades(int length, String grades)
 	{
 		
-		gradeArray = new double[length];
+		double[] temp = new double[length];
 		this.length = length;
+		String tempString = grades.trim();
 		
-		System.out.printf("Grades (list all %s grades with spaces in between): \n", length);
 		for (int index = 0; index < length; index++)
 		{
-			gradeArray[index] = keyboard.nextDouble();
+		  if (tempString.indexOf(" ") >= 0)
+		  {
+		    double cast = Double.parseDouble(tempString.substring(0, tempString.indexOf(" ", 0)));
+			  temp[index] = cast;
+			  tempString = tempString.substring(tempString.indexOf(" ") + 1);
+		  }
+		  else
+		  {
+		    double cast = Double.parseDouble(tempString);
+		    temp[index] = cast;
+		  }
 		}
+		gradeArray = temp;
 		
 	}
 
 
 	//set method
-	public void setArray(int length)
+	public void setGrades(int length, String grades)
 	{
 		
-		gradeArray = new double[length];
+		double[] temp = new double[length];
 		this.length = length;
+		String tempString = grades.trim();
 		
-		System.out.printf("Grades (list all %s grades with spaces in between): \n", length);
 		for (int index = 0; index < length; index++)
 		{
-			gradeArray[index] = keyboard.nextDouble();
+		  if (tempString.indexOf(" ") >= 0)
+		  {
+		    double cast = Double.parseDouble(tempString.substring(0, tempString.indexOf(" ", 0)));
+			  temp[index] = cast;
+			  tempString = tempString.substring(tempString.indexOf(" ") + 1);
+		  }
+		  else
+		  {
+		    double cast = Double.parseDouble(tempString);
+		    temp[index] = cast;
+		  }
 		}
+		gradeArray = temp;
 		
 	}
 

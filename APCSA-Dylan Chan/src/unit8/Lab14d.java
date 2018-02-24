@@ -6,22 +6,20 @@ public class Lab14d
 {
 	public static void main( String args[] )
 	{
-		Scanner keyboard = new Scanner(System.in);
-		//add test cases
-		System.out.print("Length: ");
-		Grades gradebook1 = new Grades(keyboard.nextInt());
-		System.out.println(gradebook1);
-		
-		System.out.print("Length: ");
-		Grades gradebook2 = new Grades(keyboard.nextInt());
-		System.out.println(gradebook2);
-		
-		System.out.print("Length: ");
-		Grades gradebook3 = new Grades(keyboard.nextInt());
-		System.out.println(gradebook3);
-		
-		System.out.print("Length: ");
-		Grades gradebook4 = new Grades(keyboard.nextInt());
-		System.out.println(gradebook4);
+		Grades gradeTest = new Grades(5, " 100 90 85 72.5 95.6");
+		System.out.println(gradeTest);
+		System.out.println("average = " + String.format("%.2f",gradeTest.getAverage())+"\n\n");
+
+		gradeTest.setGrades(3,"50.0 100.0 80.0");
+		System.out.println(gradeTest);
+		System.out.println("average = " + String.format("%.2f",gradeTest.getAverage())+"\n\n");
+
+		gradeTest.setGrades(3, "93.4 -90.0 90.0");
+		System.out.println(gradeTest);
+		System.out.println("average = " + String.format("%.2f",gradeTest.getAverage())+"\n\n");
+
+		gradeTest.setGrades(9, "1 2 3 4 5 6 7 8 9");
+		System.out.println(gradeTest);
+		System.out.println("average = " + String.format("%.2f",gradeTest.getAverage())+"\n\n");
 	}
 }
