@@ -1,8 +1,8 @@
+package elevensActivites;
+
 import java.util.List;
-
-import elevensActivites.Card;
-
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * The Deck class represents a shuffled deck of cards.
@@ -19,7 +19,7 @@ public class Deck {
 	//Unit 9 - Array version of the Deck
 	
 	private Card[] cards;
-
+	private boolean[] dealtCards;
 	/**
 	 * size is the number of not-yet-dealt cards.
 	 * Cards are dealt from the top (highest index) down.
@@ -40,22 +40,19 @@ public class Deck {
 	{
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 2 *** */
 		cards = new Card[52];
+		dealtCards = new boolean[52];
+		int index = 0;
 		
-		for (int index = 0; index < 52; index++)
+		for (int suitIndex = 0; suitIndex < 4; suitIndex++)
 		{
-			for (String rank: ranks)
+			for (int rankIndex = 0; rankIndex < 13; rankIndex++)
 			{
-				for (String suit: suits)
-				{
-					for (int value: values)
-					{
-						Card card = new Card(rank, suit, value);
-						cards[index] = card;
-					}
-				}
+				Card card = new Card(ranks[rankIndex], suits[suitIndex], values[rankIndex]);
+				cards[index] = card;
+				dealtCards[index] = false;
+				index++;
 			}
 		}
-		
 		size = cards.length;
 	}
 		
@@ -104,7 +101,26 @@ public class Deck {
 	public Card deal() 
 	{
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 2 *** */
-		return cards[0];
+		Random randint = new Random();
+		int randomIndex;
+		
+		if (isEmpty() == true)
+		{
+			return null;
+		}
+		else
+		{
+			do 
+			{
+				randomIndex = randint.nextInt(52);
+			} while (dealtCards[randomIndex] == true);
+		
+			size--;
+			Card dealt = cards[randomIndex];
+			dealtCards[randomIndex] = true;
+		
+			return dealt;
+		}
 	}
 
 	/**
@@ -146,4 +162,5 @@ public class Deck {
 		rtn = rtn + "\n";
 		return rtn;
 	}
+	
 }
