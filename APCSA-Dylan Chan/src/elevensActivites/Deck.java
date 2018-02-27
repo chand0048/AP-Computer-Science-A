@@ -49,6 +49,7 @@ public class Deck {
 			{
 				Card card = new Card(ranks[rankIndex], suits[suitIndex], values[rankIndex]);
 				cards[index] = card;
+				
 				dealtCards[index] = false;
 				index++;
 			}
