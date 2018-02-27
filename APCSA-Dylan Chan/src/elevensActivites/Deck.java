@@ -43,9 +43,9 @@ public class Deck {
 		dealtCards = new boolean[52];
 		int index = 0;
 		
-		for (int suitIndex = 0; suitIndex < 4; suitIndex++)
+		for (int suitIndex = 0; suitIndex < suits.length; suitIndex++)
 		{
-			for (int rankIndex = 0; rankIndex < 13; rankIndex++)
+			for (int rankIndex = 0; rankIndex < ranks.length; rankIndex++)
 			{
 				Card card = new Card(ranks[rankIndex], suits[suitIndex], values[rankIndex]);
 				cards[index] = card;
