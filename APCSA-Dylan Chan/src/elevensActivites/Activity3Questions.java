@@ -22,22 +22,27 @@ public class Activity3Questions
 	
 	public static boolean arePermutations(int[] array1, int[] array2)
 	{
-		boolean notPermutation = false;
+		boolean permutation = false;
 		for (int item1: array1)
 		{
 			for (int item2: array2)
 			{
 				if (item1 == item2)
 				{
-					notPermutation = false;
+					permutation = true;
+					break;
 				}
 				else
 				{
-					notPermutation = true;
+					permutation = false;
 				}
 			}
+			if (permutation == false)
+			{
+				break;
+			}
 		}
-		return notPermutation;
+		return permutation;
 	}
 	public static void main(String[] args)
 	{
@@ -45,5 +50,9 @@ public class Activity3Questions
 		{
 			System.out.println(coinFlip());
 		}
+		
+		int[] array1 = {4, 9, 5, 3};
+		int[] array2 = {1, 2, 3, 4};
+		System.out.println("\n" + arePermutations(array1, array2));
 	}
 }

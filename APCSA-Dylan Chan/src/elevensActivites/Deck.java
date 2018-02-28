@@ -2,7 +2,7 @@ package elevensActivites;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Random;
+
 
 /**
  * The Deck class represents a shuffled deck of cards.
@@ -19,7 +19,7 @@ public class Deck {
 	//Unit 9 - Array version of the Deck
 	
 	private Card[] cards;
-	private boolean[] dealtCards;
+
 	/**
 	 * size is the number of not-yet-dealt cards.
 	 * Cards are dealt from the top (highest index) down.
@@ -40,7 +40,6 @@ public class Deck {
 	{
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 2 *** */
 		cards = new Card[52];
-		dealtCards = new boolean[52];
 		int index = 0;
 		
 		for (int suitIndex = 0; suitIndex < suits.length; suitIndex++)
@@ -50,11 +49,11 @@ public class Deck {
 				Card card = new Card(ranks[rankIndex], suits[suitIndex], values[rankIndex]);
 				cards[index] = card;
 				
-				dealtCards[index] = false;
 				index++;
 			}
 		}
-		size = cards.length;
+		
+		shuffle();
 	}
 		
 
@@ -92,6 +91,16 @@ public class Deck {
 	public void shuffle() 
 	{
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 4 *** */
+		for (int index = cards.length - 1; index >= 0; index++)
+		{
+			int randIndex = (int) Math.ceil(Math.random() * (cards.length - 1));
+			
+			Card temp = cards[index];
+			cards[index] = cards[randIndex];
+			cards[randIndex] = temp;
+			
+			size = cards.length;
+		}
 	}
 
 	/**
@@ -102,7 +111,6 @@ public class Deck {
 	public Card deal() 
 	{
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 2 *** */
-		Random randint = new Random();
 		int randomIndex;
 		
 		if (isEmpty() == true)
@@ -111,15 +119,8 @@ public class Deck {
 		}
 		else
 		{
-			do 
-			{
-				randomIndex = randint.nextInt(52);
-			} while (dealtCards[randomIndex] == true);
-		
+			Card dealt = cards[size - 1];
 			size--;
-			Card dealt = cards[randomIndex];
-			dealtCards[randomIndex] = true;
-		
 			return dealt;
 		}
 	}
@@ -159,6 +160,14 @@ public class Deck {
 			}
 		}
 		*/
+		for (int index = size - 1; index >= 0; index--)
+		{
+			rtn += cards[index].toString();
+			if (index != 0) 
+			{
+				rtn = rtn + ", ";
+			}
+		}
 
 		rtn = rtn + "\n";
 		return rtn;
