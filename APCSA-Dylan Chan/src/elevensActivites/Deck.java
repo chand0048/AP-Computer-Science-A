@@ -44,6 +44,7 @@ public class Deck {
 		
 		for (int suitIndex = 0; suitIndex < suits.length; suitIndex++)
 		{
+			
 			for (int rankIndex = 0; rankIndex < ranks.length; rankIndex++)
 			{
 				Card card = new Card(ranks[rankIndex], suits[suitIndex], values[rankIndex]);
@@ -91,7 +92,7 @@ public class Deck {
 	public void shuffle() 
 	{
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 4 *** */
-		for (int index = cards.length - 1; index >= 0; index++)
+		for (int index = (cards.length - 1); index >= 0; index--)
 		{
 			int randIndex = (int) Math.ceil(Math.random() * (cards.length - 1));
 			
@@ -99,8 +100,8 @@ public class Deck {
 			cards[index] = cards[randIndex];
 			cards[randIndex] = temp;
 			
-			size = cards.length;
 		}
+		size = cards.length;
 	}
 
 	/**
@@ -113,7 +114,7 @@ public class Deck {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 2 *** */
 		int randomIndex;
 		
-		if (isEmpty() == true)
+		if (isEmpty())
 		{
 			return null;
 		}
@@ -132,44 +133,35 @@ public class Deck {
 	@Override
 	public String toString() 
 	{
-		String rtn = "size = " + size + "\nUndealt cards: \n";
+		String rtn = "\nsize = " + size + "\n\nUndealt cards: \n";
 
 
 		//Unit 9 - modify to work with Arrays
-		/*
+		
 		for (int k = size - 1; k >= 0; k--) {
-			rtn = rtn + cards.get(k);
+			rtn += cards[k];
 			if (k != 0) {
-				rtn = rtn + ", ";
+				rtn += ", ";
 			}
 			if ((size - k) % 2 == 0) {
 				// Insert carriage returns so entire deck is visible on console.
-				rtn = rtn + "\n";
+				rtn += "\n";
 			}
 		}
 
-		rtn = rtn + "\nDealt cards: \n";
-		for (int k = cards.size() - 1; k >= size; k--) {
-			rtn = rtn + cards.get(k);
+		rtn = rtn + "\n\nDealt cards: \n";
+		for (int k = cards.length - 1; k >= size; k--) {
+			rtn += cards[k];
 			if (k != size) {
-				rtn = rtn + ", ";
+				rtn += ", ";
 			}
-			if ((k - cards.size()) % 2 == 0) {
+			if ((k - cards.length) % 2 == 0) {
 				// Insert carriage returns so entire deck is visible on console.
-				rtn = rtn + "\n";
+				rtn +="\n";
 			}
 		}
-		*/
-		for (int index = size - 1; index >= 0; index--)
-		{
-			rtn += cards[index].toString();
-			if (index != 0) 
-			{
-				rtn = rtn + ", ";
-			}
-		}
-
-		rtn = rtn + "\n";
+		
+		rtn += "\n";
 		return rtn;
 	}
 	
