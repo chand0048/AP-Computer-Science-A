@@ -16,6 +16,7 @@ public class DeckTester {
 		Deck deck2 = new Deck(ranks, suits, pointValues);
 		Deck deck3 = new Deck(ranks, suits, pointValues);
 		
+		
 		System.out.println(deck1.isEmpty());
 		System.out.println(deck1.size());
 		System.out.println(deck1.deal());
