@@ -16,25 +16,54 @@ public class Words
 
 	public Words(String wordList)
 	{
-
+		int psn = 0;
+		words = new ArrayList();
+		
+		while (psn < wordList.length())
+		{
+			if (wordList.indexOf(" ", psn) >= 0)
+			{
+				Word word = new Word(wordList.substring(psn, wordList.indexOf(" ", psn)));
+				words.add(word);
+				psn = wordList.indexOf(" ", psn) + 1;
+			}
+			else
+			{
+				psn++;
+			}
+		}
 	}
 
 	public void setWords(String wordList)
 	{
-
-
-
-
-
+		int psn = 0;
+		words = new ArrayList();
+		
+		while (psn != wordList.length())
+		{
+			if (wordList.indexOf(" ", psn) >= 0)
+			{
+				psn = wordList.indexOf(" ", psn);
+				Word word = new Word(wordList.substring(psn, wordList.indexOf(" ", psn)));
+				words.add(word);
+			}
+			else
+			{
+				psn++;
+			}
+		}
 	}
 	
 	public int countWordsWithXChars(int size)
 	{
 		int count=0;
-
-
-
-
+		for (Word item: words)
+		{
+			if (item.getLength() == size)
+			{
+				count++;
+			}
+		}
 
 		return count;
 	}
@@ -43,22 +72,29 @@ public class Words
 	//this method will also return the sum of the vowels in all words removed
 	public int removeWordsWithXChars(int size)
 	{
-
-
-
-
-
-		return 0;
+		int numVowels = 0;
+		for (Word item: words)
+		{
+			if (item.getLength() == size)
+			{
+				numVowels += item.getNumVowels();
+				words.remove(item);
+			}
+		}
+		
+		return numVowels;
 	}
 
 	public int countWordsWithXVowels(int numVowels)
 	{
 		int count=0;
-
-
-
-
-
+		for (Word item: words)
+		{
+			if (item.getNumVowels() == numVowels)
+			{
+				count++;
+			}
+		}
 
 		return count;
 	}

@@ -51,7 +51,7 @@ public class Activity3Questions
 			System.out.println(coinFlip());
 		}
 		
-		int[] array1 = {4, 9, 5, 3};
+		int[] array1 = {4, 1, 2, 3};
 		int[] array2 = {1, 2, 3, 4};
 		System.out.println("\n" + arePermutations(array1, array2));
 	}
