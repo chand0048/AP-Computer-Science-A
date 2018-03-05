@@ -1,4 +1,4 @@
-package unit10;
+package unit10Lab16d;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,24 +23,26 @@ public class MadLib
 	public MadLib(String fileName)
 	{
 		//load stuff
+		verbs = new ArrayList();
+		nouns = new ArrayList();
+		adjectives = new ArrayList();
 		
-		
+		loadNouns();
+		loadVerbs();
+		loadAdjectives();	
 		
 		try{
-			Scanner file = new Scanner(new File(fileName));
+			Scanner file = new Scanner(new File(System.getProperty(fileName)));
 		
 		
 		
 		
 		
-		
-		
-	
 		
 		}
 		catch(Exception e)
 		{
-			out.println("Houston we have a problem!");
+			out.println(e);
 		}
 		
 	}
@@ -48,14 +50,16 @@ public class MadLib
 	public void loadNouns()
 	{
 		try{
-		
-		
-		
-		
-		
+			Scanner file = new Scanner(new File(System.getProperty("user.dir") + "\\src\\unit10Lab16d\\nouns.dat"));
+			while (file.hasNextLine())
+			{
+				nouns.add(file.nextLine());
+			}
 		}
+		
 		catch(Exception e)
 		{
+			out.println(e);
 		}	
 		
 	}
@@ -63,34 +67,38 @@ public class MadLib
 	public void loadVerbs()
 	{
 		try{
-	
-	
-	
-	
-	
+			Scanner file = new Scanner(new File(System.getProperty("user.dir") + "\\src\\unit10Lab16d\\verbs.dat"));
+			while (file.hasNextLine())
+			{
+				verbs.add(file.nextLine());
+			}
+					
 		}
 		catch(Exception e)
 		{
+			out.println(e);
 		}
 	}
 
 	public void loadAdjectives()
 	{
 		try{
-	
-	
-	
-	
+			Scanner file = new Scanner(new File(System.getProperty("user.dir") + "\\src\\unit10Lab16d\\adjectives.dat"));
+			while (file.hasNextLine())
+			{
+				adjectives.add(file.nextLine());
+			}
 	
 		}
 		catch(Exception e)
 		{
+			out.println(e);
 		}
 	}
 
 	public String getRandomVerb()
 	{
-	
+		String word = verbs.get((int) Math.ceil(Math.random() * verbs.size()));
 		return "";
 	}
 	
