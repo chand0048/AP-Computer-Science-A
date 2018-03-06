@@ -15,13 +15,6 @@ public class MadLib
 	
 	public MadLib()
 	{
-
-
-
-	}
-
-	public MadLib(String fileName)
-	{
 		//load stuff
 		verbs = new ArrayList();
 		nouns = new ArrayList();
@@ -31,19 +24,6 @@ public class MadLib
 		loadVerbs();
 		loadAdjectives();	
 		
-		try{
-			Scanner file = new Scanner(new File(System.getProperty(fileName)));
-		
-		
-		
-		
-		
-		
-		}
-		catch(Exception e)
-		{
-			out.println(e);
-		}
 		
 	}
 
@@ -98,24 +78,32 @@ public class MadLib
 
 	public String getRandomVerb()
 	{
-		String word = verbs.get((int) Math.ceil(Math.random() * verbs.size()));
-		return "";
+		String word = verbs.get((int) Math.floor(Math.random() * verbs.size()));
+		return word;
 	}
 	
 	public String getRandomNoun()
 	{
-		
-		return "";
+		String word = nouns.get((int) Math.floor(Math.random() * nouns.size()));
+		return word;
 	}
 	
 	public String getRandomAdjective()
 	{
-		
-		return "";
+		String word = adjectives.get((int) Math.floor(Math.random() * adjectives.size()));
+		return word;
 	}		
 
 	public String toString()
-	{
-	   return "\n\n\n";
+	{	
+		String madlib = "Come " + getRandomVerb() + " at WALMART, where you`ll "
+				+ "receive " + getRandomAdjective() + " discounts on all \nof your favorite "
+						+ "brand name " + getRandomNoun() + "s. Our " + getRandomAdjective() + 
+						" and " + getRandomVerb() + " associates \nare there to " + getRandomVerb() + 
+						" you 12 hours a day. Here you will find " + getRandomAdjective() + " \nprices on the " + 
+						getRandomNoun() + "s you need. " + getRandomNoun() + "s for the moms, and " + getRandomNoun() + 
+						"s \nfor the kids. So come on down to your " + getRandomAdjective() + " " + getRandomAdjective() + 
+						" WALMART \nwhere the " + getRandomNoun() + "s come first.";
+		return madlib;
 	}
 }
