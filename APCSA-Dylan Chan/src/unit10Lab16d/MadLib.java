@@ -96,14 +96,46 @@ public class MadLib
 
 	public String toString()
 	{	
-		String madlib = "Come " + getRandomVerb() + " at WALMART, where you`ll "
-				+ "receive " + getRandomAdjective() + " discounts on all \nof your favorite "
-						+ "brand name " + getRandomNoun() + "s. Our " + getRandomAdjective() + 
-						" and " + getRandomVerb() + " associates \nare there to " + getRandomVerb() + 
-						" you 12 hours a day. Here you will find " + getRandomAdjective() + " \nprices on the " + 
-						getRandomNoun() + "s you need. " + getRandomNoun() + "s for the moms, and " + getRandomNoun() + 
-						"s \nfor the kids. So come on down to your " + getRandomAdjective() + " " + getRandomAdjective() + 
-						" WALMART \nwhere the " + getRandomNoun() + "s come first.";
+		String madlib = "";
+		try
+		{
+			Scanner file = new Scanner(new File(System.getProperty("user.dir") + "\\src\\unit10lab16d\\story.dat"));
+			
+			String line = file.nextLine();
+			file.close();
+			
+			int psn = 0;
+			while (psn < line.length())
+			{
+				if (line.substring(psn, psn + 1).equals("#"))
+				{
+					madlib += getRandomNoun();
+					psn++;
+				}
+				else if (line.substring(psn, psn + 1).equals("@"))
+				{
+					madlib += getRandomVerb();
+					psn++;
+				}
+				else if (line.substring(psn, psn + 1).equals("&"))
+				{
+					madlib += getRandomAdjective();
+					psn++;
+				}
+				else
+				{
+					madlib += line.substring(psn, psn + 1);
+					psn++;
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			out.println(e);
+		}
+		
+		
+		
 		return madlib;
 	}
 }

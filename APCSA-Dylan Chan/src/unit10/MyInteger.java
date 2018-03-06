@@ -149,10 +149,10 @@ public class MyInteger
 		
 		for (char item: nums.toCharArray())
 		{
-			equals += item;
+			equals += item - 48;
 			equals *= 10;
 		}
-		
+		equals /= 10;
 		return equals;
 	}
 	
