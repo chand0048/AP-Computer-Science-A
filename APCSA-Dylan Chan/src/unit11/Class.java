@@ -104,6 +104,28 @@ public class Class
 		return hName;
 	}
 	
+	public void sort()
+	{
+		for (int index = 0; index < studentList.length; index++)
+		{
+			Student compared = studentList[index];
+			int indexOfChosen = 0;
+			
+			for (int counter = index; index < studentList.length; index++)
+			{
+				if (studentList[counter].compareTo(compared) == -1)
+				{
+					compared = studentList[counter];
+					indexOfChosen = counter;
+				}
+			}
+			
+			Student temp = studentList[index];
+			studentList[index] = compared;
+			studentList[indexOfChosen] = temp;
+		}
+	}
+	
 	public String getFailureList(double failingGrade)
 	{
 		String output="";
