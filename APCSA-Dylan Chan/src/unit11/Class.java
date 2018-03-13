@@ -72,36 +72,46 @@ public class Class
 
 	public String getStudentWithHighestAverage()
 	{
-		double high = Double.MIN_VALUE;
-		String hName = "";
+		/*double high = Double.MIN_VALUE;
+		**String hName = "";
 
-		for (Student person: studentList)
-		{
-			if (person.getAverage() > high)
-			{
-				high = person.getAverage();
-				hName = person.getName();
-			}
-		}
+		**for (Student person: studentList)
+		**{
+		**	if (person.getAverage() > high)
+		**	{
+		**		high = person.getAverage();
+		**		hName = person.getName();
+		**	}
+		**}
+		**
+		**return hName;
+		*/
 		
-		return hName;
+		sort();
+		
+		return studentList[(studentList.length - 1)].getName();
 	}
 
 	public String getStudentWithLowestAverage()
 	{
-		double low = Double.MAX_VALUE;
-		String hName ="";		
+		/*double low = Double.MAX_VALUE;
+		**String hName ="";		
+		**
+		**for (Student person: studentList)
+		**{
+		**	if (person.getAverage() < low)
+		**	{
+		**		low = person.getAverage();
+		**		hName = person.getName();
+		**	}
+		**}
+		**
+		**return hName;
+		*/
 		
-		for (Student person: studentList)
-		{
-			if (person.getAverage() < low)
-			{
-				low = person.getAverage();
-				hName = person.getName();
-			}
-		}
-
-		return hName;
+		sort();
+		
+		return studentList[0].getName();
 	}
 	
 	public void sort()
@@ -109,9 +119,9 @@ public class Class
 		for (int index = 0; index < studentList.length; index++)
 		{
 			Student compared = studentList[index];
-			int indexOfChosen = 0;
+			int indexOfChosen = index;
 			
-			for (int counter = index; index < studentList.length; index++)
+			for (int counter = index; counter < studentList.length; counter++)
 			{
 				if (studentList[counter].compareTo(compared) == -1)
 				{
