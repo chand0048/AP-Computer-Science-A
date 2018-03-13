@@ -10,28 +10,28 @@ import java.util.ArrayList;
 public class Class
 {
 	private String name;
-	//private Student[] studentList;
-	private ArrayList<Student> studentList;
+	private Student[] studentList;
+	//private ArrayList<Student> studentList;
 	
 	public Class()
 	{
 		name = "";
-		//studentList = new Student[0];
-		studentList = new ArrayList<Student>();
+		studentList = new Student[0];
+		//studentList = new ArrayList<Student>();
 	}
 	
 	public Class(String name, int stuCount)
 	{
 		this.name = name;
-		//studentList = new Student[stuCount];
-		studentList = new ArrayList<Student>();
+		studentList = new Student[stuCount];
+		//studentList = new ArrayList<Student>();
 	
 	}
 	
 	public void addStudent(int stuNum, Student s)
 	{
-		//studentList[stuNum] = s;
-		studentList.add(s);
+		studentList[stuNum] = s;
+		//studentList.add(s);
 
 	}
 	
@@ -48,16 +48,16 @@ public class Class
 		{
 			classAverage += person.getAverage();
 		}
-		//classAverage /= studentList.length;
-		classAverage /= studentList.size();
+		classAverage /= studentList.length;
+		//classAverage /= studentList.size();
 
 		return classAverage;
 	}
 	
 	public double getStudentAverage(int stuNum)
 	{
-		//return studentList[stuNum].getAverage();
-		return studentList.get(stuNum).getAverage();
+		return studentList[stuNum].getAverage();
+		//return studentList.get(stuNum).getAverage();
 	}
 
 	public double getStudentAverage(String stuName)
@@ -74,84 +74,84 @@ public class Class
 	
 	public String getStudentName(int stuNum)
 	{
-		//return studentList[stuNum].getName();
-		return studentList.get(stuNum).getName();
+		return studentList[stuNum].getName();
+		//return studentList.get(stuNum).getName();
 	}
 
 	public String getStudentWithHighestAverage()
 	{
-		/*double high = Double.MIN_VALUE;
-		**String hName = "";
+		double high = Double.MIN_VALUE;
+		String hName = "";
 
-		**for (Student person: studentList)
-		**{
-		**	if (person.getAverage() > high)
-		**	{
-		**		high = person.getAverage();
-		**		hName = person.getName();
-		**	}
-		**}
-		**
-		**return hName;
-		*/
+		for (Student person: studentList)
+		{
+			if (person.getAverage() > high)
+			{
+				high = person.getAverage();
+				hName = person.getName();
+		}
+		}
+		
+		//return hName;
+		
 		
 		sort();
 		
-		//return studentList[(studentList.length - 1)].getName();
-		return studentList.get(studentList.size() -1).getName();
+		return studentList[(studentList.length - 1)].getName();
+		//return studentList.get(studentList.size() -1).getName();
 	}
 
 	public String getStudentWithLowestAverage()
 	{
-		/*double low = Double.MAX_VALUE;
-		**String hName ="";		
-		**
-		**for (Student person: studentList)
-		**{
-		**	if (person.getAverage() < low)
-		**	{
-		**		low = person.getAverage();
-		**		hName = person.getName();
-		**	}
-		**}
-		**
-		**return hName;
-		*/
+		double low = Double.MAX_VALUE;
+		String hName ="";		
+		
+		for (Student person: studentList)
+		{
+			if (person.getAverage() < low)
+			{
+				low = person.getAverage();
+				hName = person.getName();
+			}
+		}
+		
+		//return hName;
+		
 		
 		sort();
 		
-		//return studentList[0].getName();
-		return studentList.get(0).getName();
+		return studentList[0].getName();
+		//return studentList.get(0).getName();
 	}
 	
 	public void sort()
 	{
-		//for (int index = 0; index < studentList.length; index++)
-		for (int index = 0; index < studentList.size(); index++)
+		for (int index = 0; index < studentList.length; index++)
+		//for (int index = 0; index < studentList.size(); index++)
 		{
-			//Student compared = studentList[index];
-			Student compared = studentList.get(index);
+			Student compared = studentList[index];
+			//Student compared = studentList.get(index);
 			int indexOfChosen = index;
 			
-			//for (int counter = index; counter < studentList.length; counter++)
-			for (int counter = index; counter < studentList.size(); counter++)
+			for (int counter = index; counter < studentList.length; counter++)
+			//for (int counter = index; counter < studentList.size(); counter++)
 			{
-				//if (studentList[counter].compareTo(compared) == -1)
-				if (studentList.get(counter).compareTo(compared) == -1)
+				if (studentList[counter].compareTo(compared) == -1)
+				//if (studentList.get(counter).compareTo(compared) == -1)
 				{
-					//compared = studentList[counter];
-					compared = studentList.get(counter);
+					compared = studentList[counter];
+					//compared = studentList.get(counter);
 					indexOfChosen = counter;
 				}
 			}
 			
-			/*Student temp = studentList[index];
-			**studentList[index] = compared;
-			**studentList[indexOfChosen] = temp;
-			*/
-			Student temp = studentList.get(index);
-			studentList.set(index, compared);
-			studentList.set(indexOfChosen, temp);
+			Student temp = studentList[index];
+			studentList[index] = compared;
+			studentList[indexOfChosen] = temp;
+			
+			//Student temp = studentList.get(index);
+			//studentList.set(index, compared);
+			//studentList.set(indexOfChosen, temp);
 		}
 	}
 	

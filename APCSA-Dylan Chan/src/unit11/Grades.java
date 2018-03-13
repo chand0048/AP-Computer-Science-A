@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public class Grades
 {
-	//private Grade[] grades;
-	private ArrayList<Grade> grades;
+	private Grade[] grades;
+	//private ArrayList<Grade> grades;
 	
 	public Grades()
 	{
@@ -23,28 +23,28 @@ public class Grades
 	
 	public void setGrades(String gradeList)
 	{
-		//grades = new Grade[Integer.parseInt(gradeList.substring(0, 1))];
+		grades = new Grade[Integer.parseInt(gradeList.substring(0, 1))];
 		
-		grades = new ArrayList<Grade>();
+		//grades = new ArrayList<Grade>();
 		
 		int psn = 4;
 		
 		while (psn < gradeList.length())
 		{
-			//for (int index = 0; index < grades.length; index++)
+			for (int index = 0; index < grades.length; index++)
 			{
 				if (gradeList.indexOf(" ", psn) == -1)
 				{
 					Grade score = new Grade(Double.parseDouble(gradeList.substring(psn)));
-					//grades[index] = score;
-					grades.add(score);
+					grades[index] = score;
+					//grades.add(score);
 					psn = gradeList.length();
 				}
 				else
 				{
 					Grade score = new Grade(Double.parseDouble(gradeList.substring(psn, gradeList.indexOf(" ", psn))));
-					//grades[index] = score;
-					grades.add(score);
+					grades[index] = score;
+					//grades.add(score);
 					psn = gradeList.indexOf(" ", psn) + 1;
 				}
 			}
@@ -54,8 +54,8 @@ public class Grades
 	public void setGrade(int spot, double grade)
 	{
 		Grade score = new Grade(grade);
-		//grades[spot] = score;
-		grades.set(spot, score);
+		grades[spot] = score;
+		//grades.set(spot, score);
 	}
 	
 	public double getSum()
@@ -101,8 +101,8 @@ public class Grades
 	
 	public int getNumGrades()
 	{
-		//return grades.length;
-		return grades.size();
+		return grades.length;
+		//return grades.size();
 	}
 	
 	public String toString()
