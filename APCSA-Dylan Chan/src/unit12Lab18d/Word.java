@@ -28,19 +28,15 @@ public class Word implements Comparable<Word>
 		}
 		else
 		{
-			for (int index = 0; index < getLength(); index ++)
+			for (int index = 0; index < this.getLength(); index++)
 			{
 				if (toString().charAt(index) < rhs.toString().charAt(index))
 				{
 					return -1;
 				}
-				else if (toString().charAt(index) > rhs.toString().charAt(index))
+				else if (this.toString().charAt(index) > rhs.toString().charAt(index))
 				{
 					return 1;
-				}
-				else 
-				{
-					return 0;
 				}
 			}
 			return 0;
