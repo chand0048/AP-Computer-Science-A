@@ -32,7 +32,7 @@ public class AtCounter
 		//add in recursive code to count up the # of @s connected
 		//start checking at spot [r,c]
 		
-		if (r >= 0 && r < 10 && c >= 0 && c < 10 && atMat[r][c] == '@')
+		if (r >= 0 && r < atMat.length && c >= 0 && c < atMat.length && atMat[r][c] == '@')
 		{
 			for (int index = 0; index < usedR.size(); index++)
 			{

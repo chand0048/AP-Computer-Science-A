@@ -10,15 +10,26 @@ public class Maze
 {
    private int[][] maze;
    private ArrayList<Integer> usedR, usedC;
+   private boolean exitFound;
 
 	public Maze()
 	{
 		maze = new int[0][0];
+		
+		usedR = new ArrayList<Integer>();
+		usedC = new ArrayList<Integer>();
+		
+		exitFound = false;
 	}
 
 	public Maze(int size, String line)
 	{
 		maze = new int[size][size];
+		
+		usedR = new ArrayList<Integer>();
+		usedC = new ArrayList<Integer>();
+		
+		exitFound = false;
 		
 		int psn = 0;
 		
@@ -42,7 +53,7 @@ public class Maze
 
 	public boolean hasExitPath(int r, int c)
 	{
-		if (maze[r][c] == 1 && r >= 0 && r < maze.length && c >= 0 && c < maze.length)
+		if (r >= 0 && r < maze.length && c >= 0 && c < maze.length && maze[r][c] == 1)
 		{
 			for (int index = 0; index < usedR.size(); index++)
 			{
@@ -51,8 +62,11 @@ public class Maze
 					return false;
 				}
 			}
+			
 			if (c == maze.length - 1)
 			{
+				exitFound = true;
+				
 				return true;
 			}
 			
@@ -62,11 +76,12 @@ public class Maze
 			hasExitPath(r, c + 1);
 			hasExitPath(r + 1, c);
 			hasExitPath(r, c - 1);
-			hasExitPath(r - 1, c);
+			return hasExitPath(r - 1, c);
 		}
-		
-		return false;
-		
+		else
+		{
+			return false;
+		}
 	}
 
 	public String toString()
@@ -81,11 +96,10 @@ public class Maze
 			}
 			output += "\n";
 		}
+
+		hasExitPath(0, 0);
 		
-		usedR = new ArrayList<Integer>();
-		usedC = new ArrayList<Integer>();
-		
-		if (hasExitPath(0, 0))
+		if (exitFound)
 		{
 			output += "exit found\n";
 		}
