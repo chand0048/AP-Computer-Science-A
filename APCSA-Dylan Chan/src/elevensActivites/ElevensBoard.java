@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * The ElevensBoard class represents the board in a game of Elevens.
  */
-public class ElevensBoard {
+public class ElevensBoard extends Board{
 
 	/**
 	 * The size (number of cards) on the board.
@@ -52,13 +52,14 @@ public class ElevensBoard {
 	 * Creates a new <code>ElevensBoard</code> instance.
 	 */
 	public ElevensBoard() {
-		cards = new Card[BOARD_SIZE];
-		deck = new Deck(RANKS, SUITS, POINT_VALUES);
-		if (I_AM_DEBUGGING) {
-			System.out.println(deck);
-			System.out.println("----------");
-		}
-		dealMyCards();
+		//cards = new Card[BOARD_SIZE];
+		//deck = new Deck(RANKS, SUITS, POINT_VALUES);
+		//if (I_AM_DEBUGGING) {
+		//	System.out.println(deck);
+		//	System.out.println("----------");
+		//}
+		//dealMyCards();
+		super(BOARD_SIZE, RANKS, SUITS, POINT_VALUES);
 	}
 
 	/**
@@ -66,8 +67,9 @@ public class ElevensBoard {
 	 * dealing some cards to this board.
 	 */
 	public void newGame() {
-		deck.shuffle();
-		dealMyCards();
+		//deck.shuffle();
+		//dealMyCards();
+		super.newGame();
 	}
 
 	/**
@@ -77,7 +79,8 @@ public class ElevensBoard {
 	 * @return the size of the board
 	 */
 	public int size() {
-		return cards.length;
+		//return cards.length;
+		return super.size();
 	}
 
 	/**
@@ -85,12 +88,13 @@ public class ElevensBoard {
 	 * @return true if this board is empty; false otherwise.
 	 */
 	public boolean isEmpty() {
-		for (int k = 0; k < cards.length; k++) {
-			if (cards[k] != null) {
-				return false;
-			}
-		}
-		return true;
+		//for (int k = 0; k < cards.length; k++) {
+		//	if (cards[k] != null) {
+		//		return false;
+		//	}
+		//}
+		//return true;
+		return super.isEmpty();
 	}
 
 	/**
@@ -99,7 +103,8 @@ public class ElevensBoard {
 	 * @param k the index of the card to be dealt.
 	 */
 	public void deal(int k) {
-		cards[k] = deck.deal();
+		//cards[k] = deck.deal();
+		super.deal(k);
 	}
 
 	/**
@@ -107,7 +112,8 @@ public class ElevensBoard {
 	 * @return the number of undealt cards left in the deck.
 	 */
 	public int deckSize() {
-		return deck.size();
+		//return deck.size();
+		return super.deckSize();
 	}
 
 	/**
@@ -116,7 +122,8 @@ public class ElevensBoard {
 	 * @param k is the board position of the card to return.
 	 */
 	public Card cardAt(int k) {
-		return cards[k];
+		//return cards[k];
+		return super.cardAt(k);
 	}
 
 	/**
@@ -125,9 +132,10 @@ public class ElevensBoard {
 	 *        cards to be replaced.
 	 */
 	public void replaceSelectedCards(List<Integer> selectedCards) {
-		for (Integer k : selectedCards) {
-			deal(k.intValue());
-		}
+		//for (Integer k : selectedCards) {
+		//	deal(k.intValue());
+		//}
+		super.replaceSelectedCards(selectedCards);
 	}
 
 	/**
@@ -137,13 +145,15 @@ public class ElevensBoard {
 	 *         of the non-null entries on the board.
 	 */
 	public List<Integer> cardIndexes() {
-		List<Integer> selected = new ArrayList<Integer>();
-		for (int k = 0; k < cards.length; k++) {
-			if (cards[k] != null) {
-				selected.add(new Integer(k));
-			}
-		}
-		return selected;
+		//List<Integer> selected = new ArrayList<Integer>();
+		//for (int k = 0; k < cards.length; k++) {
+		//	if (cards[k] != null) {
+		//		selected.add(new Integer(k));
+		//	}
+		//}
+		//return selected;
+		
+		return super.cardIndexes();
 	}
 
 	/**
@@ -187,7 +197,19 @@ public class ElevensBoard {
 	 */
 	public boolean isLegal(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		return false;
+		
+		if (containsPairSum11(selectedCards))
+		{
+			return true;
+		}
+		else if (containsJQK(selectedCards))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -200,9 +222,22 @@ public class ElevensBoard {
 	 */
 	public boolean anotherPlayIsPossible() {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		return false;
+		
+		List<Integer> selectedCards = cardIndexes();
+		
+		if (containsPairSum11(selectedCards))
+		{
+			return true;
+		}
+		else if (containsJQK(selectedCards))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
-
 
 	/**
 	 * Deal cards to this board to start the game.
@@ -223,6 +258,18 @@ public class ElevensBoard {
 	 */
 	private boolean containsPairSum11(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+
+		for (Integer index1: selectedCards)
+		{
+			for (Integer index2: selectedCards)
+			{
+				if (cardAt(index1).pointValue() + cardAt(index2).pointValue() == 11)
+				{
+					return true;
+				}
+			}	
+		}
+		
 		return false;
 	}
 
@@ -236,6 +283,35 @@ public class ElevensBoard {
 	 */
 	private boolean containsJQK(List<Integer> selectedCards) {
 		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-		return false;
+
+		boolean queenSelected = false, kingSelected = false, jackSelected = false;
+		
+		
+		for (Integer num: selectedCards)
+		{			
+			if (cardAt(num).rank().equals("queen"))
+			{
+				queenSelected = true;
+			}
+			if (cardAt(num).rank().equals("king"))
+			{
+				kingSelected = true;
+			}
+			if (cardAt(num).rank().equals("jack"))
+			{
+				jackSelected = true;
+			}
+			
+		}
+		
+		if (queenSelected == true && kingSelected == true && jackSelected == true)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
 	}
 }
