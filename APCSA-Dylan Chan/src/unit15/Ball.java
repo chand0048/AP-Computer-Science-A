@@ -70,8 +70,7 @@ public class Ball extends Block
    
 	public boolean equals(Object obj)
 	{
-
-
+		
 
 
 		return false;
