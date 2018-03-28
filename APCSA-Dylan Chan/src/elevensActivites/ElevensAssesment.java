@@ -150,7 +150,7 @@ public class ElevensAssesment extends Board{
 		}
 	}
 
- boolean containsTripletSum11(List<Integer> selectedCards) {
+	boolean containsTripletSum11(List<Integer> selectedCards) {
 
 		for (Integer index1: selectedCards)
 		{
