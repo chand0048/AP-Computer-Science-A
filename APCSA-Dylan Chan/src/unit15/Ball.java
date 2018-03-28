@@ -11,8 +11,8 @@ public class Ball extends Block
 	public Ball()
 	{
 		super(200,200);
-		xSpeed = 3;
-		ySpeed = 1;
+		setXSpeed(3);
+		setYSpeed(1);
 	}
 
 	//add the other Ball constructors
@@ -20,29 +20,29 @@ public class Ball extends Block
 	public Ball(int x, int y)
 	{
 		super(x, y);
-		xSpeed = 3;
-		ySpeed = 1;
+		setXSpeed(3);
+		setYSpeed(1);
 	}
 	
 	public Ball(int x, int y, int w, int h)
 	{
 		super(x, y, w, h);
-		xSpeed = 3;
-		ySpeed = 1;
+		setXSpeed(3);
+		setYSpeed(1);
 	}
 	
 	public Ball(int x, int y, int w, int h, Color col)
 	{
 		super(x, y, w, h, col);
-		xSpeed = 3;
-		ySpeed = 1;		
+		setXSpeed(3);
+		setYSpeed(1);	
 	}
 	
 	public Ball(int x, int y, int w, int h, Color col, int horizontal, int vertical)
 	{
 		super(x, y, w, h, col);
-		xSpeed = horizontal;
-		ySpeed = vertical;
+		setXSpeed(horizontal);
+		setYSpeed(vertical);
 	}
 
 	//add the set methods
@@ -70,10 +70,16 @@ public class Ball extends Block
    
 	public boolean equals(Object obj)
 	{
+		Ball temp = (Ball) obj;
 		
-
-
-		return false;
+		if (super.equals(obj) && this.getXSpeed() == temp.getXSpeed() && this.getYSpeed() == temp.getYSpeed())
+		{ 
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}   
 
    //add the get methods
@@ -88,4 +94,12 @@ public class Ball extends Block
 		return ySpeed;
 	}
    //add a toString() method
+	
+	public String toString()
+	{
+		String output = "";
+		output += super.toString();
+		output += getXSpeed() + " " + getYSpeed() + " ";
+		return output;
+	}
 }

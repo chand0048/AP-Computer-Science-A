@@ -98,7 +98,7 @@ public class Block implements Locatable
 	{
 		Block temp = (Block) obj;
 		
-		if (this.getX() == temp.getX())
+		if (this.getX() == temp.getX() && this.getY() == temp.getY() && this.getWidth() == temp.getWidth() && this.getHeight() == temp.getHeight() && this.getColor() == temp.getColor())
 		{
 			return true;
 		}
@@ -140,7 +140,7 @@ public class Block implements Locatable
 	public String toString()
 	{
 		String output = "";
-		output += getX() + ", " + getY() + ", " + getWidth() + ", " + getHeight() + ", " + getColor();
+		output += getX() + " " + getY() + " " + getWidth() + " " + getHeight() + " " + getColor() + " ";
 		
 		return output;
 	}
