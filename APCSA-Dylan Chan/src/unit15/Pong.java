@@ -25,9 +25,9 @@ public class Pong extends Canvas implements KeyListener, Runnable
 	public Pong()
 	{
 		// set up all variables related to the game
-		ball = new Ball();
-		leftPaddle = new Paddle(20, 275, 5, 50, Color.RED);
-		rightPaddle = new Paddle(760, 275, 5, 50, Color.BLUE);
+		ball = new Ball(200, 200, 10, 10, Color.BLACK, 4, 2);
+		leftPaddle = new Paddle(20, 275, 5, 60, Color.RED);
+		rightPaddle = new Paddle(760, 275, 5, 60, Color.BLUE);
 		
 		keys = new boolean[4];
 		
@@ -50,11 +50,13 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		// smooth
 		Graphics2D twoDGraph = (Graphics2D) window;
 		
-		// take a snap shop of the current screen and same it as an image
+		// take a snap shop of the current screen and save it as an image
 		// that is the exact same width and height as the current screen
-		if (back == null)
+		// if (back == null)
+		{
 			back = (BufferedImage) (createImage(getWidth(), getHeight()));
-			
+		}
+		
 		// create a graphics reference to the back ground image
 		// we will draw all changes on the background image
 		Graphics graphToBack = back.createGraphics();
@@ -66,7 +68,7 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		
 		
 		// see if ball hits left wall or right wall
-		if (!(ball.getX() >= 10 && ball.getX() <= 780))
+		if (!(ball.getX() >= 0 && ball.getX() <= 772))
 		{
 			ball.setXSpeed(0);
 			ball.setYSpeed(0);
@@ -74,25 +76,25 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		
 		
 		// see if the ball hits the top or bottom wall
-		if (!(ball.getY() >= 50 && ball.getY() <= 550))
+		if (!(ball.getY() >= 10 && ball.getY() <= 550))
 		{
 			ball.setYSpeed(-ball.getYSpeed());
 		}
 		
 		
 		// see if the ball hits the left paddle
-		if (!(ball.getX() == leftPaddle.getX() + leftPaddle.getWidth()
+		if (ball.getX() <= leftPaddle.getX() + leftPaddle.getWidth()
 				&& ball.getY() >= leftPaddle.getY() && ball.getY() <= leftPaddle.getY()
-						+ leftPaddle.getHeight() - ball.getHeight()))
+						+ leftPaddle.getHeight() - ball.getHeight())
 		{
 			ball.setXSpeed(-ball.getXSpeed());
 		}
 		
 		
 		// see if the ball hits the right paddle
-		if (!(ball.getX() == rightPaddle.getX() && ball.getY() >= rightPaddle.getY()
-				&& ball.getY() <= rightPaddle.getY() + rightPaddle.getHeight()
-						- ball.getHeight()))
+		if (ball.getX() >= rightPaddle.getX() - ball.getWidth()
+				&& ball.getY() >= rightPaddle.getY() && ball.getY() <= rightPaddle.getY()
+						+ rightPaddle.getHeight() - ball.getHeight())
 		{
 			ball.setXSpeed(-ball.getXSpeed());
 		}

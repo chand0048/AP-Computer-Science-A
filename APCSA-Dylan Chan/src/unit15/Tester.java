@@ -15,6 +15,8 @@ public class Tester extends JFrame
 		super("PONG TESTER");
 		setSize(WIDTH, HEIGHT);
 		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		//getContentPane().add(new BlockTestTwo());
 		
 		// uncomment when you are ready to test the Ball
