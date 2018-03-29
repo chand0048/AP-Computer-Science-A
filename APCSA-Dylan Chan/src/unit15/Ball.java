@@ -1,21 +1,23 @@
 package unit15;
 
+
 import java.awt.Color;
 import java.awt.Graphics;
+
 
 public class Ball extends Block
 {
 	private int xSpeed;
 	private int ySpeed;
-
+	
 	public Ball()
 	{
-		super(200,200);
+		super(200, 200);
 		setXSpeed(3);
 		setYSpeed(1);
 	}
-
-	//add the other Ball constructors
+	
+	// add the other Ball constructors
 	
 	public Ball(int x, int y)
 	{
@@ -35,7 +37,7 @@ public class Ball extends Block
 	{
 		super(x, y, w, h, col);
 		setXSpeed(3);
-		setYSpeed(1);	
+		setYSpeed(1);
 	}
 	
 	public Ball(int x, int y, int w, int h, Color col, int horizontal, int vertical)
@@ -44,9 +46,9 @@ public class Ball extends Block
 		setXSpeed(horizontal);
 		setYSpeed(vertical);
 	}
-
-	//add the set methods
-
+	
+	// add the set methods
+	
 	public void setXSpeed(int horizontal)
 	{
 		xSpeed = horizontal;
@@ -56,50 +58,54 @@ public class Ball extends Block
 	{
 		ySpeed = vertical;
 	}
-
+	
 	public void moveAndDraw(Graphics window)
 	{
-   	//draw a white ball at old ball location
-
-
-		setX(getX()+xSpeed);
-		//setY
-
-		//draw the ball at its new location
+		// draw a white ball at old ball location
+		window.setColor(Color.WHITE);
+		window.fillRect(getX(), getY(), getWidth(), getHeight());
+		
+		setX(getX() + xSpeed);
+		// setY
+		setY(getY() + ySpeed);
+		
+		// draw the ball at its new location
+		window.setColor(getColor());
+		window.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
-   
+	
 	public boolean equals(Object obj)
 	{
 		Ball temp = (Ball) obj;
 		
-		if (super.equals(obj) && this.getXSpeed() == temp.getXSpeed() && this.getYSpeed() == temp.getYSpeed())
-		{ 
+		if (super.equals(obj) && this.getXSpeed() == temp.getXSpeed()
+				&& this.getYSpeed() == temp.getYSpeed())
+		{
 			return true;
 		}
 		else
 		{
 			return false;
 		}
-	}   
-
-   //add the get methods
+	}
+	
+	// add the get methods
 	
 	public int getXSpeed()
 	{
 		return xSpeed;
 	}
-
+	
 	public int getYSpeed()
 	{
 		return ySpeed;
 	}
-   //add a toString() method
+	// add a toString() method
 	
 	public String toString()
 	{
 		String output = "";
-		output += super.toString();
-		output += getXSpeed() + " " + getYSpeed() + " ";
+		output += super.toString() + getXSpeed() + " " + getYSpeed() + " ";
 		return output;
 	}
 }

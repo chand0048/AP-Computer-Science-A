@@ -17,13 +17,14 @@ class BallTestTwo extends Canvas implements Runnable
 		setVisible(true);
 
 		//instantiate a new Ball
-
+		Ball test = new Ball();
+		ball = test;
 
 		//test the Ball thoroughly
 		
 
 		//test all constructors
-
+		
 
 		new Thread(this).start();
 	}

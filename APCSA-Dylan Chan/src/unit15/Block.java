@@ -1,7 +1,9 @@
 package unit15;
 
+
 import java.awt.Color;
 import java.awt.Graphics;
+
 
 public class Block implements Locatable
 {
@@ -9,23 +11,23 @@ public class Block implements Locatable
 	private int yPos;
 	private int width;
 	private int height;
-
+	
 	private Color color;
-
+	
 	public Block()
 	{
-		setPos(0, 0);
-		setWidth(100);
-		setHeight(100);
+		setPos(100, 150);
+		setWidth(10);
+		setHeight(10);
 		setColor(Color.BLACK);
 	}
-
-	//add other Block constructors - x , y , width, height, color
+	
+	// add other Block constructors - x , y , width, height, color
 	public Block(int x, int y)
 	{
 		setPos(x, y);
-		setWidth(100);
-		setHeight(100);
+		setWidth(10);
+		setHeight(10);
 		setColor(Color.BLACK);
 	}
 	
@@ -46,20 +48,20 @@ public class Block implements Locatable
 		setColor(col);
 	}
 	
-
-	//add the other set methods
-	public void setPos( int x, int y)
+	
+	// add the other set methods
+	public void setPos(int x, int y)
 	{
 		setX(x);
 		setY(y);
 	}
-
-	public void setX( int x )
+	
+	public void setX(int x)
 	{
 		xPos = x;
 	}
 	
-	public void setY( int y )
+	public void setY(int y)
 	{
 		yPos = y;
 	}
@@ -78,27 +80,30 @@ public class Block implements Locatable
 	{
 		color = col;
 	}
-
+	
 	public void draw(Graphics window)
 	{
-   	//uncomment after you write the set and get methods
+		// uncomment after you write the set and get methods
 		window.setColor(color);
 		window.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
-
+	
 	public void draw(Graphics window, Color col)
 	{
 		setColor(col);
 		window.setColor(color);
 		window.fillRect(getX(), getY(), getWidth(), getHeight());
-
+		
 	}
-   
+	
 	public boolean equals(Object obj)
 	{
 		Block temp = (Block) obj;
 		
-		if (this.getX() == temp.getX() && this.getY() == temp.getY() && this.getWidth() == temp.getWidth() && this.getHeight() == temp.getHeight() && this.getColor() == temp.getColor())
+		if (this.getX() == temp.getX() && this.getY() == temp.getY()
+				&& this.getWidth() == temp.getWidth()
+				&& this.getHeight() == temp.getHeight()
+				&& this.getColor() == temp.getColor())
 		{
 			return true;
 		}
@@ -107,9 +112,9 @@ public class Block implements Locatable
 			return false;
 		}
 		
-	}   
-
-	//add the other get methods
+	}
+	
+	// add the other get methods
 	public int getX()
 	{
 		return xPos;
@@ -134,13 +139,14 @@ public class Block implements Locatable
 	{
 		return color;
 	}
-
-	//add a toString() method  - x , y , width, height, color
+	
+	// add a toString() method - x , y , width, height, color
 	
 	public String toString()
 	{
 		String output = "";
-		output += getX() + " " + getY() + " " + getWidth() + " " + getHeight() + " " + getColor() + " ";
+		output += getX() + " " + getY() + " " + getWidth() + " " + getHeight() + " "
+				+ getColor() + " ";
 		
 		return output;
 	}
