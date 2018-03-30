@@ -3,73 +3,47 @@ package unit15;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 
-public class Paddle extends Block implements Collidable
+class SpeedUpBall extends Ball
 {
+	
 	// instance variables
-	private int speed;
 	
-	public Paddle()
+	public SpeedUpBall()
 	{
-		super(10, 10);
-		speed = 5;
+		super();
 	}
 	
-	// add the other Paddle constructors
-	
-	public Paddle(int x, int y)
+	public SpeedUpBall(int x, int y)
 	{
 		super(x, y);
-		speed = 5;
 	}
 	
-	public Paddle(int x, int y, int s)
+	public SpeedUpBall(int x, int y, int xSpd, int ySpd)
 	{
-		super(x, y);
-		speed = s;
+		super(x, y, xSpd, ySpd);
 	}
 	
-	public Paddle(int x, int y, int w, int h)
+	public SpeedUpBall(int x, int y, int wid, int ht, int xSpd, int ySpd)
 	{
-		super(x, y, w, h);
-		speed = 5;
+		super(x, y, wid, ht, Color.BLACK, xSpd, ySpd);
 	}
 	
-	public Paddle(int x, int y, int w, int h, int s)
+	public SpeedUpBall(int x, int y, int wid, int ht, Color col, int xSpd, int ySpd)
 	{
-		super(x, y, w, h);
-		speed = s;
+		super(x, y, wid, ht, col, xSpd, ySpd);
 	}
 	
-	public Paddle(int x, int y, int w, int h, Color col)
+	public void setXSpeed(int xSpd)
 	{
-		super(x, y, w, h, col);
-		speed = 5;
+		super.setXSpeed(xSpd);
 	}
 	
-	public Paddle(int x, int y, int w, int h, Color col, int s)
+	public void setYSpeed(int ySpd)
 	{
-		super(x, y, w, h, col);
-		speed = s;
-	}
-	
-	public void moveUpAndDraw(Graphics window)
-	{
-		super.draw(window, Color.WHITE);
-		
-		setY(getY() - getSpeed());
-		
-		super.draw(window);
-	}
-	
-	public void moveDownAndDraw(Graphics window)
-	{
-		super.draw(window, Color.WHITE);
-		
-		setY(getY() + getSpeed());
-		
-		super.draw(window);
+		super.setYSpeed(ySpd);
 	}
 	
 	public boolean didCollideRight(Object obj)
@@ -80,6 +54,7 @@ public class Paddle extends Block implements Collidable
 				&& this.getY() >= temp.getY()
 				&& this.getY() <= temp.getY() + temp.getHeight() - this.getHeight())
 		{
+			setXSpeed(super.getXSpeed() - 1);
 			return true;
 		}
 		else
@@ -97,6 +72,7 @@ public class Paddle extends Block implements Collidable
 				&& this.getY() >= temp.getY()
 				&& this.getY() <= temp.getY() + temp.getHeight() - this.getHeight())
 		{
+			setXSpeed(super.getXSpeed() + 1);
 			return true;
 		}
 		else
@@ -114,6 +90,7 @@ public class Paddle extends Block implements Collidable
 				&& this.getY() <= temp.getY() + temp.getHeight() - this.getHeight()
 				&& this.getY() >= temp.getY() - this.getHeight())
 		{
+			setYSpeed(super.getYSpeed() + 1);
 			return true;
 		}
 		else
@@ -131,27 +108,11 @@ public class Paddle extends Block implements Collidable
 				&& this.getY() >= temp.getY()
 				&& this.getY() <= temp.getY() + temp.getHeight())
 		{
+			setYSpeed(super.getYSpeed() - 1);
 			return true;
 		}
 		else
 		{
 			return false;
 		}
-	}
-
-	
-	// add get methods
-	
-	public int getSpeed()
-	{
-		return speed;
-	}
-	
-	// add a toString() method
-	public String toString()
-	{
-		String output = "";
-		output += super.toString() + speed + " ";
-		return output;
-	}
-}
+	}}
