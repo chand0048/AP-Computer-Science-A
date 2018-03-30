@@ -19,6 +19,8 @@ public class Pong extends Canvas implements KeyListener, Runnable
 	private Ball ball;
 	private Paddle leftPaddle;
 	private Paddle rightPaddle;
+	private Paddle safeguardLeft;
+	private Paddle safeguardRight;
 	
 	private Block topWall;
 	private Block bottomWall;
@@ -34,17 +36,19 @@ public class Pong extends Canvas implements KeyListener, Runnable
 	{
 		// set up all variables related to the game
 		
-		//ball = new Ball(400, 310, 10, 10, Color.BLACK, 3, 2);
-		//ball = new BlinkyBall(400, 310, 10, 10, Color.BLACK, 3, 2);
-		ball = new SpeedUpBall(400, 310, 10, 10, Color.BLACK, 1, 1);
-		
-		leftPaddle = new Paddle(20, 275, 15, 90, Color.RED);
-		rightPaddle = new Paddle(750, 275, 15, 90, Color.BLUE);
-		
+		//ball = new Ball(400, 310, 10, 10, Color.BLACK, 0, 0);
+		ball = new BlinkyBall(400, 310, 10, 10, Color.BLACK, 0, 0);
+		//ball = new SpeedUpBall(400, 310, 10, 10, Color.BLACK, 0, 0);
+				
 		topWall = new Block(0, 0, 800, 5, Color.GRAY);
 		bottomWall = new Block(0, 557, 800, 5, Color.GRAY);
 		leftWall = new Block(0, 5, 5, 552, Color.YELLOW);
 		rightWall = new Block(779, 5, 5, 552, Color.YELLOW);
+		
+		leftPaddle = new Paddle(leftWall.getX() + leftWall.getWidth() + 5, 275, 12, 90, Color.RED);
+		rightPaddle = new Paddle(rightWall.getX() - leftPaddle.getWidth() - 5, 275, 12, 90, Color.BLUE);
+		safeguardLeft = new Paddle(leftWall.getX() + leftWall.getWidth() + 5, 275, 12, 90, Color.RED);
+		safeguardRight = new Paddle(rightWall.getX() - leftPaddle.getWidth() - 5, 275, 12, 90, Color.BLUE);
 		
 		leftScore = 0;
 		rightScore = 0;
@@ -84,6 +88,7 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.drawString("Left Side Score: " + leftScore + "           "
 				+ "Right Side Score: " + rightScore, 280, 50);
+		graphToBack.drawString("Press \'r\' to reset and \'spacebar\' to start the game", 280, 550);
 		leftPaddle.draw(graphToBack);
 		rightPaddle.draw(graphToBack);
 		bottomWall.draw(graphToBack);
@@ -147,10 +152,22 @@ public class Pong extends Canvas implements KeyListener, Runnable
 			ball.setXSpeed(-ball.getXSpeed());
 		}
 		
+		if (ball.didCollideTop(leftPaddle) || ball.didCollideBottom(leftPaddle))
+		{
+			ball.setXSpeed(-ball.getXSpeed());
+			ball.setYSpeed(-ball.getYSpeed());
+		}
+		
 		// see if the ball hits the right paddle
 		if (ball.didCollideLeft(rightPaddle))
 		{
 			ball.setXSpeed(-ball.getXSpeed());
+		}
+		
+		if (ball.didCollideBottom(rightPaddle) || ball.didCollideTop(rightPaddle))
+		{
+			ball.setXSpeed(-ball.getXSpeed());
+			ball.setYSpeed(-ball.getYSpeed());
 		}
 		
 		// see if the paddles need to be moved
