@@ -1,4 +1,4 @@
-package unit15;
+package Bored;
 
 
 import java.awt.Color;
@@ -14,9 +14,10 @@ import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 
 
-public class Pong extends Canvas implements KeyListener, Runnable
+public class UltimatePong extends Canvas implements KeyListener, Runnable
 {
 	private Ball ball;
+	private Ball ball2;
 	private Paddle leftPaddle;
 	private Paddle rightPaddle;
 	private Paddle safeguardLeft;
@@ -32,13 +33,12 @@ public class Pong extends Canvas implements KeyListener, Runnable
 	private BufferedImage back;
 	
 	
-	public Pong()
+	public UltimatePong()
 	{
 		// set up all variables related to the game
 		
-		ball = new Ball(400, 310, 10, 10, Color.BLACK, 0, 0);
-		// ball = new BlinkyBall(400, 310, 10, 10, Color.BLACK, 0, 0);
-		// ball = new SpeedUpBall(400, 310, 10, 10, Color.BLACK, 0, 0);
+		ball = new BlinkyBall(400, 310, 10, 10, Color.BLACK, 0, 0);
+		ball2 = new BlinkyBall(400, 310, 10, 10, Color.BLACK, 0, 0);
 		
 		topWall = new Block(0, 0, 800, 5, Color.GRAY);
 		bottomWall = new Block(0, 557, 800, 5, Color.GRAY);
@@ -47,8 +47,8 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		
 		leftPaddle = new Paddle(leftWall.getX() + leftWall.getWidth() + 5, 275, 8, 80,
 				Color.RED);
-		rightPaddle = new Paddle(rightWall.getX() - leftPaddle.getWidth() - 5, 275, 8,
-				80, Color.BLUE);
+		rightPaddle = new Paddle(rightWall.getX() - leftPaddle.getWidth() - 5, 275, 8, 80,
+				Color.BLUE);
 		safeguardLeft = new Paddle(leftWall.getX() + leftWall.getWidth() + 5, 275, 12, 90,
 				Color.RED);
 		safeguardRight = new Paddle(rightWall.getX() - leftPaddle.getWidth() - 5, 275, 12,
@@ -79,23 +79,26 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		
 		// take a snap shop of the current screen and save it as an image
 		// that is the exact same width and height as the current screen
-		// if (back == null)
-		{
-			back = (BufferedImage) (createImage(getWidth(), getHeight()));
-		}
+		
+		back = (BufferedImage) (createImage(getWidth(), getHeight()));
+		
 		
 		// create a graphics reference to the back ground image
 		// we will draw all changes on the background image
 		Graphics graphToBack = back.createGraphics();
 		
 		ball.moveAndDraw(graphToBack);
+		ball2.moveAndDraw(graphToBack);
+		
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.drawString("Left Side Score: " + leftScore + "           "
-				+ "Right Side Score: " + rightScore, 280, 50);
-		graphToBack.drawString("Press \'r\' to reset and \'spacebar\' to start the game",
-				280, 550);
+				+ "Right Side Score: " + rightScore, 280, 600);
+		graphToBack.drawString("Press \'spacebar\' to start the game and \'r\' to reset",
+				265, 650);
+		
 		leftPaddle.draw(graphToBack);
 		rightPaddle.draw(graphToBack);
+		
 		bottomWall.draw(graphToBack);
 		topWall.draw(graphToBack);
 		leftWall.draw(graphToBack);
@@ -107,6 +110,7 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		{
 			ball.setXSpeed(0);
 			ball.setYSpeed(0);
+			ball.setVisible(false);
 			ball.setPos(400, 310);
 			rightScore++;
 		}
@@ -115,7 +119,26 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		{
 			ball.setXSpeed(0);
 			ball.setYSpeed(0);
+			ball.setVisible(false);
 			ball.setPos(400, 310);
+			leftScore++;
+		}
+		
+		if (ball2.didCollideRight(leftWall))
+		{
+			ball2.setXSpeed(0);
+			ball2.setYSpeed(0);
+			ball2.setVisible(false);
+			ball2.setPos(400, 310);
+			rightScore++;
+		}
+		
+		if (ball2.didCollideLeft(rightWall))
+		{
+			ball2.setXSpeed(0);
+			ball2.setYSpeed(0);
+			ball2.setVisible(false);
+			ball2.setPos(400, 310);
 			leftScore++;
 		}
 		
@@ -151,11 +174,16 @@ public class Pong extends Canvas implements KeyListener, Runnable
 			ball.setYSpeed(-ball.getYSpeed());
 		}
 		
+		if (ball2.didCollideTop(bottomWall) || ball2.didCollideBottom(topWall))
+		{
+			ball2.setYSpeed(-ball2.getYSpeed());
+		}
+		
 		// see if the ball hits the left paddle
 		if (ball.didCollideRight(leftPaddle) || leftPaddle.didCollideLeft(ball))
 		{
 			ball.setXSpeed(-ball.getXSpeed());
-			ball.setYSpeed((int) (Math.ceil(Math.random() * 2 + 1)
+			ball.setYSpeed((int) (Math.ceil(Math.random() * 4 + 1)
 					* Math.signum((double) ball.getYSpeed())));
 		}
 		
@@ -169,7 +197,7 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		if (ball.didCollideLeft(rightPaddle) || rightPaddle.didCollideRight(ball))
 		{
 			ball.setXSpeed(-ball.getXSpeed());
-			ball.setYSpeed((int) (Math.ceil(Math.random() * 2 + 1)
+			ball.setYSpeed((int) (Math.ceil(Math.random() * 4 + 1)
 					* Math.signum((double) ball.getYSpeed())));
 		}
 		
@@ -179,6 +207,32 @@ public class Pong extends Canvas implements KeyListener, Runnable
 			ball.setYSpeed(-ball.getYSpeed());
 		}
 		
+		if (ball2.didCollideRight(leftPaddle) || leftPaddle.didCollideLeft(ball2))
+		{
+			ball2.setXSpeed(-ball2.getXSpeed());
+			ball2.setYSpeed((int) (Math.ceil(Math.random() * 4 + 1)
+					* Math.signum((double) ball2.getYSpeed())));
+		}
+		
+		if (ball2.didCollideTop(leftPaddle) || ball2.didCollideBottom(leftPaddle))
+		{
+			ball2.setXSpeed(-ball2.getXSpeed());
+			ball2.setYSpeed(-ball2.getYSpeed());
+		}
+		
+		// see if the ball hits the right paddle
+		if (ball2.didCollideLeft(rightPaddle) || rightPaddle.didCollideRight(ball2))
+		{
+			ball2.setXSpeed(-ball2.getXSpeed());
+			ball2.setYSpeed((int) (Math.ceil(Math.random() * 4 + 1)
+					* Math.signum((double) ball2.getYSpeed())));
+		}
+		
+		if (ball2.didCollideBottom(rightPaddle) || ball2.didCollideTop(rightPaddle))
+		{
+			ball2.setXSpeed(-ball2.getXSpeed());
+			ball2.setYSpeed(-ball2.getYSpeed());
+		}
 		// see if the paddles need to be moved
 		if (keys[0] == true)
 		{
@@ -201,11 +255,12 @@ public class Pong extends Canvas implements KeyListener, Runnable
 			ball.setXSpeed(0);
 			ball.setYSpeed(0);
 			ball.setPos(400, 310);
-		}
-		if (keys[5] == true)
-		{
-			ball.setXSpeed(randomXSpeed());
-			ball.setYSpeed(randomYSpeed());
+			ball2.setXSpeed(0);
+			ball2.setYSpeed(0);
+			ball2.setPos(400, 310);
+			
+			leftScore = 0;
+			rightScore = 0;
 		}
 		
 		twoDGraph.drawImage(back, null, 0, 0);
@@ -252,6 +307,24 @@ public class Pong extends Canvas implements KeyListener, Runnable
 			break;
 		case ' ':
 			keys[5] = true;
+			if (ball.getXSpeed() == 0 && ball2.getXSpeed() == 0)
+			{
+				ball.setVisible(true);
+				ball2.setVisible(true);
+				ball.setXSpeed(Math.abs(randomXSpeed()) * -1);
+				ball.setYSpeed(randomYSpeed());
+				ball2.setXSpeed(Math.abs(randomXSpeed()));
+				ball2.setYSpeed(randomYSpeed());
+			}
+			else
+			{
+				ball.setXSpeed(0);
+				ball.setYSpeed(0);
+				ball.setPos(400, 310);
+				ball2.setXSpeed(0);
+				ball2.setYSpeed(0);
+				ball2.setPos(400, 310);
+			}
 			break;
 		}
 	}
@@ -299,3 +372,4 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		}
 	}
 }
+
