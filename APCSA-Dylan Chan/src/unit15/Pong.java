@@ -36,9 +36,9 @@ public class Pong extends Canvas implements KeyListener, Runnable
 	{
 		// set up all variables related to the game
 		
-		ball = new Ball(400, 310, 10, 10, Color.BLACK, 0, 0);
+		//ball = new Ball(400, 310, 10, 10, Color.BLACK, 0, 0);
 		// ball = new BlinkyBall(400, 310, 10, 10, Color.BLACK, 0, 0);
-		// ball = new SpeedUpBall(400, 310, 10, 10, Color.BLACK, 0, 0);
+		ball = new SpeedUpBall(400, 310, 10, 10, Color.BLACK, 0, 0);
 		
 		topWall = new Block(0, 0, 800, 5, Color.GRAY);
 		bottomWall = new Block(0, 557, 800, 5, Color.GRAY);
@@ -92,7 +92,7 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.drawString("Left Side Score: " + leftScore + "           "
 				+ "Right Side Score: " + rightScore, 280, 50);
-		graphToBack.drawString("Press \'r\' to reset and \'spacebar\' to start the game",
+		graphToBack.drawString("Press \'r\' to reset position and \'spacebar\' to start the game",
 				280, 550);
 		leftPaddle.draw(graphToBack);
 		rightPaddle.draw(graphToBack);
@@ -204,8 +204,11 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		}
 		if (keys[5] == true)
 		{
-			ball.setXSpeed(randomXSpeed());
-			ball.setYSpeed(randomYSpeed());
+			if (ball.getXSpeed() == 0 && ball.getYSpeed() == 0)
+			{
+				ball.setXSpeed(randomXSpeed());
+				ball.setYSpeed(randomYSpeed());
+			}
 		}
 		
 		twoDGraph.drawImage(back, null, 0, 0);
@@ -216,7 +219,7 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		int randSpeed;
 		do
 		{
-			randSpeed = (int) Math.ceil(Math.random() * 8) - 4;
+			randSpeed = (int) Math.ceil(Math.random() * 6) - 3;
 		}while (randSpeed < 3 && randSpeed > -3);
 		return randSpeed;
 	}
@@ -226,7 +229,7 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		int randSpeed;
 		do
 		{
-			randSpeed = (int) Math.ceil(Math.random() * 6) - 3;
+			randSpeed = (int) Math.ceil(Math.random() * 4) - 2;
 		}while (randSpeed == 0);
 		return randSpeed;
 	}

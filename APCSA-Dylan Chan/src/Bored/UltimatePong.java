@@ -49,9 +49,9 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 		leftWall = new Block(0, 5, 5, 552, Color.YELLOW);
 		rightWall = new Block(779, 5, 5, 552, Color.YELLOW);
 
-		leftPaddle = new Paddle(leftWall.getX() + leftWall.getWidth() + 5, 275, 8, 80,
+		leftPaddle = new Paddle(leftWall.getX() + leftWall.getWidth() + 15, 275, 8, 80,
 				Color.RED);
-		rightPaddle = new Paddle(rightWall.getX() - leftPaddle.getWidth() - 5, 275, 8, 80,
+		rightPaddle = new Paddle(rightWall.getX() - leftPaddle.getWidth() - 15, 275, 8, 80,
 				Color.BLUE);
 		safeguardLeft = new Paddle(leftWall.getX() + leftWall.getWidth() + 5, 275, 12, 90,
 				Color.RED);
@@ -240,6 +240,32 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 			ball2.setXSpeed(-ball2.getXSpeed());
 			ball2.setYSpeed(-ball2.getYSpeed());
 		}
+		
+		//AI
+		if (ball.getY() + (ball.getHeight() / 2) < rightPaddle.getY()
+				+ (rightPaddle.getHeight() / 2) && Math.signum(ball.getXSpeed()) == 1 && ball.getX() > ball2.getX())
+		{
+			rightPaddle.moveUpAndDraw(window);
+		}
+		
+		if (ball.getY() + (ball.getHeight() / 2) > rightPaddle.getY()
+				+ (rightPaddle.getHeight() / 2) && Math.signum(ball.getXSpeed()) == 1 && ball.getX() > ball2.getX())
+		{
+			rightPaddle.moveDownAndDraw(window);
+		}
+		
+		if (ball2.getY() + (ball2.getHeight() / 2) < rightPaddle.getY()
+				+ (rightPaddle.getHeight() / 2) && Math.signum(ball2.getXSpeed()) == 1 && ball.getX() < ball2.getX())
+		{
+			rightPaddle.moveUpAndDraw(window);
+		}
+		
+		if (ball2.getY() + (ball2.getHeight() / 2) > rightPaddle.getY()
+				+ (rightPaddle.getHeight() / 2) && Math.signum(ball2.getXSpeed()) == 1 && ball.getX() < ball2.getX())
+		{
+			rightPaddle.moveDownAndDraw(window);
+		}
+		
 		// see if the paddles need to be moved
 		if (keys[0] == true)
 		{
@@ -265,6 +291,8 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 			ball2.setXSpeed(0);
 			ball2.setYSpeed(0);
 			ball2.setPos(400, 310);
+			ball.setVisible(false);
+			ball2.setVisible(false);
 
 			leftScore = 0;
 			rightScore = 0;
@@ -278,7 +306,7 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 		int randSpeed;
 		do
 		{
-			randSpeed = (int) Math.ceil(Math.random() * 8) - 4;
+			randSpeed = (int) Math.ceil(Math.random() * 6) - 3;
 		} while (randSpeed < 3 && randSpeed > -3);
 		return randSpeed;
 	}
@@ -288,7 +316,7 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 		int randSpeed;
 		do
 		{
-			randSpeed = (int) Math.ceil(Math.random() * 6) - 3;
+			randSpeed = (int) Math.ceil(Math.random() * 4) - 2;
 		} while (randSpeed == 0);
 		return randSpeed;
 	}
@@ -327,9 +355,10 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 				ball.setXSpeed(0);
 				ball.setYSpeed(0);
 			}
-			else if (ball.getXSpeed() == 0 && ball2.getXSpeed() == 0 && ball.getVisible() == false
-					&& ball2.getVisible() == false && ball.getX() == 400 && ball.getY() == 310
-					&& ball2.getX() == 400 && ball2.getY() == 310)
+			else if (ball.getXSpeed() == 0 && ball2.getXSpeed() == 0
+					&& ball.getVisible() == false && ball2.getVisible() == false
+					&& ball.getX() == 400 && ball.getY() == 310 && ball2.getX() == 400
+					&& ball2.getY() == 310)
 			{
 				ball.setVisible(true);
 				ball2.setVisible(true);
@@ -339,8 +368,8 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 				ball2.setYSpeed(randomYSpeed());
 			}
 
-			else if (ball.getXSpeed() == 0 && ball2.getXSpeed() == 0 && ball.getVisible() == true
-					&& ball2.getVisible() == true)
+			else if (ball.getXSpeed() == 0 && ball2.getXSpeed() == 0
+					&& ball.getVisible() == true && ball2.getVisible() == true)
 			{
 				ball.setXSpeed(initialXSpeed[0]);
 				ball.setYSpeed(initialYSpeed[0]);
@@ -386,7 +415,7 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 		{
 			while (true)
 			{
-				Thread.currentThread().sleep(7);
+				Thread.currentThread().sleep(6);
 				repaint();
 			}
 		} catch (Exception e)
