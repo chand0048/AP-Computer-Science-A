@@ -72,7 +72,7 @@ public class Ball extends Block implements Collidable
 		super.draw(window);
 	}
 	
-	public boolean didCollideRight(Object obj)
+	public boolean didCollideLeft(Object obj)
 	{
 		Block temp = (Block) obj;
 		
@@ -88,7 +88,7 @@ public class Ball extends Block implements Collidable
 		}
 	}
 	
-	public boolean didCollideLeft(Object obj)
+	public boolean didCollideRight(Object obj)
 	{
 		Block temp = (Block) obj;
 		
@@ -105,7 +105,7 @@ public class Ball extends Block implements Collidable
 		}
 	}
 	
-	public boolean didCollideTop(Object obj)
+	public boolean didCollideBottom(Object obj)
 	{
 		Block temp = (Block) obj;
 		
@@ -122,7 +122,7 @@ public class Ball extends Block implements Collidable
 		}
 	}
 	
-	public boolean didCollideBottom(Object obj)
+	public boolean didCollideTop(Object obj)
 	{
 		Block temp = (Block) obj;
 		

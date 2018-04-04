@@ -36,9 +36,9 @@ public class Pong extends Canvas implements KeyListener, Runnable
 	{
 		// set up all variables related to the game
 		
-		//ball = new Ball(400, 310, 10, 10, Color.BLACK, 0, 0);
+		ball = new Ball(400, 310, 10, 10, Color.BLACK, 0, 0);
 		// ball = new BlinkyBall(400, 310, 10, 10, Color.BLACK, 0, 0);
-		ball = new SpeedUpBall(400, 310, 10, 10, Color.BLACK, 0, 0);
+		//ball = new SpeedUpBall(400, 310, 10, 10, Color.BLACK, 0, 0);
 		
 		topWall = new Block(0, 0, 800, 5, Color.GRAY);
 		bottomWall = new Block(0, 557, 800, 5, Color.GRAY);
@@ -152,7 +152,7 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		}
 		
 		// see if the ball hits the left paddle
-		if (ball.didCollideRight(leftPaddle) || leftPaddle.didCollideLeft(ball))
+		if (ball.didCollideLeft(leftPaddle))
 		{
 			ball.setXSpeed(-ball.getXSpeed());
 			ball.setYSpeed((int) (Math.ceil(Math.random() * 2 + 1)
@@ -166,7 +166,7 @@ public class Pong extends Canvas implements KeyListener, Runnable
 		}
 		
 		// see if the ball hits the right paddle
-		if (ball.didCollideLeft(rightPaddle) || rightPaddle.didCollideRight(ball))
+		if (ball.didCollideRight(rightPaddle))
 		{
 			ball.setXSpeed(-ball.getXSpeed());
 			ball.setYSpeed((int) (Math.ceil(Math.random() * 2 + 1)

@@ -266,6 +266,30 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 			rightPaddle.moveDownAndDraw(window);
 		}
 		
+		if (ball.getY() + (ball.getHeight() / 2) < leftPaddle.getY()
+				+ (leftPaddle.getHeight() / 2) && Math.signum(ball.getXSpeed()) == -1 && ball.getX() < ball2.getX())
+		{
+			leftPaddle.moveUpAndDraw(window);
+		}
+		
+		if (ball.getY() + (ball.getHeight() / 2) > leftPaddle.getY()
+				+ (leftPaddle.getHeight() / 2) && Math.signum(ball.getXSpeed()) == -1 && ball.getX() < ball2.getX())
+		{
+			leftPaddle.moveDownAndDraw(window);
+		}
+		
+		if (ball2.getY() + (ball2.getHeight() / 2) < leftPaddle.getY()
+				+ (leftPaddle.getHeight() / 2) && Math.signum(ball2.getXSpeed()) == -1 && ball.getX() > ball2.getX())
+		{
+			leftPaddle.moveUpAndDraw(window);
+		}
+		
+		if (ball2.getY() + (ball2.getHeight() / 2) > leftPaddle.getY()
+				+ (leftPaddle.getHeight() / 2) && Math.signum(ball2.getXSpeed()) == -1 && ball.getX() > ball2.getX())
+		{
+			leftPaddle.moveDownAndDraw(window);
+		}
+		
 		// see if the paddles need to be moved
 		if (keys[0] == true)
 		{
@@ -415,7 +439,7 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 		{
 			while (true)
 			{
-				Thread.currentThread().sleep(6);
+				Thread.currentThread().sleep(3);
 				repaint();
 			}
 		} catch (Exception e)

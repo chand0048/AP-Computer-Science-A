@@ -12,12 +12,14 @@ public class TheGame extends JFrame
 
 	public TheGame()
 	{
-		super("PONG");
+		//super("PONG");
+		super("BREAKOUT");
 		setSize(WIDTH, HEIGHT);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		Pong game = new Pong();
+		//Pong game = new Pong();
+		Breakout game = new Breakout();
 
 		((Component) game).setFocusable(true);
 		getContentPane().add(game);
