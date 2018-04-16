@@ -304,7 +304,7 @@ public class Breakout extends Canvas implements KeyListener, Runnable
 		{
 			while (true)
 			{
-				Thread.currentThread().sleep(1);
+				Thread.currentThread().sleep(7);
 				repaint();
 			}
 		} catch (Exception e)

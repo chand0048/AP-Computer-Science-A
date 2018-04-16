@@ -439,7 +439,7 @@ public class UltimatePong extends Canvas implements KeyListener, Runnable
 		{
 			while (true)
 			{
-				Thread.currentThread().sleep(3);
+				Thread.currentThread().sleep(1);
 				repaint();
 			}
 		} catch (Exception e)
