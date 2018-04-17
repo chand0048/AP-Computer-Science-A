@@ -1,6 +1,5 @@
 package unit15;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -197,22 +196,6 @@ public class Breakout extends Canvas implements KeyListener, Runnable
 			rightPaddle.draw(graphToBack);
 		}
 		
-		
-		
-		
-		
-		if (ball.getY() + (ball.getHeight() / 2) < rightPaddle.getY()
-				+ (rightPaddle.getHeight() / 2) && Math.signum(ball.getXSpeed()) == 1)
-		{
-			rightPaddle.moveUpAndDraw(window);
-		}
-		
-		if (ball.getY() + (ball.getHeight() / 2) > rightPaddle.getY()
-				+ (rightPaddle.getHeight() / 2) && Math.signum(ball.getXSpeed()) == 1)
-		{
-			rightPaddle.moveDownAndDraw(window);
-		}
-
 		// see if the paddles need to be moved
 
 		if (keys[0] == true)
