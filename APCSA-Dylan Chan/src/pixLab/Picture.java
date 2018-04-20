@@ -496,6 +496,41 @@ public class Picture extends SimplePicture
 			}
 		}
 	}
+	
+	public void blur(int x, int y, int width, int height)
+	{
+		Pixel[][] pixels = this.getPixels2D();
+		int averageRed = 0, averageGreen = 0, averageBlue = 0;
+		
+		if (y + height > pixels.length)
+		{
+			height = pixels.length - y - 1;
+		}
+		if (width > pixels[0].length)
+		{
+			width = pixels[0].length - x - 1;
+		}
+		
+
+		for (int row = 0; row < height - 1; row++)
+		{
+			for (int col = 0; col < width - 1; col++)
+			{
+				Pixel pixel = pixels[y + row][x + col];
+				Pixel rightPixel = pixels[y + row][x + col + 1];
+				Pixel bottomPixel = pixels[y + row + 1][x + col];
+				Pixel bottomRightPixel = pixels[y + row + 1][x + col + 1];
+				
+				averageRed = (pixel.getRed() + rightPixel.getRed() + bottomPixel.getRed() + bottomRightPixel.getRed()) / 4;
+				averageGreen = (pixel.getGreen() + rightPixel.getGreen() + bottomPixel.getGreen() + bottomRightPixel.getGreen()) / 4;
+				averageBlue = (pixel.getBlue() + rightPixel.getBlue() + bottomPixel.getBlue() + bottomRightPixel.getBlue()) / 4;
+				
+				pixel.setRed(averageRed);
+				pixel.setGreen(averageGreen);
+				pixel.setBlue(averageBlue);
+			}
+		}
+	}
 
 	/*
 	 * Main method for testing - each class in Java can have a main method

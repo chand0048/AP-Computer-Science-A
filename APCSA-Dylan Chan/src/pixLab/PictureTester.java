@@ -170,6 +170,17 @@ public class PictureTester
 		swan.explore();
 	}
 	
+	public static void testBlur()
+	{
+		Picture flower = new Picture("whiteFlower.jpg");
+		flower.explore();
+		flower.blur(100, 100, 448, 286);
+		flower.blur(100, 100, 448, 286);
+		flower.blur(100, 100, 448, 286);
+
+		flower.explore();
+	}
+	
 	/**
 	 * Main method for testing. Every class can have a main method in Java
 	 */
@@ -198,7 +209,8 @@ public class PictureTester
 		// testCollage();
 		// testMyCollage();
 		// testEdgeDetection();
-		 testEdgeDetection2();
+		// testEdgeDetection2();
+		 testBlur();
 		// testChromakey();
 		// testEncodeAndDecode();
 		// testGetCountRedOverValue(250);
