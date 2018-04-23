@@ -29,7 +29,7 @@ public class Ship extends MovingThing
 		speed = s;
 		try
 		{
-			image = ImageIO.read(new File("src\\starfighter\\ship.jpg"));
+			image = ImageIO.read(new File("src\\starfighter\\ship.png"));
 		}catch (Exception e)
 		{
 			System.out.println(e);
@@ -49,7 +49,7 @@ public class Ship extends MovingThing
 	
 	public void draw(Graphics window)
 	{
-		window.drawImage(image, getX(), getY(), 80, 80, null);
+		window.drawImage(image, getX(), getY(), 50, 80, null);
 	}
 	
 	public String toString()

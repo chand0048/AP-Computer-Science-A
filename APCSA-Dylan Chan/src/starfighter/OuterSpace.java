@@ -17,13 +17,12 @@ import java.util.ArrayList;
 public class OuterSpace extends Canvas implements KeyListener, Runnable
 {
 	private Ship ship;
-	private Alien alienOne;
-	private Alien alienTwo;
 	
 	
 	private ArrayList<Alien> aliens;
 	private ArrayList<Ammo> shots;
 	
+	private int score;
 	
 	private boolean[] keys;
 	private BufferedImage back;
@@ -32,7 +31,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 	{
 		setBackground(Color.black);
 		
-		keys = new boolean[5];
+		keys = new boolean[6];
 		
 		aliens = new ArrayList<Alien>();
 		
@@ -45,6 +44,8 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		shots = new ArrayList<Ammo>();
 		
 		ship = new Ship(360, 260, 3);
+		
+		score = 0;
 		
 		this.addKeyListener(this);
 		new Thread(this).start();
@@ -76,6 +77,8 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		graphToBack.drawString("StarFighter ", 25, 50);
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0, 0, 800, 600);
+		graphToBack.setColor(Color.WHITE);
+		graphToBack.drawString("Score: " + score, 260, 20);
 		
 		ship.draw(graphToBack);
 		
@@ -85,6 +88,31 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			aliens.get(index).draw(graphToBack);
 			aliens.get(index).move(aliens.get(index).getDirection());
 			
+			
+			if (aliens.get(index).getX() <= -10 + (index * 140))
+			{
+				if (aliens.get(index).getDirection().equals("LEFT"))
+				{
+					aliens.get(index).setDirection("RIGHT");
+				}
+				else if (aliens.get(index).getDirection().equals("RIGHT"))
+				{
+					aliens.get(index).setDirection("LEFT");
+				}
+			}
+			else if (aliens.get(index).getX() >= 290 + (index * 140))
+			{
+				if (aliens.get(index).getDirection().equals("LEFT"))
+				{
+					aliens.get(index).setDirection("RIGHT");
+				}
+				else if (aliens.get(index).getDirection().equals("RIGHT"))
+				{
+					aliens.get(index).setDirection("LEFT");
+				}
+			}
+			
+			/*
 			if (aliens.get(index).getX() >= 710)
 			{
 				aliens.get(index).setDirection("LEFT");
@@ -132,7 +160,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 					aliens.get(index).setDirection("LEFT");
 				}
 			}
-			
+			*/
 			
 			for (int count = 0; count < shots.size(); count++)
 			{
@@ -142,7 +170,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 						&& shots.get(count).getX() <= aliens.get(index).getX() + 80)
 				{
 					shots.remove(count);
-					aliens.remove(index);
+					aliens.get(index).setPos(0, -100);
 				}
 			}
 		}
@@ -176,6 +204,15 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		{
 			ship.move("DOWN");
 		}
+		if (keys[5] == true)
+		{
+			ship.setPos(360, 260);
+			for (int index = 0; index < 4; index++)
+			{
+				aliens.set(index, new Alien(-10 + (index * 140), 0, 2, "RIGHT"));
+			}
+		}
+		
 		
 		
 		if (ship.getX() <= -21)
@@ -221,6 +258,10 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		{
 			keys[4] = true;
 		}
+		if (e.getKeyCode() == KeyEvent.VK_R)
+		{
+			keys[5] = true;
+		}
 		repaint();
 	}
 	
@@ -246,6 +287,10 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		{
 			keys[4] = false;
 		}
+		if (e.getKeyCode() == KeyEvent.VK_R)
+		{
+			keys[5] = false;
+		}
 		repaint();
 	}
 	
@@ -253,7 +298,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 	{
 		if (keys[4] == true)
 		{
-			shots.add(new Ammo(ship.getX() + 35, ship.getY(), 6));
+			shots.add(new Ammo(ship.getX() + 25, ship.getY(), 6));
 		}
 	}
 	

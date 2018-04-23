@@ -31,7 +31,7 @@ public class Alien extends MovingThing
 		setDirection(dir);
 		try
 		{
-			image = ImageIO.read(new File("src\\starfighter\\alien.jpg"));
+			image = ImageIO.read(new File("src\\starfighter\\alien.png"));
 		}catch (Exception e)
 		{
 			System.out.println(e);
@@ -60,7 +60,7 @@ public class Alien extends MovingThing
 	
 	public void draw(Graphics window)
 	{
-		window.drawImage(image, getX(), getY(), 80, 80, null);
+		window.drawImage(image, getX(), getY(), 60, 60, null);
 	}
 	
 	public String toString()
