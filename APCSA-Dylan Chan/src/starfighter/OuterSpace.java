@@ -22,7 +22,10 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 	private ArrayList<Alien> aliens;
 	private ArrayList<Ammo> shots;
 
+	private Alien closestAlien;
+
 	private int score;
+	private int highScore;
 
 	private boolean[] keys;
 	private BufferedImage back;
@@ -34,6 +37,8 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		keys = new boolean[6];
 
 		aliens = new ArrayList<Alien>();
+
+		closestAlien = new Alien(-50, -50, 0, "UP");
 
 		alienSpeedDown = 15;
 
@@ -47,6 +52,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		ship = new Ship(360, 260, 3);
 
 		score = 0;
+		highScore = 0;
 
 		this.addKeyListener(this);
 		new Thread(this).start();
@@ -79,7 +85,9 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0, 0, 800, 600);
 		graphToBack.setColor(Color.WHITE);
-		graphToBack.drawString("Score: " + score, 370, 20);
+		graphToBack.drawString("SCORE: " + score, 450, 20);
+		graphToBack.drawString("HIGH SCORE: " + highScore, 250, 20);
+
 
 		ship.draw(graphToBack);
 
@@ -89,6 +97,10 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			aliens.get(index).draw(graphToBack);
 			aliens.get(index).move(aliens.get(index).getDirection());
 
+			if (aliens.get(index).getY() > closestAlien.getY())
+			{
+				closestAlien = aliens.get(index);
+			}
 
 			if (aliens.get(index).getX() <= 0 + (index * 120))
 			{
@@ -133,21 +145,35 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 				}
 			}
 
+			
+
 			if (ship.getY() <= aliens.get(index).getY() + 50
 					&& ship.getY() + 70 >= aliens.get(index).getY()
 					&& ship.getX() >= aliens.get(index).getX()
 					&& ship.getX() + 40 <= aliens.get(index).getX() + 50)
 			{
-				for (Alien being: aliens)
+				for (Alien being : aliens)
 				{
 					being.setSpeed(0);
 				}
 				ship.setSpeed(0);
 				shots.clear();
 				graphToBack.setColor(Color.WHITE);
-				graphToBack.drawString("YOU DIED", 370, 400);
+				graphToBack.drawString("YOU DIED!", 370, 400);
 				graphToBack.drawString("Press R to reset", 355, 415);
-				
+			}
+
+			if (aliens.get(index).getY() + 50 >= 560)
+			{
+				for (Alien being : aliens)
+				{
+					being.setSpeed(0);
+				}
+				ship.setSpeed(0);
+				shots.clear();
+				graphToBack.setColor(Color.WHITE);
+				graphToBack.drawString("YOU LOST!", 370, 400);
+				graphToBack.drawString("Press R to reset", 355, 415);
 			}
 
 
@@ -175,7 +201,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			shots.get(index).draw(graphToBack);
 			shots.get(index).move("UP");
 
-			if (shots.get(index).getY() <= -10)
+			if (shots.get(index).getY() <= 0)
 			{
 				shots.remove(index);
 			}
@@ -206,6 +232,10 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			{
 				aliens.set(index, new Alien(index * 120, 40, 2, "RIGHT"));
 			}
+			if (score > highScore)
+			{
+				highScore = score;
+			}
 			score = 0;
 			alienSpeedDown = 15;
 		}
@@ -219,16 +249,60 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		{
 			ship.setPos(735, ship.getY());
 		}
-		if (ship.getY() <= -10)
+		if (ship.getY() <= 0)
 		{
-			ship.setPos(ship.getX(), -10);
+			ship.setPos(ship.getX(), 0);
 		}
-		if (ship.getY() >= 480)
+		if (ship.getY() >= 490)
 		{
-			ship.setPos(ship.getX(), 480);
+			ship.setPos(ship.getX(), 490);
 		}
 
-		twoDGraph.drawImage(back, null, 0, 0);
+
+		if (closestAlien.getDirection().equals("LEFT")
+				&& (ship.getY() - closestAlien.getY() + 50)
+						/ (ship.getSpeed() + 2) > (closestAlien.getX() - ship.getX() + 16)
+								/ (closestAlien.getSpeed()))
+		{
+			ship.move("LEFT");
+		}
+		else if (closestAlien.getDirection().equals("LEFT")
+				&& (ship.getY() - closestAlien.getY() + 50)
+						/ (ship.getSpeed() + 2) < (closestAlien.getX() - ship.getX() + 16)
+								/ (closestAlien.getSpeed()))
+		{
+			ship.move("RIGHT");
+		}
+		else if (closestAlien.getDirection().equals("LEFT")
+				&& (ship.getY() - closestAlien.getY() + 50)
+						/ (ship.getSpeed() + 2) == (closestAlien.getX() - ship.getX() + 16)
+								/ (closestAlien.getSpeed()))
+		{
+			shots.add(new Ammo(ship.getX() + 16, ship.getY(), ship.getSpeed() + 2));
+		}
+		else if (closestAlien.getDirection().equals("RIGHT")
+				&& (ship.getY() - closestAlien.getY() + 50)
+						/ (ship.getSpeed() + 2) > (ship.getX() + 16-closestAlien.getX())
+								/ (closestAlien.getSpeed()))
+		{
+			ship.move("RIGHT");
+		}
+		else if (closestAlien.getDirection().equals("RIGHT")
+				&& (ship.getY() - closestAlien.getY() + 50)
+						/ (ship.getSpeed() + 2) < (ship.getX() + 16-closestAlien.getX())
+								/ (closestAlien.getSpeed()))
+		{
+			ship.move("LEFT");
+		}
+		else if (closestAlien.getDirection().equals("RIGHT")
+				&& (ship.getY() - closestAlien.getY() + 50)
+						/ (ship.getSpeed() + 2) == (ship.getX() + 16-closestAlien.getX())
+								/ (closestAlien.getSpeed()))
+		{
+			shots.add(new Ammo(ship.getX() + 16, ship.getY(), ship.getSpeed() + 2));
+		}
+
+			twoDGraph.drawImage(back, null, 0, 0);
 	}
 
 
@@ -292,7 +366,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
 	public void keyTyped(KeyEvent e)
 	{
-		if (keys[4] == true)
+		if (keys[4] == true && shots.size() <= 2)
 		{
 			shots.add(new Ammo(ship.getX() + 16, ship.getY(), ship.getSpeed() + 2));
 		}
