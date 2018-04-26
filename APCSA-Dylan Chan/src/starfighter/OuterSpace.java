@@ -38,7 +38,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
 		aliens = new ArrayList<Alien>();
 
-		closestAlien = new Alien(-50, -50, 0, "UP");
+		/*closestAlien = new Alien(-50, -50, 0, "UP");*/
 
 		alienSpeedDown = 15;
 
@@ -97,10 +97,12 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			aliens.get(index).draw(graphToBack);
 			aliens.get(index).move(aliens.get(index).getDirection());
 
+			/*
 			if (aliens.get(index).getY() > closestAlien.getY())
 			{
 				closestAlien = aliens.get(index);
 			}
+			*/
 
 			if (aliens.get(index).getX() <= 0 + (index * 120))
 			{
@@ -259,6 +261,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		}
 
 
+		/*
 		if (closestAlien.getDirection().equals("LEFT")
 				&& (ship.getY() - closestAlien.getY() + 50)
 						/ (ship.getSpeed() + 2) > (closestAlien.getX() - ship.getX() + 16)
@@ -301,6 +304,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		{
 			shots.add(new Ammo(ship.getX() + 16, ship.getY(), ship.getSpeed() + 2));
 		}
+		*/
 
 			twoDGraph.drawImage(back, null, 0, 0);
 	}

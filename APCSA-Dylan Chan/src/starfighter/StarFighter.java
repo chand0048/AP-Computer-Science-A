@@ -21,6 +21,7 @@ public class StarFighter extends JFrame
 		getContentPane().add(theGame);
 
 		setVisible(true);
+		
 
 	}
 
