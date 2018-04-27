@@ -22,8 +22,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 	private ArrayList<Alien> aliens;
 	private ArrayList<Ammo> shots;
 
-	private Alien closestAlien;
-
 	private int score;
 	private int highScore;
 
@@ -37,8 +35,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		keys = new boolean[6];
 
 		aliens = new ArrayList<Alien>();
-
-		/*closestAlien = new Alien(-50, -50, 0, "UP");*/
 
 		alienSpeedDown = 15;
 
@@ -97,12 +93,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			aliens.get(index).draw(graphToBack);
 			aliens.get(index).move(aliens.get(index).getDirection());
 
-			/*
-			if (aliens.get(index).getY() > closestAlien.getY())
-			{
-				closestAlien = aliens.get(index);
-			}
-			*/
 
 			if (aliens.get(index).getX() <= 0 + (index * 120))
 			{
@@ -147,7 +137,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 				}
 			}
 
-			
 
 			if (ship.getY() <= aliens.get(index).getY() + 50
 					&& ship.getY() + 70 >= aliens.get(index).getY()
@@ -261,51 +250,6 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		}
 
 
-		/*
-		if (closestAlien.getDirection().equals("LEFT")
-				&& (ship.getY() - closestAlien.getY() + 50)
-						/ (ship.getSpeed() + 2) > (closestAlien.getX() - ship.getX() + 16)
-								/ (closestAlien.getSpeed()))
-		{
-			ship.move("LEFT");
-		}
-		else if (closestAlien.getDirection().equals("LEFT")
-				&& (ship.getY() - closestAlien.getY() + 50)
-						/ (ship.getSpeed() + 2) < (closestAlien.getX() - ship.getX() + 16)
-								/ (closestAlien.getSpeed()))
-		{
-			ship.move("RIGHT");
-		}
-		else if (closestAlien.getDirection().equals("LEFT")
-				&& (ship.getY() - closestAlien.getY() + 50)
-						/ (ship.getSpeed() + 2) == (closestAlien.getX() - ship.getX() + 16)
-								/ (closestAlien.getSpeed()))
-		{
-			shots.add(new Ammo(ship.getX() + 16, ship.getY(), ship.getSpeed() + 2));
-		}
-		else if (closestAlien.getDirection().equals("RIGHT")
-				&& (ship.getY() - closestAlien.getY() + 50)
-						/ (ship.getSpeed() + 2) > (ship.getX() + 16-closestAlien.getX())
-								/ (closestAlien.getSpeed()))
-		{
-			ship.move("RIGHT");
-		}
-		else if (closestAlien.getDirection().equals("RIGHT")
-				&& (ship.getY() - closestAlien.getY() + 50)
-						/ (ship.getSpeed() + 2) < (ship.getX() + 16-closestAlien.getX())
-								/ (closestAlien.getSpeed()))
-		{
-			ship.move("LEFT");
-		}
-		else if (closestAlien.getDirection().equals("RIGHT")
-				&& (ship.getY() - closestAlien.getY() + 50)
-						/ (ship.getSpeed() + 2) == (ship.getX() + 16-closestAlien.getX())
-								/ (closestAlien.getSpeed()))
-		{
-			shots.add(new Ammo(ship.getX() + 16, ship.getY(), ship.getSpeed() + 2));
-		}
-		*/
-
 			twoDGraph.drawImage(back, null, 0, 0);
 	}
 
@@ -387,6 +331,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			}
 		} catch (Exception e)
 		{
+			System.out.println(e);
 		}
 	}
 }

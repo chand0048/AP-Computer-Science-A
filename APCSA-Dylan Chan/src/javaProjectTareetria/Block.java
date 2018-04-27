@@ -1,4 +1,4 @@
-package Tareetria;
+package javaProjectTareetria;
 
 
 import java.awt.*;
@@ -130,6 +130,45 @@ public class Block implements Locatable, Collidable
 	{
 		window.setColor(getColor());
 		window.fillRect(getX(), getY(), getWidth(), getHeight());
+	}
+	
+	public void draw(Graphics window, Color c)
+	{
+		window.setColor(c);
+		window.fillRect(getX(), getY(), getWidth(), getHeight());
+	}
+	
+	public void moveAndDraw(Graphics window, String dir, Color background)
+	{
+		if (dir.equals("LEFT"))
+		{
+			draw(window, background);
+			setX(getX() - getXSpeed());
+			draw(window);
+		}
+		else if (dir.equals("RIGHT"))
+		{
+			draw(window, background);
+			setX(getX() + getXSpeed());
+			draw(window);
+		}
+		else if (dir.equals("UP"))
+		{
+			draw(window, background);
+			setY(getY() - getYSpeed());
+			draw(window);
+		}
+		else
+		{
+			System.out.println("Movement Direction DNE");
+		}
+	}
+	
+	public void fallAndDraw(Graphics window, int speed, Color background)
+	{
+		draw(window, background);
+		setY(getY() + speed);
+		draw(window);
 	}
 	
 	public String didCollide(Object obj)

@@ -1,4 +1,4 @@
-package Tareetria;
+package javaProjectTareetria;
 
 public interface Collidable
 {
