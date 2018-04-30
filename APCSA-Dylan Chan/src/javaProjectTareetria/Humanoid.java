@@ -7,19 +7,19 @@ import java.awt.*;
 public class Humanoid implements Locatable, Collidable
 {
 	private int xPos, yPos, width, height;
-	
+
 	private String direction;
 	private Block head;
 	private Block torso;
 	private Block legs;
-	
-	
+
+
 	public Humanoid()
 	{
-		this(0, 0, 10, 40, 2, 2, "RIGHT", new Color(255, 255, 180), Color.BLUE,
+		this(500, 400, 10, 40, 2, 0, "RIGHT", new Color(255, 255, 180), Color.BLUE,
 				new Color(153, 51, 0));
 	}
-	
+
 	public Humanoid(int x, int y, int w, int h, int xS, int yS, String d, Color headCol,
 			Color torsoCol, Color legsCol)
 	{
@@ -30,58 +30,51 @@ public class Humanoid implements Locatable, Collidable
 		height = h;
 		direction = d;
 		setPos(x, y);
-		
+
 	}
-	
+
 	public void setX(int x)
 	{
 		xPos = x;
 		setPerspective();
 	}
-	
+
 	public void setY(int y)
 	{
 		yPos = y;
 		setPerspective();
 	}
-	
+
 	public void setPos(int x, int y)
 	{
 		setX(x);
 		setY(y);
 	}
-	
-	public int getX()
-	{
-		return xPos;
-	}
-	
-	@Override
-	public int getY()
-	{
-		return yPos;
-	}
-	
+
 	public void setWidth(int w)
 	{
 		width = w;
 		setPerspective();
 	}
-	
+
 	public void setHeight(int h)
 	{
 		height = h;
 		setPerspective();
 	}
-	
-	public int getWidth()
+
+	public void setXSpeed(int xS)
 	{
-		return width;
+		head.setXSpeed(xS);
+		torso.setXSpeed(xS);
+		legs.setXSpeed(xS);
 	}
-	
-	public int getHeight()
+
+	public void setYSpeed(int yS)
 	{
-		return height;
+		head.setYSpeed(yS);
+		torso.setYSpeed(yS);
+		legs.setYSpeed(yS);
 	}
 	
 	public void setDirection(String d)
@@ -89,12 +82,42 @@ public class Humanoid implements Locatable, Collidable
 		direction = d;
 		setPerspective();
 	}
-	
+
+	public int getX()
+	{
+		return xPos;
+	}
+
+	public int getY()
+	{
+		return yPos;
+	}
+
+	public int getWidth()
+	{
+		return width;
+	}
+
+	public int getHeight()
+	{
+		return height;
+	}
+
 	public String getDirection()
 	{
 		return direction;
 	}
 	
+	public int getXSpeed()
+	{
+		return legs.getXSpeed();
+	}
+	
+	public int getYSpeed()
+	{
+		return legs.getYSpeed();
+	}
+
 	public void setPerspective()
 	{
 		if (getDirection().equals("LEFT"))
@@ -122,7 +145,36 @@ public class Humanoid implements Locatable, Collidable
 		torso.setHeight(getHeight() / 2);
 		legs.setHeight(getHeight() / 4);
 	}
-	
+
+	public void setPerspective(String dir)
+	{
+		setDirection(dir);
+		if (getDirection().equals("LEFT"))
+		{
+			head.setX(getX());
+			torso.setX(getX() + (getWidth() / 3));
+			legs.setX(getX() + (getWidth() / 3));
+			head.setY(getY());
+			torso.setY(getY() + (getHeight() / 4));
+			legs.setY(getY() + (3 * getHeight() / 4));
+		}
+		else if (getDirection().equals("RIGHT"))
+		{
+			head.setX(getX() + (getWidth() / 3));
+			torso.setX(getX());
+			legs.setX(getX() + (getWidth() / 3));
+			head.setY(getY());
+			torso.setY(getY() + (getHeight() / 4));
+			legs.setY(getY() + (3 * getHeight() / 4));
+		}
+		head.setWidth(2 * getWidth() / 3);
+		torso.setWidth(2 * getWidth() / 3);
+		legs.setWidth(getWidth() / 3);
+		head.setHeight(getHeight() / 4);
+		torso.setHeight(getHeight() / 2);
+		legs.setHeight(getHeight() / 4);
+	}
+
 	public String didCollide(Object obj)
 	{
 		if (!head.didCollide(obj).equals("NONE"))
@@ -142,34 +194,42 @@ public class Humanoid implements Locatable, Collidable
 			return "NONE";
 		}
 	}
-	
+
 	public void draw(Graphics window)
 	{
 		head.draw(window);
 		torso.draw(window);
 		legs.draw(window);
 	}
-	
+
+	public void draw(Graphics window, Color c)
+	{
+		head.draw(window, c);
+		torso.draw(window, c);
+		legs.draw(window, c);
+	}
+
 	public void moveAndDraw(Graphics window, String dir, Color background)
 	{
 		if (dir.equals("LEFT"))
 		{
-			setDirection("LEFT");
-			head.moveAndDraw(window, dir, background);
-			torso.moveAndDraw(window, dir, background);
-			legs.moveAndDraw(window, dir, background);
+			draw(window, background);
+			setPerspective(dir);
+			setX(getX() - head.getXSpeed());
+			draw(window);
 		}
 		else if (dir.equals("RIGHT"))
 		{
-			head.moveAndDraw(window, dir, background);
-			torso.moveAndDraw(window, dir, background);
-			legs.moveAndDraw(window, dir, background);
+			draw(window, background);
+			setPerspective(dir);
+			setX(getX() + head.getXSpeed());
+			draw(window);
 		}
 		else if (dir.equals("UP"))
 		{
-			head.moveAndDraw(window, dir, background);
-			torso.moveAndDraw(window, dir, background);
-			legs.moveAndDraw(window, dir, background);
+			draw(window, background);
+			setY(getY() - head.getYSpeed());
+			draw(window);
 		}
 		else
 		{
@@ -177,4 +237,11 @@ public class Humanoid implements Locatable, Collidable
 		}
 	}
 	
+	public void fallAndDraw(Graphics window, Color background)
+	{
+		draw(window, background);
+		setY(getY() - getYSpeed());
+		draw(window);
+	}
+
 }

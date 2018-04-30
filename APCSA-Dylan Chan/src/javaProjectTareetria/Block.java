@@ -158,6 +158,12 @@ public class Block implements Locatable, Collidable
 			setY(getY() - getYSpeed());
 			draw(window);
 		}
+		else if (dir.equals("DOWN"))
+		{
+			draw(window, background);
+			setY(getY() + getYSpeed());
+			draw(window);
+		}
 		else
 		{
 			System.out.println("Movement Direction DNE");
