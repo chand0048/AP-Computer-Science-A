@@ -12,18 +12,23 @@ import static java.lang.Character.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.io.File;
 
 
 public class OuterSpace extends Canvas implements KeyListener, Runnable
 {
 	private Ship ship;
+	private PowerUp powerUp;
 	private int alienSpeedDown;
 
 	private ArrayList<Alien> aliens;
 	private ArrayList<Ammo> shots;
+	private ArrayList<Ammo> alienShot;
 
 	private int score;
 	private int highScore;
+	private boolean powerup;
+	private boolean shielded;
 
 	private boolean[] keys;
 	private BufferedImage back;
@@ -38,14 +43,24 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
 		alienSpeedDown = 15;
 
+		shots = new ArrayList<Ammo>();
+		alienShot = new ArrayList<Ammo>();
+
 		for (int index = 0; index < 5; index++)
 		{
-			aliens.add(new Alien(index * 120, 40, 2, "RIGHT"));
+			aliens.add(new Alien(index * 120, 40, 1, "RIGHT"));
+			alienShot.add(index, new Ammo(aliens.get(index).getX() + 22,
+					aliens.get(index).getY() + 50, (int) (Math.random() * 2) + 1));
 		}
 
-		shots = new ArrayList<Ammo>();
+		powerup = false;
+		shielded = false;
 
 		ship = new Ship(360, 260, 3);
+		
+
+		powerUp = new PowerUp((int) (Math.random() * 860) + 1, (int) (Math.random() * 510) + 1,
+				true);
 
 		score = 0;
 		highScore = 0;
@@ -101,7 +116,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 					aliens.get(index).setDirection("DOWN");
 					aliens.get(index).setSpeed(alienSpeedDown);
 					aliens.get(index).move(aliens.get(index).getDirection());
-					aliens.get(index).setSpeed(2);
+					aliens.get(index).setSpeed(1);
 
 					aliens.get(index).setDirection("RIGHT");
 				}
@@ -110,7 +125,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 					aliens.get(index).setDirection("DOWN");
 					aliens.get(index).setSpeed(alienSpeedDown);
 					aliens.get(index).move(aliens.get(index).getDirection());
-					aliens.get(index).setSpeed(2);
+					aliens.get(index).setSpeed(1);
 
 					aliens.get(index).setDirection("LEFT");
 				}
@@ -122,7 +137,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 					aliens.get(index).setDirection("DOWN");
 					aliens.get(index).setSpeed(alienSpeedDown);
 					aliens.get(index).move(aliens.get(index).getDirection());
-					aliens.get(index).setSpeed(2);
+					aliens.get(index).setSpeed(1);
 
 					aliens.get(index).setDirection("RIGHT");
 				}
@@ -131,7 +146,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 					aliens.get(index).setDirection("DOWN");
 					aliens.get(index).setSpeed(alienSpeedDown);
 					aliens.get(index).move(aliens.get(index).getDirection());
-					aliens.get(index).setSpeed(2);
+					aliens.get(index).setSpeed(1);
 
 					aliens.get(index).setDirection("LEFT");
 				}
@@ -143,15 +158,14 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 					&& ship.getX() >= aliens.get(index).getX()
 					&& ship.getX() + 40 <= aliens.get(index).getX() + 50)
 			{
-				for (Alien being : aliens)
-				{
-					being.setSpeed(0);
-				}
-				ship.setSpeed(0);
-				shots.clear();
-				graphToBack.setColor(Color.WHITE);
-				graphToBack.drawString("YOU DIED!", 370, 400);
-				graphToBack.drawString("Press R to reset", 355, 415);
+				/*
+				 * for (Alien being : aliens) { being.setSpeed(0); }
+				 * ship.setSpeed(0); shots.clear();
+				 * graphToBack.setColor(Color.WHITE);
+				 * graphToBack.drawString("YOU DIED!", 370, 400);
+				 * graphToBack.drawString("Press R to reset", 355, 415);
+				 */
+				score -= 1;
 			}
 
 			if (aliens.get(index).getY() + 50 >= 560)
@@ -170,10 +184,10 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
 			for (int count = 0; count < shots.size(); count++)
 			{
-				if (shots.get(count).getY() <= aliens.get(index).getY() + 50
+				if (shots.get(count).getY() + 6 <= aliens.get(index).getY() + 50
 						&& shots.get(count).getY() >= aliens.get(index).getY()
 						&& shots.get(count).getX() >= aliens.get(index).getX()
-						&& shots.get(count).getX() <= aliens.get(index).getX() + 50)
+						&& shots.get(count).getX() + 6 <= aliens.get(index).getX() + 50)
 				{
 					shots.remove(count);
 					aliens.get(index).setPos(aliens.get(index).getX(), -50);
@@ -183,6 +197,13 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 						alienSpeedDown += 2;
 					}
 				}
+			}
+
+			if (alienShot.get(index).getSpeed() == 0)
+			{
+				alienShot.get(index).setPos(aliens.get(index).getX() + 22,
+						aliens.get(index).getY() + 50);
+				alienShot.get(index).setSpeed((int) (Math.random() * 2) + 1);
 			}
 		}
 
@@ -195,6 +216,17 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			if (shots.get(index).getY() <= 0)
 			{
 				shots.remove(index);
+			}
+		}
+
+		for (int index = 0; index < alienShot.size(); index++)
+		{
+			alienShot.get(index).draw(graphToBack);
+			alienShot.get(index).move("DOWN");
+
+			if (alienShot.get(index).getY() >= 600)
+			{
+				alienShot.get(index).setSpeed(0);
 			}
 		}
 
@@ -232,6 +264,31 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		}
 
 
+		for (int index = 0; index < alienShot.size(); index++)
+		{
+			if (alienShot.get(index).getY() + 6 <= ship.getY() + 70
+					&& alienShot.get(index).getY() >= ship.getY()
+					&& alienShot.get(index).getX() >= ship.getX()
+					&& alienShot.get(index).getX() + 6 <= ship.getX() + 40)
+			{
+				if (shielded == true)
+				{
+					ship.setImage(new File("src\\starfighter\\ship.png"));
+					powerUp.setPos((int) (Math.random() * 860) + 1, (int) (Math.random() * 510) + 1);
+					powerUp.setVisible(true);
+					shielded = false;
+					alienShot.get(index).setSpeed(0);
+				}
+				else
+				{
+					alienShot.get(index).setSpeed(0);
+					score -= 1;
+				}
+
+			}
+		}
+
+
 		if (ship.getX() <= 0)
 		{
 			ship.setPos(0, ship.getY());
@@ -250,7 +307,24 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		}
 
 
-			twoDGraph.drawImage(back, null, 0, 0);
+		if (ship.getY() <= powerUp.getY() + 50
+				&& ship.getY() + 70 >= powerUp.getY()
+				&& ship.getX() >= powerUp.getX()
+				&& ship.getX() + 40 <= powerUp.getX() + 50 && powerUp.getVisible() == true)
+		{
+			ship.setImage(new File("src\\starfighter\\ship.jpgWithShield.jpg"));
+			powerUp.setVisible(false);
+			shielded = true;
+		}
+
+
+		if (powerUp.getVisible() == true)
+		{
+			powerUp.draw(graphToBack);
+		}
+
+
+		twoDGraph.drawImage(back, null, 0, 0);
 	}
 
 

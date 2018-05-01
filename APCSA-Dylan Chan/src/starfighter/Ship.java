@@ -27,9 +27,14 @@ public class Ship extends MovingThing
 	{
 		super(x, y);
 		speed = s;
+		setImage(new File("src\\starfighter\\ship.png"));
+	}
+	
+	public void setImage(File f)
+	{
 		try
 		{
-			image = ImageIO.read(new File("src\\starfighter\\ship.png"));
+			image = ImageIO.read(f);
 		}catch (Exception e)
 		{
 			System.out.println(e);
