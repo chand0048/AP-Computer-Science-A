@@ -16,7 +16,13 @@ public class Humanoid implements Locatable, Collidable
 
 	public Humanoid()
 	{
-		this(500, 400, 10, 40, 2, 0, "RIGHT", new Color(255, 255, 180), Color.BLUE,
+		this(400, 400, 20, 80, 5, 0, "RIGHT", new Color(255, 255, 180), Color.BLUE,
+				new Color(153, 51, 0));
+	}
+	
+	public Humanoid(int x, int y, int w, int h)
+	{
+		this(x, y, w, h, 5, 0, "RIGHT", new Color(255, 255, 180), Color.BLUE,
 				new Color(153, 51, 0));
 	}
 
@@ -177,17 +183,20 @@ public class Humanoid implements Locatable, Collidable
 
 	public String didCollide(Object obj)
 	{
-		if (!head.didCollide(obj).equals("NONE"))
+		if (!legs.didCollide(obj).equals("NONE"))
 		{
-			return head.didCollide(obj);
+			System.out.println("LC");
+			return legs.didCollide(obj);
 		}
 		else if (!torso.didCollide(obj).equals("NONE"))
 		{
+			System.out.println("TC");
 			return torso.didCollide(obj);
 		}
-		else if (!legs.didCollide(obj).equals("NONE"))
+		else if (!head.didCollide(obj).equals("NONE"))
 		{
-			return torso.didCollide(obj);
+			System.out.println("HC");
+			return head.didCollide(obj);
 		}
 		else
 		{

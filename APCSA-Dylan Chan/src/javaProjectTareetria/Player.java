@@ -12,7 +12,15 @@ public class Player extends Humanoid
 	public Player()
 	{
 		super();
-		setJumpHeight(10);
+		setJumpHeight(15);
+	}
+	
+	public Player(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed, String direction, Color headCol,
+			Color torsoCol, Color legsCol, int h, int jHeight)
+	{
+		super(xPos, yPos, width, height, xSpeed, ySpeed, direction, headCol, torsoCol, legsCol);
+		setHealth(h);
+		setJumpHeight(jHeight);
 	}
 
 	public void setHealth(int h)

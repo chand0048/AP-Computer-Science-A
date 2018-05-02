@@ -4,14 +4,20 @@ package javaProjectTareetria;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import static java.lang.Character.*;
 
 
 public class Tareetria extends Canvas implements KeyListener, Runnable
 {
-	Block floor;
-	Player avatar;
+	private Block floor;
+	private Player avatar;
+	
+	
+	List<Block> obstacles;
 	private boolean[] keys;
 	private BufferedImage back;
 
@@ -19,9 +25,16 @@ public class Tareetria extends Canvas implements KeyListener, Runnable
 	public Tareetria()
 	{
 		setBackground(Color.LIGHT_GRAY);
-		floor = new Block(0, 700, 1000, 20, 0, 0);
+		
 		avatar = new Player();
+		floor = new Block(0, 700, 1000, 20, 0, 0);
+		
+		obstacles = new ArrayList<Block>();
+		
+		obstacles.add(floor);
+		
 
+		
 		keys = new boolean[4];
 
 		this.addKeyListener(this);
@@ -52,25 +65,35 @@ public class Tareetria extends Canvas implements KeyListener, Runnable
 
 		avatar.draw(graphToBack);
 		floor.draw(graphToBack);
-
-		if (!avatar.didCollide(floor).equals("BOTTOM"))
+		
+		//GRAVITY
+		for (Block structure: obstacles)
 		{
-			avatar.setYSpeed(avatar.getYSpeed() - 1);
-			avatar.fallAndDraw(graphToBack, Color.LIGHT_GRAY);
+			if (avatar.didCollide(structure).equals("BOTTOM"))
+			{
+				avatar.setY(structure.getY() - avatar.getHeight());
+				avatar.setYSpeed(0);
+				avatar.draw(graphToBack);
+				System.out.println("HIT");
+			}
+			else 
+			{
+				avatar.setYSpeed(avatar.getYSpeed() - 1);
+				avatar.fallAndDraw(graphToBack, Color.LIGHT_GRAY);
+			}
 		}
-		else 
-		{
-			avatar.setYSpeed(0);
-		}
-
 
 		if (keys[0])
 		{
-			if (avatar.didCollide(floor).equals("BOTTOM"))
+			for (Block structure: obstacles)
 			{
-				avatar.setYSpeed(10);
-				avatar.moveAndDraw(graphToBack, "UP", Color.LIGHT_GRAY);
+				if (avatar.didCollide(structure).equals("BOTTOM"))
+				{
+					avatar.setYSpeed(avatar.getJumpHeight());
+					avatar.moveAndDraw(graphToBack, "UP", Color.LIGHT_GRAY);
+				}
 			}
+			
 		}
 		if (keys[1])
 		{
@@ -91,7 +114,7 @@ public class Tareetria extends Canvas implements KeyListener, Runnable
 		{
 			while (true)
 			{
-				Thread.currentThread().sleep(7);
+				Thread.currentThread().sleep(15);
 				repaint();
 			}
 		} catch (Exception e)
