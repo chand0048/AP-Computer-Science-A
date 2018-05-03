@@ -31,7 +31,7 @@ public class Tareetria extends Canvas implements KeyListener, Runnable
 		obstacles = new ArrayList<Block>();
 		
 		obstacles.add(floor);
-		obstacles.add(new Block(600, 675, 40, 25, 0, 0));
+		obstacles.add(new Block(600, 660, 40, 40, 0, 0));
 		obstacles.add(new Block(300, 575, 70, 25, 0, 0));
 		obstacles.add(new Block(800, 500, 70, 200, 0, 0));
 		
@@ -104,14 +104,28 @@ public class Tareetria extends Canvas implements KeyListener, Runnable
 			{
 				avatar.draw(graphToBack, Color.LIGHT_GRAY);
 				avatar.setXSpeed(0);
-				avatar.setX(structure.getX() + structure.getWidth());
+				if (structure.getY() > avatar.getY() + (avatar.getHeight() / 4))
+				{
+					avatar.setX(structure.getX() + structure.getWidth() - (avatar.getWidth() / 3) + 3);
+				}
+				else
+				{
+					avatar.setX(structure.getX() + structure.getWidth());
+				}
 				avatar.draw(graphToBack);
 			}
 			if (avatar.didCollide(structure, "RIGHT") == true)
 			{
 				avatar.draw(graphToBack, Color.LIGHT_GRAY);
 				avatar.setXSpeed(0);
-				avatar.setX(structure.getX() - avatar.getWidth());
+				if (structure.getY() > avatar.getY() + (avatar.getHeight() / 4))
+				{
+					avatar.setX(structure.getX() - (2 * avatar.getWidth() / 3) - 3);
+				}
+				else
+				{
+					avatar.setX(structure.getX() - avatar.getWidth());
+				}
 				avatar.draw(graphToBack);
 			}
 			
