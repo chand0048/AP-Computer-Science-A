@@ -2,5 +2,5 @@ package javaProjectTareetria;
 
 public interface Collidable
 {
-	String didCollide(Object obj);
+	boolean didCollide(Object obj, String side);
 }

@@ -12,6 +12,7 @@ public class Humanoid implements Locatable, Collidable
 	private Block head;
 	private Block torso;
 	private Block legs;
+	private Color headColor, torsoColor, legsColor;
 
 
 	public Humanoid()
@@ -32,6 +33,9 @@ public class Humanoid implements Locatable, Collidable
 		head = new Block(x, y, w, h, xS, yS, headCol);
 		torso = new Block(x, y, w, h, xS, yS, torsoCol);
 		legs = new Block(x, y, w, h, xS, yS, legsCol);
+		setHeadColor(headCol);
+		setTorsoColor(torsoCol);
+		setLegsColor(legsCol);
 		width = w;
 		height = h;
 		direction = d;
@@ -88,6 +92,21 @@ public class Humanoid implements Locatable, Collidable
 		direction = d;
 		setPerspective();
 	}
+	
+	public void setHeadColor(Color headCol)
+	{
+		headColor = headCol;
+	}
+	
+	public void setTorsoColor(Color torsoCol)
+	{
+		torsoColor = torsoCol;
+	}
+	
+	public void setLegsColor(Color legsCol)
+	{
+		legsColor = legsCol;
+	}
 
 	public int getX()
 	{
@@ -123,6 +142,21 @@ public class Humanoid implements Locatable, Collidable
 	{
 		return legs.getYSpeed();
 	}
+	
+	public Color getHeadColor()
+	{
+		return headColor;
+	}
+	
+	public Color getTorsoColor()
+	{
+		return torsoColor;
+	}
+	
+	public Color getLegsColor()
+	{
+		return legsColor;
+	}
 
 	public void setPerspective()
 	{
@@ -155,52 +189,29 @@ public class Humanoid implements Locatable, Collidable
 	public void setPerspective(String dir)
 	{
 		setDirection(dir);
-		if (getDirection().equals("LEFT"))
-		{
-			head.setX(getX());
-			torso.setX(getX() + (getWidth() / 3));
-			legs.setX(getX() + (getWidth() / 3));
-			head.setY(getY());
-			torso.setY(getY() + (getHeight() / 4));
-			legs.setY(getY() + (3 * getHeight() / 4));
-		}
-		else if (getDirection().equals("RIGHT"))
-		{
-			head.setX(getX() + (getWidth() / 3));
-			torso.setX(getX());
-			legs.setX(getX() + (getWidth() / 3));
-			head.setY(getY());
-			torso.setY(getY() + (getHeight() / 4));
-			legs.setY(getY() + (3 * getHeight() / 4));
-		}
-		head.setWidth(2 * getWidth() / 3);
-		torso.setWidth(2 * getWidth() / 3);
-		legs.setWidth(getWidth() / 3);
-		head.setHeight(getHeight() / 4);
-		torso.setHeight(getHeight() / 2);
-		legs.setHeight(getHeight() / 4);
+		setPerspective();
 	}
 
-	public String didCollide(Object obj)
+	public boolean didCollide(Object obj, String side)
 	{
-		if (!legs.didCollide(obj).equals("NONE"))
-		{
-			System.out.println("LC");
-			return legs.didCollide(obj);
-		}
-		else if (!torso.didCollide(obj).equals("NONE"))
-		{
-			System.out.println("TC");
-			return torso.didCollide(obj);
-		}
-		else if (!head.didCollide(obj).equals("NONE"))
+		if (head.didCollide(obj, side) == true)
 		{
 			System.out.println("HC");
-			return head.didCollide(obj);
+			return head.didCollide(obj, side);
+		}
+		else if (torso.didCollide(obj, side) == true)
+		{
+			System.out.println("TC");
+			return torso.didCollide(obj, side);
+		}
+		else if (legs.didCollide(obj, side) == true)
+		{
+			System.out.println("LC");
+			return legs.didCollide(obj, side);
 		}
 		else
 		{
-			return "NONE";
+			return false;
 		}
 	}
 
