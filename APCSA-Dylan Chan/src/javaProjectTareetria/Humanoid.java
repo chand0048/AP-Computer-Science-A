@@ -196,17 +196,14 @@ public class Humanoid implements Locatable, Collidable
 	{
 		if (head.didCollide(obj, side) == true)
 		{
-			System.out.println("HC");
 			return head.didCollide(obj, side);
 		}
 		else if (torso.didCollide(obj, side) == true)
 		{
-			System.out.println("TC");
 			return torso.didCollide(obj, side);
 		}
 		else if (legs.didCollide(obj, side) == true)
 		{
-			System.out.println("LC");
 			return legs.didCollide(obj, side);
 		}
 		else

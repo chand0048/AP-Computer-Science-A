@@ -186,7 +186,6 @@ public class Block implements Locatable, Collidable
 				&& this.getY() + this.getHeight() >= temp.getY()
 				&& this.getY() <= temp.getY() + temp.getHeight())
 		{
-			System.out.println("LEFT");
 			return true;
 		}
 		else if (side.equals("RIGHT") && this.getX() + this.getWidth() >= temp.getX()
@@ -194,7 +193,6 @@ public class Block implements Locatable, Collidable
 				&& this.getY() + this.getHeight() >= temp.getY()
 				&& this.getY() <= temp.getY() + temp.getHeight())
 		{
-			System.out.println("RIGHT");
 			return true;
 		}
 		else if (side.equals("BOTTOM") && this.getX() + this.getWidth() >= temp.getX()
@@ -202,7 +200,6 @@ public class Block implements Locatable, Collidable
 				&& this.getY() + this.getHeight() >= temp.getY()
 				&& this.getY() + this.getHeight() <= temp.getY() + 15)
 		{
-			System.out.println("BOTTOM");
 			return true;
 		}
 		else if (side.equals("TOP") && this.getX() + this.getWidth() >= temp.getX()
@@ -210,7 +207,6 @@ public class Block implements Locatable, Collidable
 				&& this.getY() <= temp.getY() + temp.getHeight()
 				&& this.getY() >= temp.getY() + (temp.getHeight() - 15))
 		{
-			System.out.println("TOP");
 			return true;
 		}
 		else
