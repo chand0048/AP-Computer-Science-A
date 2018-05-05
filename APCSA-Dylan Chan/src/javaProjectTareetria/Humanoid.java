@@ -7,14 +7,14 @@ import java.awt.*;
 public class Humanoid implements Locatable, Collidable
 {
 	private int xPos, yPos, width, height;
-
+	
 	private String direction;
 	private Block head;
 	private Block torso;
 	private Block legs;
 	private Color headColor, torsoColor, legsColor;
-
-
+	
+	
 	public Humanoid()
 	{
 		this(400, 400, 20, 80, 5, 0, "RIGHT", new Color(255, 255, 180), Color.BLUE,
@@ -26,7 +26,7 @@ public class Humanoid implements Locatable, Collidable
 		this(x, y, w, h, 5, 0, "RIGHT", new Color(255, 255, 180), Color.BLUE,
 				new Color(153, 51, 0));
 	}
-
+	
 	public Humanoid(int x, int y, int w, int h, int xS, int yS, String d, Color headCol,
 			Color torsoCol, Color legsCol)
 	{
@@ -40,46 +40,46 @@ public class Humanoid implements Locatable, Collidable
 		height = h;
 		direction = d;
 		setPos(x, y);
-
+		
 	}
-
+	
 	public void setX(int x)
 	{
 		xPos = x;
 		setPerspective();
 	}
-
+	
 	public void setY(int y)
 	{
 		yPos = y;
 		setPerspective();
 	}
-
+	
 	public void setPos(int x, int y)
 	{
 		setX(x);
 		setY(y);
 	}
-
+	
 	public void setWidth(int w)
 	{
 		width = w;
 		setPerspective();
 	}
-
+	
 	public void setHeight(int h)
 	{
 		height = h;
 		setPerspective();
 	}
-
+	
 	public void setXSpeed(int xS)
 	{
 		head.setXSpeed(xS);
 		torso.setXSpeed(xS);
 		legs.setXSpeed(xS);
 	}
-
+	
 	public void setYSpeed(int yS)
 	{
 		head.setYSpeed(yS);
@@ -107,27 +107,27 @@ public class Humanoid implements Locatable, Collidable
 	{
 		legsColor = legsCol;
 	}
-
+	
 	public int getX()
 	{
 		return xPos;
 	}
-
+	
 	public int getY()
 	{
 		return yPos;
 	}
-
+	
 	public int getWidth()
 	{
 		return width;
 	}
-
+	
 	public int getHeight()
 	{
 		return height;
 	}
-
+	
 	public String getDirection()
 	{
 		return direction;
@@ -157,7 +157,7 @@ public class Humanoid implements Locatable, Collidable
 	{
 		return legsColor;
 	}
-
+	
 	public void setPerspective()
 	{
 		if (getDirection().equals("LEFT"))
@@ -185,47 +185,66 @@ public class Humanoid implements Locatable, Collidable
 		torso.setHeight(getHeight() / 2);
 		legs.setHeight(getHeight() / 4);
 	}
-
+	
 	public void setPerspective(String dir)
 	{
 		setDirection(dir);
 		setPerspective();
 	}
-
+	
 	public boolean didCollide(Object obj, String side)
 	{
-		if (head.didCollide(obj, side) == true)
+		Block temp = (Block) obj;
+		
+		if (side.equals("LEFT") && this.getX() <= temp.getX() + temp.getWidth()
+				&& this.getX() >= temp.getX() + (temp.getWidth() - 15)
+				&& this.getY() + this.getHeight() >= temp.getY()
+				&& this.getY() <= temp.getY() + temp.getHeight())
 		{
-			return head.didCollide(obj, side);
+			return true;
 		}
-		else if (torso.didCollide(obj, side) == true)
+		else if (side.equals("RIGHT") && this.getX() + this.getWidth() >= temp.getX()
+				&& this.getX() + this.getWidth() <= temp.getX() + 15
+				&& this.getY() + this.getHeight() >= temp.getY()
+				&& this.getY() <= temp.getY() + temp.getHeight())
 		{
-			return torso.didCollide(obj, side);
+			return true;
 		}
-		else if (legs.didCollide(obj, side) == true)
+		else if (side.equals("BOTTOM") && this.getX() + this.getWidth() >= temp.getX()
+				&& this.getX() <= temp.getX() + temp.getWidth()
+				&& this.getY() + this.getHeight() >= temp.getY()
+				&& this.getY() + this.getHeight() <= temp.getY() + 15)
 		{
-			return legs.didCollide(obj, side);
+			return true;
+		}
+		else if (side.equals("TOP") && this.getX() + this.getWidth() >= temp.getX()
+				&& this.getX() <= temp.getX() + temp.getWidth()
+				&& this.getY() <= temp.getY() + temp.getHeight()
+				&& this.getY() >= temp.getY() + (temp.getHeight() - 15))
+		{
+			return true;
 		}
 		else
 		{
+			
 			return false;
 		}
 	}
-
+	
 	public void draw(Graphics window)
 	{
 		head.draw(window);
 		torso.draw(window);
 		legs.draw(window);
 	}
-
+	
 	public void draw(Graphics window, Color c)
 	{
 		head.draw(window, c);
 		torso.draw(window, c);
 		legs.draw(window, c);
 	}
-
+	
 	public void moveAndDraw(Graphics window, String dir, Color background)
 	{
 		if (dir.equals("LEFT"))
@@ -260,5 +279,5 @@ public class Humanoid implements Locatable, Collidable
 		setY(getY() - getYSpeed());
 		draw(window);
 	}
-
+	
 }

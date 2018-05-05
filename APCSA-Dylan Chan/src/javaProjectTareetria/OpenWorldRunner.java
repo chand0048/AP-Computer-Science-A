@@ -19,6 +19,7 @@ public class OpenWorldRunner extends JFrame
 		
 		((Component) game).setFocusable(true);
 		getContentPane().add(game);
+		
 
 		setVisible(true);
 	}

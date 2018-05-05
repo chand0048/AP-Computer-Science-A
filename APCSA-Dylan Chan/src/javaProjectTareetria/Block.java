@@ -12,12 +12,12 @@ public class Block implements Locatable, Collidable
 	
 	public Block()
 	{
-		this(0, 0, 100, 100, 1, 1, Color.BLACK);
+		this(0, 0, 40, 40, 1, 1, Color.BLACK);
 	}
 	
 	public Block(int x, int y)
 	{
-		this(x, y, 100, 100, 1, 1, Color.BLACK);
+		this(x, y, 40, 40, 1, 1, Color.BLACK);
 	}
 	
 	public Block(int x, int y, int w, int h)
@@ -211,7 +211,6 @@ public class Block implements Locatable, Collidable
 		}
 		else
 		{
-			
 			return false;
 		}
 	}
