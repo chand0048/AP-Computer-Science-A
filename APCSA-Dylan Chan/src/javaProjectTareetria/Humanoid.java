@@ -245,6 +245,19 @@ public class Humanoid implements Locatable, Collidable
 		legs.draw(window, c);
 	}
 	
+	public void move(int xSpeed, int ySpeed)
+	{
+		setX(this.getX() + xSpeed);
+		setY(this.getY() - ySpeed);
+	}
+	
+	public void moveAndDraw(Graphics window, int xSpeed, int ySpeed, Color background)
+	{
+		draw(window, background);
+		move(xSpeed, ySpeed);
+		draw(window);
+	}
+	
 	public void moveAndDraw(Graphics window, String dir, Color background)
 	{
 		if (dir.equals("LEFT"))
@@ -265,6 +278,37 @@ public class Humanoid implements Locatable, Collidable
 		{
 			draw(window, background);
 			setY(getY() - head.getYSpeed());
+			draw(window);
+		}
+		else
+		{
+			System.out.println("Movement Direction DNE");
+		}
+	}
+	public void scrollScreen(Graphics window, String dir, Color background)
+	{
+		if (dir.equals("LEFT"))
+		{
+			draw(window, background);
+			setX(getX() - 20);
+			draw(window);
+		}
+		else if (dir.equals("RIGHT"))
+		{
+			draw(window, background);
+			setX(getX() + 20);
+			draw(window);
+		}
+		else if (dir.equals("UP"))
+		{
+			draw(window, background);
+			setY(getY() - 20);
+			draw(window);
+		}
+		else if (dir.equals("DOWN"))
+		{
+			draw(window, background);
+			setY(getY() + 20);
 			draw(window);
 		}
 		else

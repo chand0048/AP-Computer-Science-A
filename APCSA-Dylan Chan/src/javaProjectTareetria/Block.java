@@ -138,6 +138,19 @@ public class Block implements Locatable, Collidable
 		window.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 	
+	public void move(int xSpeed, int ySpeed)
+	{
+		setX(this.getX() + xSpeed);
+		setY(this.getY() - ySpeed);
+	}
+	
+	public void moveAndDraw(Graphics window, int xSpeed, int ySpeed, Color background)
+	{
+		draw(window, background);
+		move(xSpeed, ySpeed);
+		draw(window);
+	}
+	
 	public void moveAndDraw(Graphics window, String dir, Color background)
 	{
 		if (dir.equals("LEFT"))

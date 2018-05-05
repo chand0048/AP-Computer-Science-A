@@ -13,12 +13,18 @@ import static java.lang.Character.*;
 public class Tareetria extends Canvas
 		implements KeyListener, MouseListener, MouseMotionListener, Runnable
 {
+	private List<Block> obstacles;
 	private Block floor;
 	private Player avatar;
+	private boolean scrollX;
+	private boolean scrollY;
 	
 	
-	private List<Block> obstacles;
 	private boolean[] keys;
+	private boolean[] mouse;
+	private int mouseX;
+	private int mouseY;
+	
 	private BufferedImage back;
 	
 	
@@ -26,18 +32,24 @@ public class Tareetria extends Canvas
 	{
 		setBackground(Color.LIGHT_GRAY);
 		
-		avatar = new Player();
-		floor = new Block(0, 700, 1000, 20, 0, 0);
-		
 		obstacles = new ArrayList<Block>();
-		
+		floor = new Block(-2000, 710, 4000, 20, 0, 0);
 		obstacles.add(floor);
-		obstacles.add(new Block(600, 660, 40, 40, 0, 0));
-		obstacles.add(new Block(300, 560, 70, 40, 0, 0));
-		obstacles.add(new Block(800, 500, 40, 200, 0, 0));
+		// obstacles.add(new Block(600, 670, 40, 40, 0, 0));
+		obstacles.add(new Block(300, 570, 70, 40, 0, 0));
+		// obstacles.add(new Block(800, 510, 40, 200, 0, 0));
+		
+		avatar = new Player(490, 630, 20, 80, 0, 0, "RIGHT", new Color(255, 255, 180),
+				Color.BLUE, new Color(153, 51, 0), 100, 15, false, "NONE");
+		
+		scrollX = false;
+		scrollY = false;
 		
 		
 		keys = new boolean[4];
+		mouse = new boolean[2];
+		mouseX = 0;
+		mouseY = 0;
 		
 		this.addKeyListener(this);
 		this.addMouseListener(this);
@@ -67,11 +79,44 @@ public class Tareetria extends Canvas
 		// we will draw all changes on the background image
 		Graphics graphToBack = back.createGraphics();
 		
-		avatar.draw(graphToBack);
 		
+		avatar.setFalling(true);
+		
+		// COLLISION DETECTION
 		for (Block structure: obstacles)
 		{
-			structure.draw(graphToBack);
+			if (avatar.didCollide(structure, "BOTTOM"))
+			{
+				avatar.draw(graphToBack, Color.LIGHT_GRAY);
+				avatar.setY(structure.getY() - avatar.getHeight());
+				avatar.setYSpeed(0);
+				avatar.setFalling(false);
+				avatar.draw(graphToBack);
+			}
+			else if (avatar.didCollide(structure, "TOP"))
+			{
+				avatar.draw(graphToBack, Color.LIGHT_GRAY);
+				avatar.setY(structure.getY() + structure.getHeight());
+				avatar.setYSpeed(0);
+				avatar.setFalling(true);
+				avatar.draw(graphToBack);
+			}
+			if (avatar.didCollide(structure, "LEFT")
+					&& !avatar.didCollide(structure, "BOTTOM"))
+			{
+				avatar.draw(graphToBack, Color.LIGHT_GRAY);
+				avatar.setXSpeed(0);
+				avatar.setX(structure.getX() + structure.getWidth());
+				avatar.draw(graphToBack);
+			}
+			else if (avatar.didCollide(structure, "RIGHT")
+					&& !avatar.didCollide(structure, "BOTTOM"))
+			{
+				avatar.draw(graphToBack, Color.LIGHT_GRAY);
+				avatar.setXSpeed(0);
+				avatar.setX(structure.getX() - avatar.getWidth());
+				avatar.draw(graphToBack);
+			}
 		}
 		
 		// GRAVITY
@@ -86,49 +131,11 @@ public class Tareetria extends Canvas
 			{
 				avatar.setYSpeed(avatar.getYSpeed() - 1);
 			}
-			avatar.fallAndDraw(graphToBack, Color.LIGHT_GRAY);
 		}
-		avatar.setFalling(true);
 		
-		// COLLISION DETECTION
-		for (Block structure: obstacles)
-		{
-			if (avatar.didCollide(structure, "TOP") == true)
-			{
-				avatar.draw(graphToBack, Color.LIGHT_GRAY);
-				avatar.setY(structure.getY() + structure.getHeight());
-				avatar.setYSpeed(0);
-				avatar.draw(graphToBack);
-			}
-			if (avatar.didCollide(structure, "BOTTOM") == true
-					&& !avatar.didCollide(structure, "LEFT")
-					&& !avatar.didCollide(structure, "RIGHT"))
-			{
-				avatar.draw(graphToBack, Color.LIGHT_GRAY);
-				avatar.setY(structure.getY() - avatar.getHeight());
-				avatar.setYSpeed(0);
-				avatar.setFalling(false);
-				avatar.draw(graphToBack);
-			}
-			if (avatar.didCollide(structure, "LEFT") == true)
-			{
-				avatar.draw(graphToBack, Color.LIGHT_GRAY);
-				avatar.setXSpeed(0);
-				avatar.setX(structure.getX() + structure.getWidth());
-				avatar.draw(graphToBack);
-			}
-			if (avatar.didCollide(structure, "RIGHT") == true)
-			{
-				avatar.draw(graphToBack, Color.LIGHT_GRAY);
-				avatar.setXSpeed(0);
-				
-				avatar.setX(structure.getX() - avatar.getWidth());
-				avatar.draw(graphToBack);
-			}
-		}
 		
 		// MOVEMENT CONTROLS
-		// Jump
+		// Jump-"W"
 		if (keys[0])
 		{
 			for (Block structure: obstacles)
@@ -137,29 +144,190 @@ public class Tareetria extends Canvas
 						&& avatar.getFalling() == false)
 				{
 					avatar.setYSpeed(avatar.getJumpHeight());
-					avatar.moveAndDraw(graphToBack, "UP", Color.LIGHT_GRAY);
 					avatar.setFalling(true);
 				}
 			}
 			
 		}
-		// Move Left
+		
+		/*
+		 * Realistic Physics - Cannot change direction in mid-air
+		 * // Move Left-"A"
+		 * if (keys[1] && avatar.getFalling() == false)
+		 * {
+		 * avatar.setXSpeed(-5);
+		 * }
+		 * // Move Right-"D"
+		 * else if (keys[2] && avatar.getFalling() == false)
+		 * {
+		 * avatar.setXSpeed(5);
+		 * }
+		 * else if (avatar.getFalling() == false)
+		 * {
+		 * avatar.setXSpeed(0);
+		 * }
+		 */
+		
+		/*
+		 * Fun Physics - Can change direction in mid-air
+		 */
+		
+		// Move Left-"A"
 		if (keys[1])
 		{
-			avatar.setXSpeed(5);
-			avatar.moveAndDraw(graphToBack, "LEFT", Color.LIGHT_GRAY);
+			avatar.draw(graphToBack, Color.LIGHT_GRAY);
+			avatar.setDirection("LEFT");
+			if (avatar.getMoving().equals("NONE"))
+			{
+				avatar.setXSpeed(avatar.getXSpeed() - 5);
+				avatar.setMoving("LEFT");
+			}
+			else if (avatar.getMoving().equals("RIGHT"))
+			{
+				avatar.setXSpeed(avatar.getXSpeed() - 10);
+				avatar.setMoving("LEFT");
+			}
 		}
-		// Move Right
-		if (keys[2])
+		// Move Right-"D"
+		else if (keys[2])
 		{
-			avatar.setXSpeed(5);
-			avatar.moveAndDraw(graphToBack, "RIGHT", Color.LIGHT_GRAY);
+			avatar.draw(graphToBack, Color.LIGHT_GRAY);
+			avatar.setDirection("RIGHT");
+			if (avatar.getMoving().equals("NONE"))
+			{
+				avatar.setXSpeed(avatar.getXSpeed() + 5);
+				avatar.setMoving("RIGHT");
+			}
+			else if (avatar.getMoving().equals("LEFT"))
+			{
+				avatar.setXSpeed(avatar.getXSpeed() + 10);
+				avatar.setMoving("RIGHT");
+			}
+		}
+		else
+		{
+			if (scrollX == true)
+			{
+				if (avatar.getMoving().equals("LEFT"))
+				{
+					avatar.setXSpeed(avatar.getXSpeed() + 5);
+				}
+				else if (avatar.getMoving().equals("RIGHT"))
+				{
+					avatar.setXSpeed(avatar.getXSpeed() - 5);
+				}
+			}
+			else
+			{
+				avatar.setXSpeed(0);
+			}
+			
+			avatar.setMoving("NONE");
+		}
+		
+		
+		// MOUSE
+		// Left Mouse Button
+		if (mouse[0])
+		{
+			obstacles.add(new Block(mouseX - 20, mouseY - 20, 40, 40, 0, 0));
+			mouse[0] = false;
+		}
+		// Right Mouse Button
+		if (mouse[1])
+		{
+			for (Block structure: obstacles)
+			{
+				if (structure.getX() <= mouseX
+						&& structure.getX() + structure.getWidth() >= mouseX
+						&& structure.getY() <= mouseY
+						&& structure.getY() + structure.getHeight() >= mouseY
+						&& mouseY < 710)
+				{
+					structure.setColor(Color.LIGHT_GRAY);
+					structure.draw(graphToBack);
+					obstacles.remove(structure);
+					break;
+				}
+			}
+			mouse[1] = false;
+		}
+		
+		// Re-Center Screen
+		if (avatar.getX() >= 450 && avatar.getX() <= 530)
+		{
+			scrollX = false;
+			
+			if (avatar.getMoving().equals("LEFT"))
+			{
+				avatar.setXSpeed(-5);
+			}
+			else if (avatar.getMoving().equals("RIGHT"))
+			{
+				avatar.setXSpeed(5);
+			}
+			else
+			{
+				avatar.setXSpeed(0);
+			}
+			
+			for (Block structure: obstacles)
+			{
+				structure.setXSpeed(0);
+			}
+		}
+		else if (avatar.getX() > 800)
+		{
+			scrollX = true;
+		}
+		else if (avatar.getX() < 200)
+		{
+			scrollX = true;
+		}
+		
+		if (scrollX)
+		{
+			if (avatar.getX() > 490)
+			{
+				avatar.setXSpeed(avatar.getXSpeed() - 1);
+				for (Block structure: obstacles)
+				{
+					structure.setXSpeed(structure.getXSpeed() - 1);
+				}
+			}
+			else if (avatar.getX() < 490)
+			{
+				avatar.setXSpeed(avatar.getXSpeed() + 1);
+				for (Block structure: obstacles)
+				{
+					structure.setXSpeed(structure.getXSpeed() + 1);
+				}
+			}
+			
+		}
+		
+		// MOVE & DRAW
+		avatar.moveAndDraw(graphToBack, avatar.getXSpeed(), avatar.getYSpeed(),
+				Color.LIGHT_GRAY);
+		
+		for (Block structure: obstacles)
+		{
+			if (structure.equals(floor)
+					|| (structure.getX() >= -50 && structure.getX() <= 1050))
+			{
+				structure.moveAndDraw(graphToBack, structure.getXSpeed(),
+						structure.getYSpeed(), Color.LIGHT_GRAY);
+			}
+			else
+			{
+				structure.draw(graphToBack, Color.LIGHT_GRAY);
+				structure.move(structure.getXSpeed(), structure.getYSpeed());
+			}
 		}
 		
 		twoDGraph.drawImage(back, null, 0, 0);
 	}
 	
-	@Override
 	public void run()
 	{
 		try
@@ -176,7 +344,6 @@ public class Tareetria extends Canvas
 		
 	}
 	
-	@Override
 	public void keyPressed(KeyEvent e)
 	{
 		switch (e.getKeyCode())
@@ -217,23 +384,17 @@ public class Tareetria extends Canvas
 	
 	public void mouseClicked(MouseEvent e)
 	{
+		System.out.println(e.getX() + ", " + e.getY());
+		mouseX = e.getX();
+		mouseY = e.getY();
+		
 		switch (e.getButton())
 		{
 		case 1:
-			obstacles.add(new Block(e.getX() - 20, e.getY() - 20, 40, 40, 0, 0));
+			mouse[0] = true;
 			break;
 		case 3:
-			System.out.println("RUN");
-			for (Block structure: obstacles)
-			{
-				if (structure.getX() <= e.getX()
-						&& structure.getX() + structure.getWidth() >= e.getX()
-						&& structure.getY() <= e.getY()
-						&& structure.getY() + structure.getHeight() >= e.getY())
-				{
-					obstacles.remove(structure);
-				}
-			}
+			mouse[1] = true;
 			break;
 		}
 		
