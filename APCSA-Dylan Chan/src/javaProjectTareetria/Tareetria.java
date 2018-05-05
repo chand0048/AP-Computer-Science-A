@@ -33,11 +33,31 @@ public class Tareetria extends Canvas
 		setBackground(Color.LIGHT_GRAY);
 		
 		obstacles = new ArrayList<Block>();
-		floor = new Block(-2000, 710, 4000, 20, 0, 0);
+		floor = new Block(-2300, 710, 5580, 20, 0, 0);
 		obstacles.add(floor);
-		// obstacles.add(new Block(600, 670, 40, 40, 0, 0));
-		obstacles.add(new Block(300, 570, 70, 40, 0, 0));
-		// obstacles.add(new Block(800, 510, 40, 200, 0, 0));
+		obstacles.add(new Block(600, 670, 40, 40, 0, 0));
+		obstacles.add(new Block(600, 630, 40, 40, 0, 0));
+		obstacles.add(new Block(600, 590, 40, 40, 0, 0));
+		
+		// Markers
+		obstacles.add(new Block(-2080, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(-1760, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(-1440, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(-1120, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(-800, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(-480, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(-160, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(160, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(480, 570, 40, 40, 0, 0, Color.YELLOW));
+		obstacles.add(new Block(800, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(1120, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(1440, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(1760, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(2080, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(2400, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(2720, 570, 40, 40, 0, 0));
+		obstacles.add(new Block(3040, 570, 40, 40, 0, 0));
+		
 		
 		avatar = new Player(490, 630, 20, 80, 0, 0, "RIGHT", new Color(255, 255, 180),
 				Color.BLUE, new Color(153, 51, 0), 100, 15, false, "NONE");
@@ -85,22 +105,6 @@ public class Tareetria extends Canvas
 		// COLLISION DETECTION
 		for (Block structure: obstacles)
 		{
-			if (avatar.didCollide(structure, "BOTTOM"))
-			{
-				avatar.draw(graphToBack, Color.LIGHT_GRAY);
-				avatar.setY(structure.getY() - avatar.getHeight());
-				avatar.setYSpeed(0);
-				avatar.setFalling(false);
-				avatar.draw(graphToBack);
-			}
-			else if (avatar.didCollide(structure, "TOP"))
-			{
-				avatar.draw(graphToBack, Color.LIGHT_GRAY);
-				avatar.setY(structure.getY() + structure.getHeight());
-				avatar.setYSpeed(0);
-				avatar.setFalling(true);
-				avatar.draw(graphToBack);
-			}
 			if (avatar.didCollide(structure, "LEFT")
 					&& !avatar.didCollide(structure, "BOTTOM"))
 			{
@@ -117,6 +121,24 @@ public class Tareetria extends Canvas
 				avatar.setX(structure.getX() - avatar.getWidth());
 				avatar.draw(graphToBack);
 			}
+			else if (avatar.didCollide(structure, "BOTTOM"))
+			{
+				System.out.println("BOTTOM");
+				avatar.draw(graphToBack, Color.LIGHT_GRAY);
+				avatar.setY(structure.getY() - avatar.getHeight());
+				avatar.setYSpeed(0);
+				avatar.setFalling(false);
+				avatar.draw(graphToBack);
+			}
+			else if (avatar.didCollide(structure, "TOP"))
+			{
+				avatar.draw(graphToBack, Color.LIGHT_GRAY);
+				avatar.setY(structure.getY() + structure.getHeight());
+				avatar.setYSpeed(0);
+				avatar.setFalling(true);
+				avatar.draw(graphToBack);
+			}
+			
 		}
 		
 		// GRAVITY
@@ -143,7 +165,7 @@ public class Tareetria extends Canvas
 				if (avatar.didCollide(structure, "BOTTOM") == true
 						&& avatar.getFalling() == false)
 				{
-					avatar.setYSpeed(avatar.getJumpHeight());
+					avatar.setYSpeed(avatar.getYSpeed() + avatar.getJumpHeight());
 					avatar.setFalling(true);
 				}
 			}
@@ -253,8 +275,9 @@ public class Tareetria extends Canvas
 			mouse[1] = false;
 		}
 		
-		// Re-Center Screen
-		if (avatar.getX() >= 450 && avatar.getX() <= 530)
+		// RE-CENTER SCREEN
+		// One Re-Center moves the FOV by 320 pixels
+		if (avatar.getX() >= 460 && avatar.getX() <= 530)
 		{
 			scrollX = false;
 			

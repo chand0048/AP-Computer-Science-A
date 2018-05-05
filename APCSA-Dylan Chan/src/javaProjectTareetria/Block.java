@@ -25,6 +25,11 @@ public class Block implements Locatable, Collidable
 		this(x, y, w, h, 1, 1, Color.BLACK);
 	}
 	
+	public Block(int x, int y, int w, int h, Color c)
+	{
+		this(x, y, w, h, 1, 1, c);
+	}
+	
 	public Block(int x, int y, int w, int h, int xS, int yS)
 	{
 		this(x, y, w, h, xS, yS, Color.BLACK);
