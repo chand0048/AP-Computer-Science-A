@@ -11,7 +11,7 @@ import static java.lang.Character.*;
 
 
 public class Tareetria extends Canvas
-		implements KeyListener, MouseListener, MouseMotionListener, Runnable
+		implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener, Runnable
 {
 	private List<Block> obstacles;
 	private boolean existingBlock;
@@ -35,6 +35,7 @@ public class Tareetria extends Canvas
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
+		this.addMouseWheelListener(this);
 		new Thread(this).start();
 		
 		setVisible(true);
@@ -516,6 +517,11 @@ public class Tareetria extends Canvas
 	{
 		mouseX = e.getX() - ((e.getX() - floor.getX()) % 40);
 		mouseY = e.getY() - (e.getY() % 40);
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e)
+	{
 	}
 	
 }
