@@ -196,30 +196,30 @@ public class Humanoid implements Locatable, Collidable
 	{
 		Block temp = (Block) obj;
 		
-		if (side.equals("LEFT") && this.getX() <= temp.getX() + temp.getWidth()
+		if (side.equals("LEFT") && this.getX() < temp.getX() + temp.getWidth()
 				&& this.getX() >= temp.getX() + (temp.getWidth() - 15)
-				&& this.getY() + this.getHeight() >= temp.getY()
-				&& this.getY() <= temp.getY() + temp.getHeight())
+				&& this.getY() + this.getHeight() > temp.getY()
+				&& this.getY() < temp.getY() + temp.getHeight())
 		{
 			return true;
 		}
-		else if (side.equals("RIGHT") && this.getX() + this.getWidth() >= temp.getX()
+		else if (side.equals("RIGHT") && this.getX() + this.getWidth() > temp.getX()
 				&& this.getX() + this.getWidth() <= temp.getX() + 15
-				&& this.getY() + this.getHeight() >= temp.getY()
-				&& this.getY() <= temp.getY() + temp.getHeight())
+				&& this.getY() + this.getHeight() > temp.getY()
+				&& this.getY() < temp.getY() + temp.getHeight())
 		{
 			return true;
 		}
-		else if (side.equals("BOTTOM") && this.getX() + this.getWidth() >= temp.getX()
-				&& this.getX() <= temp.getX() + temp.getWidth()
+		else if (side.equals("BOTTOM") && this.getX() + this.getWidth() > temp.getX()
+				&& this.getX() < temp.getX() + temp.getWidth()
 				&& this.getY() + this.getHeight() >= temp.getY()
 				&& this.getY() + this.getHeight() <= temp.getY() + 15)
 		{
 			return true;
 		}
-		else if (side.equals("TOP") && this.getX() + this.getWidth() >= temp.getX()
-				&& this.getX() <= temp.getX() + temp.getWidth()
-				&& this.getY() <= temp.getY() + temp.getHeight()
+		else if (side.equals("TOP") && this.getX() + this.getWidth() > temp.getX()
+				&& this.getX() < temp.getX() + temp.getWidth()
+				&& this.getY() < temp.getY() + temp.getHeight()
 				&& this.getY() >= temp.getY() + (temp.getHeight() - 15))
 		{
 			return true;
