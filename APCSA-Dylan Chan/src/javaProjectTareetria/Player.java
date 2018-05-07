@@ -2,19 +2,23 @@ package javaProjectTareetria;
 
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.util.List;
+import java.util.ArrayList;
 
 
 public class Player extends Humanoid
 {
-	private int health;
+	private List<Heart> health;
+	private Weapon gun;
 	private int jumpHeight;
 	private boolean falling;
 	private String moving;
 	
 	public Player()
 	{
-		this(400, 400, 20, 80, 0, 0, "RIGHT", new Color(255, 255, 180), Color.BLUE,
-				new Color(153, 51, 0), 100, 15, false, "NONE");
+		this(490, 590, 20, 80, 0, 0, "RIGHT", new Color(255, 255, 180), Color.BLUE,
+				new Color(153, 51, 0), 10, 15, false, "NONE");
 	}
 	
 	public Player(int xPos, int yPos, int width, int height, int xSpeed, int ySpeed,
@@ -23,15 +27,26 @@ public class Player extends Humanoid
 	{
 		super(xPos, yPos, width, height, xSpeed, ySpeed, direction, headCol, torsoCol,
 				legsCol);
+		
+		health = new ArrayList<Heart>();
 		setHealth(h);
 		setJumpHeight(jHeight);
 		setFalling(f);
 		setMoving(m);
 	}
 	
+	public void setDirection(String d)
+	{
+		super.setDirection(d);
+	}
+	
 	public void setHealth(int h)
 	{
-		health = h;
+		health.clear();
+		for (int num = 0; num < h; num++)
+		{
+			health.add(new Heart(5 + (num * 20), 714));
+		}
 	}
 	
 	public void setJumpHeight(int l)
@@ -51,7 +66,7 @@ public class Player extends Humanoid
 	
 	public int getHealth()
 	{
-		return health;
+		return health.size();
 	}
 	
 	public int getJumpHeight()
@@ -67,5 +82,45 @@ public class Player extends Humanoid
 	public String getMoving()
 	{
 		return moving;
+	}
+	
+	public void draw(Graphics window)
+	{
+		super.draw(window);
+		for (Heart heart: health)
+		{
+			heart.draw(window);
+		}
+	}
+	
+	public void replaceHearts(Graphics window, int h, Color background)
+	{
+		for (Heart heart: health)
+		{
+			heart.draw(window, background);
+		}
+		setHealth(h);
+		for (Heart heart: health)
+		{
+			heart.draw(window);
+		}
+	}
+	
+	public void moveAndDraw(Graphics window, int xSpeed, int ySpeed, Color background)
+	{
+		super.moveAndDraw(window, xSpeed, ySpeed, background);
+		for (Heart heart: health)
+		{
+			heart.draw(window);
+		}
+	}
+	
+	public void moveAndDraw(Graphics window, String dir, Color background)
+	{
+		super.moveAndDraw(window, dir, background);
+		for (Heart heart: health)
+		{
+			heart.draw(window);
+		}
 	}
 }

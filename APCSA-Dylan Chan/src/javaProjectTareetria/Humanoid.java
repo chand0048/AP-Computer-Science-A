@@ -285,37 +285,7 @@ public class Humanoid implements Locatable, Collidable
 			System.out.println("Movement Direction DNE");
 		}
 	}
-	public void scrollScreen(Graphics window, String dir, Color background)
-	{
-		if (dir.equals("LEFT"))
-		{
-			draw(window, background);
-			setX(getX() - 20);
-			draw(window);
-		}
-		else if (dir.equals("RIGHT"))
-		{
-			draw(window, background);
-			setX(getX() + 20);
-			draw(window);
-		}
-		else if (dir.equals("UP"))
-		{
-			draw(window, background);
-			setY(getY() - 20);
-			draw(window);
-		}
-		else if (dir.equals("DOWN"))
-		{
-			draw(window, background);
-			setY(getY() + 20);
-			draw(window);
-		}
-		else
-		{
-			System.out.println("Movement Direction DNE");
-		}
-	}
+	
 	
 	public void fallAndDraw(Graphics window, Color background)
 	{

@@ -11,13 +11,15 @@ import static java.lang.Character.*;
 
 
 public class Tareetria extends Canvas
-		implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener, Runnable
+		implements KeyListener, MouseListener, MouseMotionListener, Runnable
 {
 	private List<Block> obstacles;
 	private boolean existingBlock;
 	private Block floor;
 	private Player avatar;
 	private boolean scrollX;
+	private Weapon gun;
+	private List<Ammo> bulletsFired;
 	
 	private Mouse mouseOutline;
 	private boolean[] keys;
@@ -35,22 +37,40 @@ public class Tareetria extends Canvas
 		this.addKeyListener(this);
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
-		this.addMouseWheelListener(this);
 		new Thread(this).start();
 		
 		setVisible(true);
 		
 		obstacles = new ArrayList<Block>();
+		
 		existingBlock = false;
-		floor = new Block(-2280, 720, 5660, 20, 0, 0);
+		floor = new Block(-2280, 680, 5640, 20, 0, 0);
 		obstacles.add(floor);
-		obstacles.add(new Block(600, 680, 40, 40, 0, 0));
+		
+		
 		obstacles.add(new Block(600, 640, 40, 40, 0, 0));
+		obstacles.add(new Block(600, 600, 40, 40, 0, 0));
 		// obstacles.add(new Block(600, 590, 40, 40, 0, 0));
 		
+		for (int x = floor.getX(); x < floor.getWidth(); x += 40)
+		{
+			for (int y = 0; y < floor.getY(); y += 40)
+			{
+				if ((int) (Math.random() * 7) + 1 == 5)
+				{
+					obstacles.add(new Block(x, y, 40, 40, 0, 0));
+				}
+			}
+		}
 		
-		avatar = new Player(490, 630, 20, 80, 0, 0, "RIGHT", new Color(255, 255, 180),
-				Color.BLUE, new Color(153, 51, 0), 100, 15, false, "NONE");
+		
+		
+		
+		
+		avatar = new Player(490, 590, 20, 80, 0, 0, "RIGHT", new Color(255, 255, 180),
+				Color.BLUE, new Color(153, 51, 0), 10, 15, false, "NONE");
+		gun = new Weapon(490, 590, "RIGHT", Color.BLACK);
+		bulletsFired = new ArrayList<Ammo>();
 		
 		scrollX = false;
 		
@@ -84,53 +104,28 @@ public class Tareetria extends Canvas
 		
 		
 		avatar.setFalling(true);
+		gun.setColor(Color.BLACK);
 		
 		// COLLISION DETECTION
 		for (Block structure: obstacles)
 		{
-			if (avatar.didCollide(structure, "LEFT")
-					&& !avatar.didCollide(structure, "BOTTOM"))
+			if (avatar.didCollide(structure, "BOTTOM"))
 			{
-				avatar.draw(graphToBack, getBackground());
-				
-				if (scrollX == true)
+				if (avatar.getYSpeed() == -20)
 				{
-					avatar.setXSpeed(structure.getXSpeed());
+					avatar.replaceHearts(graphToBack, avatar.getHealth() - 1,
+							getBackground());
+					System.out.println(avatar.getHealth());
 				}
-				else if (scrollX == false)
-				{
-					avatar.setXSpeed(0);
-				}
-				
-				avatar.setX(structure.getX() + structure.getWidth());
-				avatar.draw(graphToBack);
-			}
-			else if (avatar.didCollide(structure, "RIGHT")
-					&& !avatar.didCollide(structure, "BOTTOM"))
-			{
-				avatar.draw(graphToBack, getBackground());
-				
-				if (scrollX == true)
-				{
-					avatar.setXSpeed(structure.getXSpeed());
-				}
-				else if (scrollX == false)
-				{
-					avatar.setXSpeed(0);
-				}
-				
-				avatar.setX(structure.getX() - avatar.getWidth());
-				avatar.draw(graphToBack);
-			}
-			if (avatar.didCollide(structure, "BOTTOM")
-					&& !avatar.didCollide(structure, "LEFT")
-					&& !avatar.didCollide(structure, "RIGHT"))
-			{
 				avatar.draw(graphToBack, getBackground());
 				avatar.setY(structure.getY() - avatar.getHeight());
 				avatar.setYSpeed(0);
 				avatar.setFalling(false);
 				avatar.draw(graphToBack);
+				gun.draw(graphToBack, getBackground());
+				gun.setY(avatar.getY());
+				gun.setYSpeed(avatar.getYSpeed());
+				gun.draw(graphToBack);
 			}
 			else if (avatar.didCollide(structure, "TOP"))
 			{
@@ -139,6 +134,75 @@ public class Tareetria extends Canvas
 				avatar.setYSpeed(0);
 				avatar.setFalling(true);
 				avatar.draw(graphToBack);
+				gun.draw(graphToBack, getBackground());
+				gun.setY(avatar.getY());
+				gun.setYSpeed(avatar.getYSpeed());
+				gun.draw(graphToBack);
+			}
+			if (avatar.didCollide(structure, "LEFT")
+					&& !avatar.didCollide(structure, "BOTTOM"))
+			{
+				avatar.draw(graphToBack, getBackground());
+				gun.draw(graphToBack, getBackground());
+				
+				if (scrollX == true)
+				{
+					avatar.setXSpeed(structure.getXSpeed());
+					gun.setXSpeed(avatar.getXSpeed());
+				}
+				else if (scrollX == false)
+				{
+					avatar.setXSpeed(0);
+					gun.setXSpeed(avatar.getXSpeed());
+					
+				}
+				
+				avatar.setX(structure.getX() + structure.getWidth());
+				avatar.draw(graphToBack);
+				gun.setX(avatar.getX());
+				gun.draw(graphToBack);
+			}
+			else if (avatar.didCollide(structure, "RIGHT")
+					&& !avatar.didCollide(structure, "BOTTOM"))
+			{
+				avatar.draw(graphToBack, getBackground());
+				gun.draw(graphToBack, getBackground());
+				
+				if (scrollX == true)
+				{
+					avatar.setXSpeed(structure.getXSpeed());
+					gun.setXSpeed(avatar.getXSpeed());
+				}
+				else if (scrollX == false)
+				{
+					avatar.setXSpeed(0);
+					gun.setXSpeed(avatar.getXSpeed());
+				}
+				
+				avatar.setX(structure.getX() - avatar.getWidth());
+				avatar.draw(graphToBack);
+				gun.setX(avatar.getX());
+				gun.draw(graphToBack);
+			}
+			
+			if ((gun.didCollide(structure, "LEFT") == true
+					&& gun.getDirection().equals("LEFT"))
+					|| (gun.didCollide(structure, "RIGHT") == true
+							&& gun.getDirection().equals("RIGHT")))
+			{
+				gun.setColor(getBackground());
+			}
+			
+			// Bullet Collisions
+			for (Ammo bullet: bulletsFired)
+			{
+				if (bullet.didCollide(structure, "LEFT")
+						|| bullet.didCollide(structure, "RIGHT"))
+				{
+					bullet.draw(graphToBack, getBackground());
+					bulletsFired.remove(bullet);
+					break;
+				}
 			}
 		}
 		
@@ -146,22 +210,25 @@ public class Tareetria extends Canvas
 		
 		if (avatar.getFalling() == true)
 		{
-			if (scrollX == false && avatar.getYSpeed() < -15)
-			{
-				avatar.setYSpeed(-15);
-			}
-			else if (scrollX == true && avatar.getYSpeed() < -20)
+			if (scrollX == false && avatar.getYSpeed() < -20)
 			{
 				avatar.setYSpeed(-20);
+				gun.setYSpeed(avatar.getYSpeed());
+			}
+			else if (scrollX == true && avatar.getYSpeed() < -15)
+			{
+				avatar.setYSpeed(-15);
+				gun.setYSpeed(avatar.getYSpeed());
 			}
 			else
 			{
 				avatar.setYSpeed(avatar.getYSpeed() - 1);
+				gun.setYSpeed(avatar.getYSpeed());
 			}
 		}
 		
-		
-		// MOVEMENT CONTROLS
+		// KEYBOARD FUNCTIONS
+		// Movement Controls
 		// Jump-"W"
 		if (keys[0])
 		{
@@ -172,6 +239,7 @@ public class Tareetria extends Canvas
 				{
 					avatar.setYSpeed(avatar.getYSpeed() + avatar.getJumpHeight());
 					avatar.setFalling(true);
+					gun.setYSpeed(avatar.getYSpeed());
 				}
 			}
 			
@@ -204,15 +272,19 @@ public class Tareetria extends Canvas
 		{
 			avatar.draw(graphToBack, getBackground());
 			avatar.setDirection("LEFT");
+			gun.draw(graphToBack, getBackground());
+			gun.setDirection("LEFT");
 			if (avatar.getMoving().equals("NONE"))
 			{
 				avatar.setXSpeed(avatar.getXSpeed() - 5);
 				avatar.setMoving("LEFT");
+				gun.setXSpeed(avatar.getXSpeed());
 			}
 			else if (avatar.getMoving().equals("RIGHT"))
 			{
 				avatar.setXSpeed(avatar.getXSpeed() - 10);
 				avatar.setMoving("LEFT");
+				gun.setXSpeed(avatar.getXSpeed());
 			}
 		}
 		// Move Right-"D"
@@ -220,15 +292,19 @@ public class Tareetria extends Canvas
 		{
 			avatar.draw(graphToBack, getBackground());
 			avatar.setDirection("RIGHT");
+			gun.draw(graphToBack, getBackground());
+			gun.setDirection("RIGHT");
 			if (avatar.getMoving().equals("NONE"))
 			{
 				avatar.setXSpeed(avatar.getXSpeed() + 5);
 				avatar.setMoving("RIGHT");
+				gun.setXSpeed(avatar.getXSpeed());
 			}
 			else if (avatar.getMoving().equals("LEFT"))
 			{
 				avatar.setXSpeed(avatar.getXSpeed() + 10);
 				avatar.setMoving("RIGHT");
+				gun.setXSpeed(avatar.getXSpeed());
 			}
 		}
 		else
@@ -236,24 +312,29 @@ public class Tareetria extends Canvas
 			if (scrollX == true)
 			{
 				avatar.setXSpeed(floor.getXSpeed());
+				gun.setXSpeed(avatar.getXSpeed());
 			}
 			else if (scrollX == false)
 			{
 				avatar.setXSpeed(0);
+				gun.setXSpeed(avatar.getXSpeed());
 			}
 			
 			avatar.setMoving("NONE");
 		}
 		
-		
 		// MOUSE
+		// Placing/Removing Blocks
 		// Left Mouse Button
 		if (mouse[0] && scrollX == false)
 		{
-			if (existingBlock == false && !(avatar.getX() > mouseX
-					&& avatar.getX() + avatar.getWidth() < mouseX + 40
-					&& avatar.getY() <= mouseY
-					&& avatar.getY() + avatar.getHeight() >= mouseY + 40))
+			if (existingBlock == false
+					&& !(avatar.getX() > mouseX
+							&& avatar.getX() + avatar.getWidth() < mouseX + 40
+							&& avatar.getY() <= mouseY
+							&& avatar.getY() + avatar.getHeight() >= mouseY + 40)
+					&& !(mouseY >= floor.getY())
+					&& mouseOutline.getOutlineColor().equals(Color.GREEN))
 			{
 				obstacles.add(new Block(mouseX, mouseY, 40, 40, floor.getXSpeed(), 0));
 			}
@@ -265,7 +346,9 @@ public class Tareetria extends Canvas
 		{
 			for (Block structure: obstacles)
 			{
-				if (structure.getX() == mouseX && structure.getY() == mouseY)
+				if (structure.getX() == mouseX && structure.getY() == mouseY
+						&& !(mouseY >= floor.getY())
+						&& mouseOutline.getOutlineColor().equals(Color.RED))
 				
 				{
 					structure.setColor(getBackground());
@@ -279,32 +362,22 @@ public class Tareetria extends Canvas
 		
 		// RE-CENTER SCREEN & ARENA BOUNDARIES
 		// One Re-Center moves the FOV by 320 pixels
-		if (avatar.getX() >= 470 && avatar.getX() <= 520)
+		if (avatar.getX() > 750 && floor.getX() + floor.getWidth() > 985)
+		{
+			scrollX = true;
+		}
+		else if (avatar.getX() < 250 && floor.getX() < -2)
+		{
+			scrollX = true;
+		}
+		else if (avatar.getX() >= 470 && avatar.getX() <= 520)
 		{
 			scrollX = false;
-			
-			if (avatar.getMoving().equals("LEFT"))
-			{
-				avatar.setXSpeed(-5);
-			}
-			else if (avatar.getMoving().equals("RIGHT"))
-			{
-				avatar.setXSpeed(5);
-			}
-			else
-			{
-				avatar.setXSpeed(0);
-			}
-			
-			for (Block structure: obstacles)
-			{
-				structure.setXSpeed(0);
-			}
 		}
 		// Boundary Limits
-		else if (avatar.getX() + avatar.getWidth() + 400 > floor.getX()
-				+ floor.getWidth())
+		else if (floor.getX() + floor.getWidth() <= 985)
 		{
+			System.out.println(floor.getX() + floor.getWidth());
 			scrollX = false;
 			if (avatar.getX() + avatar.getWidth() >= 980
 					&& avatar.getDirection().equals("RIGHT"))
@@ -313,10 +386,16 @@ public class Tareetria extends Canvas
 				avatar.setXSpeed(0);
 				avatar.setX(980 - avatar.getWidth());
 				avatar.draw(graphToBack);
+				gun.draw(graphToBack, getBackground());
+				gun.setXSpeed(avatar.getXSpeed());
+				gun.setX(avatar.getX());
+				gun.draw(graphToBack);
 			}
 		}
-		else if (avatar.getX() - 400 < floor.getX())
+		else if (floor.getX() >= -2)
 		{
+			System.out.println(floor.getX());
+
 			scrollX = false;
 			if (avatar.getX() <= 10 && avatar.getDirection().equals("LEFT"))
 			{
@@ -324,6 +403,10 @@ public class Tareetria extends Canvas
 				avatar.setXSpeed(0);
 				avatar.setX(5);
 				avatar.draw(graphToBack);
+				gun.draw(graphToBack, getBackground());
+				gun.setXSpeed(avatar.getXSpeed());
+				gun.setX(avatar.getX());
+				gun.draw(graphToBack);
 			}
 		}
 		else if (avatar.getY() < 0)
@@ -332,22 +415,20 @@ public class Tareetria extends Canvas
 			avatar.setYSpeed(0);
 			avatar.setY(0);
 			avatar.draw(graphToBack);
+			gun.draw(graphToBack, getBackground());
+			gun.setXSpeed(avatar.getXSpeed());
+			gun.setX(avatar.getX());
+			gun.draw(graphToBack);
 		}
 		
-		else if (avatar.getX() > 800)
-		{
-			scrollX = true;
-		}
-		else if (avatar.getX() < 200)
-		{
-			scrollX = true;
-		}
+		
 		
 		if (scrollX)
 		{
 			if (avatar.getX() > 490 && Math.abs(avatar.getXSpeed()) <= 5)
 			{
 				avatar.setXSpeed(avatar.getXSpeed() - 1);
+				gun.setXSpeed(avatar.getXSpeed());
 				for (Block structure: obstacles)
 				{
 					structure.setXSpeed(structure.getXSpeed() - 1);
@@ -356,10 +437,46 @@ public class Tareetria extends Canvas
 			else if (avatar.getX() < 490 && Math.abs(avatar.getXSpeed()) <= 5)
 			{
 				avatar.setXSpeed(avatar.getXSpeed() + 1);
+				gun.setXSpeed(avatar.getXSpeed());
 				for (Block structure: obstacles)
 				{
 					structure.setXSpeed(structure.getXSpeed() + 1);
 				}
+			}
+		}
+		else
+		{
+			if (avatar.getMoving().equals("LEFT"))
+			{
+				avatar.setXSpeed(-5);
+				gun.setXSpeed(avatar.getXSpeed());
+			}
+			else if (avatar.getMoving().equals("RIGHT"))
+			{
+				avatar.setXSpeed(5);
+				gun.setXSpeed(avatar.getXSpeed());
+				
+			}
+			else
+			{
+				avatar.setXSpeed(0);
+				gun.setXSpeed(avatar.getXSpeed());
+				
+			}
+			
+			for (Block structure: obstacles)
+			{
+				structure.setXSpeed(0);
+			}
+		}
+		
+		for (Ammo bullet: bulletsFired)
+		{
+			if (bullet.getX() < 0 || bullet.getX() > 1000)
+			{
+				bullet.draw(graphToBack, getBackground());
+				bulletsFired.remove(bullet);
+				break;
 			}
 		}
 		
@@ -375,11 +492,16 @@ public class Tareetria extends Canvas
 			}
 		}
 		
-		if (existingBlock == true || avatar.getX() > mouseX && avatar.getX() + avatar.getWidth() < mouseX + 40
+		if (existingBlock == true || (avatar.getX() > mouseX
+				&& avatar.getX() + avatar.getWidth() < mouseX + 40
 				&& avatar.getY() <= mouseY
-				&& avatar.getY() + avatar.getHeight() >= mouseY + 40)
+				&& avatar.getY() + avatar.getHeight() >= mouseY + 40))
 		{
 			mouseOutline.setOutlineColor(Color.RED);
+		}
+		else if (mouseY >= floor.getY())
+		{
+			mouseOutline.setOutlineColor(getBackground());
 		}
 		else
 		{
@@ -396,6 +518,7 @@ public class Tareetria extends Canvas
 		}
 		
 		// Draw
+		gun.moveAndDraw(graphToBack, gun.getXSpeed(), gun.getYSpeed(), getBackground());
 		avatar.moveAndDraw(graphToBack, avatar.getXSpeed(), avatar.getYSpeed(),
 				getBackground());
 		
@@ -414,6 +537,11 @@ public class Tareetria extends Canvas
 			}
 		}
 		
+		for (Block bullet: bulletsFired)
+		{
+			bullet.moveAndDraw(graphToBack, bullet.getXSpeed(), bullet.getYSpeed(),
+					getBackground());
+		}
 		
 		twoDGraph.drawImage(back, null, 0, 0);
 	}
@@ -447,6 +575,9 @@ public class Tareetria extends Canvas
 		case KeyEvent.VK_D:
 			keys[2] = true;
 			break;
+		case KeyEvent.VK_SPACE:
+			keys[3] = true;
+			break;
 		}
 	}
 	
@@ -464,12 +595,25 @@ public class Tareetria extends Canvas
 		case KeyEvent.VK_D:
 			keys[2] = false;
 			break;
+		case KeyEvent.VK_SPACE:
+			keys[3] = false;
+			break;
 		}
 	}
 	
 	public void keyTyped(KeyEvent arg0)
 	{
-		
+		if (keys[3] && !gun.getColor().equals(getBackground()))
+		{
+			if (gun.getDirection().equals("LEFT"))
+			{
+				bulletsFired.add(new Ammo(gun.getX() - 40 - 4, gun.getY() + 22, -20));
+			}
+			else if (gun.getDirection().equals("RIGHT"))
+			{
+				bulletsFired.add(new Ammo(gun.getX() + 50, gun.getY() + 22, 20));
+			}
+		}
 	}
 	
 	public void mouseClicked(MouseEvent e)
@@ -518,10 +662,6 @@ public class Tareetria extends Canvas
 		mouseX = e.getX() - ((e.getX() - floor.getX()) % 40);
 		mouseY = e.getY() - (e.getY() % 40);
 	}
-
-	@Override
-	public void mouseWheelMoved(MouseWheelEvent e)
-	{
-	}
+	
 	
 }
