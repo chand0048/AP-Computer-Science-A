@@ -63,10 +63,6 @@ public class Tareetria extends Canvas
 			}
 		}
 		
-		
-		
-		
-		
 		avatar = new Player(490, 590, 20, 80, 0, 0, "RIGHT", new Color(255, 255, 180),
 				Color.BLUE, new Color(153, 51, 0), 10, 15, false, "NONE");
 		gun = new Weapon(490, 590, "RIGHT", Color.BLACK);
