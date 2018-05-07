@@ -213,7 +213,7 @@ public class Humanoid implements Locatable, Collidable
 		else if (side.equals("BOTTOM") && this.getX() + this.getWidth() > temp.getX()
 				&& this.getX() < temp.getX() + temp.getWidth()
 				&& this.getY() + this.getHeight() >= temp.getY()
-				&& this.getY() + this.getHeight() <= temp.getY() + 15)
+				&& this.getY() + this.getHeight() <= temp.getY() + 20)
 		{
 			return true;
 		}

@@ -45,7 +45,7 @@ public class Player extends Humanoid
 		health.clear();
 		for (int num = 0; num < h; num++)
 		{
-			health.add(new Heart(5 + (num * 20), 714));
+			health.add(new Heart(5 + (num * 20), 720));
 		}
 	}
 	
