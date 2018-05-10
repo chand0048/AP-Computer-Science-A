@@ -194,6 +194,7 @@ public class Humanoid implements Locatable, Collidable
 	
 	public boolean didCollide(Object obj, String side)
 	{
+
 		Block temp = (Block) obj;
 		
 		if (side.equals("LEFT") && this.getX() < temp.getX() + temp.getWidth()

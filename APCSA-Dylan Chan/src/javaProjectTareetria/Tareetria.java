@@ -52,6 +52,9 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 		gun = new Weapon(490, 590, "RIGHT", Color.BLACK);
 		bulletsFired = new ArrayList<Ammo>();
 
+		enemies = new ArrayList<Monster>();
+		enemies.add(new Monster(300, 600));
+		
 
 		obstacles = new ArrayList<Block>();
 
@@ -230,6 +233,16 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 					break;
 				}
 			}
+		}
+		
+		for (Monster enemy: enemies)
+		{
+			/*
+			if (enemy.didCollide(avatar, "LEFT") || enemy.didCollide(avatar, "RIGHT"))
+			{
+				avatar.setHealth(avatar.getHealth() - 1);
+			}
+			*/
 		}
 
 		// GRAVITY
@@ -518,6 +531,11 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 		gun.moveAndDraw(graphToBack, gun.getXSpeed(), gun.getYSpeed(), getBackground());
 		avatar.moveAndDraw(graphToBack, avatar.getXSpeed(), avatar.getYSpeed(),
 				getBackground());
+		
+		for (Monster enemy: enemies)
+		{
+			enemy.moveAndDraw(graphToBack, enemy.getXSpeed(), enemy.getYSpeed(), getBackground());
+		}
 
 		for (Block bullet : bulletsFired)
 		{
@@ -525,7 +543,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 					getBackground());
 		}
 
-		// Mouse Outline
+		// Mouse Outline Drawn
 		existingBlock = false;
 		for (Block structure : obstacles)
 		{
