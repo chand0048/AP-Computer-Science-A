@@ -2,6 +2,7 @@ package javaProjectTareetria;
 
 import javax.swing.JFrame;
 import java.awt.Component;
+import javax.swing.JOptionPane.*;
 
 public class OpenWorldRunner extends JFrame
 {
@@ -15,6 +16,8 @@ public class OpenWorldRunner extends JFrame
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		
+		
 		Tareetria game = new Tareetria();
 		
 		((Component) game).setFocusable(true);
@@ -25,6 +28,7 @@ public class OpenWorldRunner extends JFrame
 	}
 	public static void main(String [] args)
 	{
+		
 		OpenWorldRunner run = new OpenWorldRunner();
 	}
 }

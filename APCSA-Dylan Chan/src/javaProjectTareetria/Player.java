@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Player extends Humanoid
 {
 	private List<Heart> health;
-	private Weapon gun;
 	private int jumpHeight;
 	private boolean falling;
 	private String moving;
