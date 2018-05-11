@@ -4,18 +4,18 @@ package javaProjectTareetria;
 import java.awt.Color;
 
 
-public class Monster extends Humanoid
+public class BadGuy extends Humanoid
 {
 	private boolean falling;
 	private String moving;
 	
-	public Monster(int x, int y)
+	public BadGuy(int x, int y)
 	{
 		this(x, y, 0, 0, "RIGHT", new Color(255, 255, 180), Color.RED,
 				new Color(153, 51, 0), false, "NONE");
 	}
 	
-	public Monster(int x, int y, int xS, int yS, String d, Color headCol, Color torsoCol,
+	public BadGuy(int x, int y, int xS, int yS, String d, Color headCol, Color torsoCol,
 			Color legsCol, boolean f, String m)
 	{
 		super(x, y, 20, 80, xS, yS, d, headCol, torsoCol, legsCol);

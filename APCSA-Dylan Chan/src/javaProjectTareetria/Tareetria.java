@@ -17,7 +17,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 	private boolean existingBlock;
 	private Block floor;
 	private Player avatar;
-	private List<Monster> enemies;
+	private List<BadGuy> enemies;
 	private Weapon gun;
 	private List<Ammo> bulletsFired;
 	
@@ -54,7 +54,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 				Color.BLUE, new Color(153, 51, 0), 10, 15, false, "NONE");
 		gun = new Weapon(490, 590, "RIGHT", Color.BLACK);
 		bulletsFired = new ArrayList<Ammo>();
-		enemies = new ArrayList<Monster>();
+		enemies = new ArrayList<BadGuy>();
 		obstacles = new ArrayList<Block>();
 		existingBlock = false;
 		floor = new Block(-2280, 680, 5640, 20, 0, 0);
@@ -155,7 +155,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 			spawnTimer = 0;
 			if (enemies.size() <= 100)
 			{
-				enemies.add(new Monster(
+				enemies.add(new BadGuy(
 						(int) (Math.random() * (floor.getWidth() - floor.getX())
 								+ floor.getX()),
 						0));
@@ -166,7 +166,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 			spawnTimer++;
 		}
 		
-		for (Monster enemy: enemies)
+		for (BadGuy enemy: enemies)
 		{
 			enemy.setFalling(true);
 		}
@@ -261,7 +261,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 			
 			// Enemy Collision
 			
-			for (Monster enemy: enemies)
+			for (BadGuy enemy: enemies)
 			{
 				if (enemy.didCollide(structure, "BOTTOM")
 						&& !(enemy.didCollide(structure, "LEFT")
@@ -339,9 +339,9 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 				}
 			}
 			
-			for (Monster enemy: enemies)
+			for (BadGuy enemy: enemies)
 			{
-				for (Monster other: enemies)
+				for (BadGuy other: enemies)
 				{
 					if ((enemy.getX() < other.getX() + other.getWidth()
 							&& enemy.getX() >= other.getX() + (other.getWidth() - 15)
@@ -374,7 +374,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 					bulletsFired.remove(bullet);
 					break;
 				}
-				for (Monster enemy: enemies)
+				for (BadGuy enemy: enemies)
 				{
 					if (enemy.didCollide(bullet, "LEFT")
 							|| enemy.didCollide(bullet, "RIGHT"))
@@ -397,7 +397,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 			}
 		}
 		
-		for (Monster enemy: enemies)
+		for (BadGuy enemy: enemies)
 		{
 			if (enemy.getX() < avatar.getX() + avatar.getWidth()
 					&& enemy.getX() >= avatar.getX() + (avatar.getWidth() - 15)
@@ -444,7 +444,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 				gun.setYSpeed(avatar.getYSpeed());
 			}
 		}
-		for (Monster enemy: enemies)
+		for (BadGuy enemy: enemies)
 		{
 			if (scrollX == false && enemy.getYSpeed() < -20)
 			{
@@ -461,7 +461,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 		}
 		
 		// Enemy Movement
-		for (Monster enemy: enemies)
+		for (BadGuy enemy: enemies)
 		{
 			for (Block structure: obstacles)
 			{
@@ -723,7 +723,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 			{
 				avatar.setXSpeed(avatar.getXSpeed() - 1);
 				gun.setXSpeed(avatar.getXSpeed());
-				for (Monster enemy: enemies)
+				for (BadGuy enemy: enemies)
 				{
 					enemy.setXSpeed(enemy.getXSpeed() - 1);
 				}
@@ -736,7 +736,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 			{
 				avatar.setXSpeed(avatar.getXSpeed() + 1);
 				gun.setXSpeed(avatar.getXSpeed());
-				for (Monster enemy: enemies)
+				for (BadGuy enemy: enemies)
 				{
 					enemy.setXSpeed(enemy.getXSpeed() + 1);
 				}
@@ -764,7 +764,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 				gun.setXSpeed(avatar.getXSpeed());
 			}
 			
-			for (Monster enemy: enemies)
+			for (BadGuy enemy: enemies)
 			{
 				if (enemy.getMoving().equals("LEFT"))
 				{
@@ -818,7 +818,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 				bullet.draw(graphToBack, getBackground());
 			}
 			bulletsFired.clear();
-			for (Monster enemy: enemies)
+			for (BadGuy enemy: enemies)
 			{
 				enemy.draw(graphToBack, getBackground());
 			}
@@ -847,7 +847,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 		avatar.moveAndDraw(graphToBack, avatar.getXSpeed(), avatar.getYSpeed(),
 				getBackground());
 		
-		for (Monster enemy: enemies)
+		for (BadGuy enemy: enemies)
 		{
 			if (enemy.getX() >= -50 && enemy.getX() <= 1050)
 			{
