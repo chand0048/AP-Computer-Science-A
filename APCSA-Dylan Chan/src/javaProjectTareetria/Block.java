@@ -188,13 +188,6 @@ public class Block implements Locatable, Collidable
 		}
 	}
 	
-	public void fallAndDraw(Graphics window, int speed, Color background)
-	{
-		draw(window, background);
-		setY(getY() + speed);
-		draw(window);
-	}
-	
 	public boolean didCollide(Object obj, String side)
 	{
 		Block temp = (Block) obj;
