@@ -1,4 +1,4 @@
-package javaProjectTareetria;
+package javaProjectFortneet;
 
 
 import javax.swing.JFrame;
@@ -21,7 +21,7 @@ public class OpenWorldRunner extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-		Tareetria game = new Tareetria();
+		Fortneet game = new Fortneet();
 
 		((Component) game).setFocusable(true);
 		getContentPane().add(game);

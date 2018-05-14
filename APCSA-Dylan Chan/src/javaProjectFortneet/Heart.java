@@ -1,4 +1,4 @@
-package javaProjectTareetria;
+package javaProjectFortneet;
 
 
 import java.awt.Graphics;

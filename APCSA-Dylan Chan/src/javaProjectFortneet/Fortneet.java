@@ -1,4 +1,4 @@
-package javaProjectTareetria;
+package javaProjectFortneet;
 
 
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.util.List;
 import static java.lang.Character.*;
 
 
-public class Tareetria extends Canvas implements KeyListener, MouseListener,
+public class Fortneet extends Canvas implements KeyListener, MouseListener,
 		MouseMotionListener, MouseWheelListener, Runnable
 {
 	private List<Block> obstacles;
@@ -38,7 +38,7 @@ public class Tareetria extends Canvas implements KeyListener, MouseListener,
 	private BufferedImage back;
 
 
-	public Tareetria()
+	public Fortneet()
 	{
 		setBackground(Color.LIGHT_GRAY);
 

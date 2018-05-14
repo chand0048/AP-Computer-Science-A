@@ -1,4 +1,4 @@
-package javaProjectTareetria;
+package javaProjectFortneet;
 
 public interface Collidable
 {
