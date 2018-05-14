@@ -1,4 +1,4 @@
-package javaProjectFortneet;
+package javaProjectFortneetDylanChan;
 
 public interface Collidable
 {
